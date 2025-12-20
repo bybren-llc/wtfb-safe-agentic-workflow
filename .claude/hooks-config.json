@@ -1,0 +1,99 @@
+{
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "matcher": ".*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "BRANCH=$(git branch --show-current 2>/dev/null); if [ \"$BRANCH\" = 'main' ]; then echo '⚠️ REMINDER: Create a feature branch before making changes.'; fi",
+            "description": "Remind to use feature branches"
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Bash.*git\\s+commit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo '📝 REMINDER: Commit message should follow conventional format: type(scope): description'",
+            "description": "Remind about commit message format before git commit"
+          }
+        ]
+      },
+      {
+        "matcher": "Bash.*git\\s+push",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "BRANCH=$(git branch --show-current); if [ \"$BRANCH\" = 'main' ]; then echo '❌ BLOCKER: Cannot push directly to '$BRANCH'. Create a feature branch first: git checkout -b feature-description'; exit 1; fi",
+            "description": "Block direct push to main"
+          },
+          {
+            "type": "command",
+            "command": "if git status --porcelain | grep -q .; then echo '❌ BLOCKER: Uncommitted changes detected. Commit all changes before pushing.'; exit 1; fi",
+            "description": "Block push if uncommitted changes exist"
+          },
+          {
+            "type": "command",
+            "command": "git fetch origin -q && git log HEAD..origin/main --oneline | grep -q . && echo '⚠️ WARNING: Branch is behind origin/main. Consider rebasing first: git rebase origin/main' || true",
+            "description": "Warn if branch is behind main"
+          }
+        ]
+      },
+      {
+        "matcher": "Bash.*gh\\s+pr\\s+create",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo '📋 REMINDER: Use /pre-pr to run complete validation first!'",
+            "description": "Remind about pre-PR validation"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if echo \"$TOOL_INPUT\" | grep -q 'CLAUDE.md\\|CONTRIBUTING.md\\|AGENTS.md\\|README.md'; then echo '📚 REMINDER: High-impact file modified. Update related documentation in this PR.'; fi",
+            "description": "Remind about documentation when important files modified"
+          },
+          {
+            "type": "command",
+            "command": "FILE_PATH=$(echo \"$TOOL_INPUT\" | grep -oP '(?<=\"file_path\":\")[^\"]+' | head -1); if [ -n \"$FILE_PATH\" ] && echo \"$FILE_PATH\" | grep -qE '\\.md$'; then npx prettier --write \"$FILE_PATH\" 2>/dev/null && echo '✨ Prettier: Formatted'; npx markdownlint-cli \"$FILE_PATH\" 2>/dev/null && echo '✅ Markdownlint: OK' || echo '⚠️ Run: npx markdownlint-cli --fix \"'$FILE_PATH'\"'; fi",
+            "description": "Format and lint markdown files after edit"
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "matcher": ".*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo '🚀 Session Started\\n📖 Remember: @CONTRIBUTING.md workflow\\n📝 Key commands: /start-work, /check-workflow, /pre-pr, /end-work | Remote: /remote-status, /remote-deploy\\n📚 Full list (24 commands): see .claude/README.md\\n💡 Run /check-workflow for current status'",
+            "description": "Session start reminder with available commands"
+          }
+        ]
+      }
+    ],
+    "SessionEnd": [
+      {
+        "matcher": ".*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "git status --porcelain | grep -q . && echo '⚠️ Session ending with uncommitted changes. Use /end-work to complete cleanly.' || echo '✅ Clean session end - no uncommitted changes'",
+            "description": "Check for uncommitted work at session end"
+          }
+        ]
+      }
+    ]
+  }
+}
