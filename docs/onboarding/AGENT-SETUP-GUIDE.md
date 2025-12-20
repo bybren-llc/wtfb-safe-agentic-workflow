@@ -1,4 +1,5 @@
 # Agent Setup Guide
+
 ## Installing and Using the 11-Agent WTFB SAFe System
 
 **Time to Complete**: 30-45 minutes  
@@ -10,6 +11,7 @@
 ## 🎯 What You'll Learn
 
 By the end of this guide, you'll know how to:
+
 1. Install the 11 WTFB SAFe agents
 2. Invoke agents for different tasks
 3. Understand agent roles and when to use each
@@ -22,6 +24,7 @@ By the end of this guide, you'll know how to:
 ### What Are Agents?
 
 The WTFB SAFe methodology uses **11 specialized AI agents** that act like team members. Each agent has:
+
 - **Specific role** (BSA, System Architect, Backend Dev, etc.)
 - **Tool restrictions** (only access tools needed for their role)
 - **Model selection** (Opus for planning, Sonnet for execution)
@@ -30,25 +33,17 @@ The WTFB SAFe methodology uses **11 specialized AI agents** that act like team m
 ### The 11 Agent Roles
 
 **Planning Agents** (Opus Model - Slower but Thorough):
+
 1. **BSA** (Business Systems Analyst) - Creates specs with acceptance criteria
 2. **System Architect** - Validates patterns, makes architectural decisions
 
-**Execution Agents** (Sonnet Model - Fast):
-3. **BE Developer** - Implements backend/API code
-4. **FE Developer** - Implements frontend/UI code
-5. **Data Engineer** - Creates database migrations
-6. **Data Provisioning Engineer** - Builds data pipelines
+**Execution Agents** (Sonnet Model - Fast): 3. **BE Developer** - Implements backend/API code 4. **FE Developer** - Implements frontend/UI code 5. **Data Engineer** - Creates database migrations 6. **Data Provisioning Engineer** - Builds data pipelines
 
-**Quality Agents** (Sonnet Model):
-7. **QAS** (Quality Assurance Specialist) - Writes and runs tests
-8. **Security Engineer** - Validates security and RLS policies
+**Quality Agents** (Sonnet Model): 7. **QAS** (Quality Assurance Specialist) - Writes and runs tests 8. **Security Engineer** - Validates security and RLS policies
 
-**Documentation Agent** (Sonnet Model):
-9. **Tech Writer** - Creates technical documentation
+**Documentation Agent** (Sonnet Model): 9. **Tech Writer** - Creates technical documentation
 
-**Coordination Agents** (Sonnet Model):
-10. **TDM** (Technical Delivery Manager) - Orchestrates agents, updates Linear
-11. **RTE** (Release Train Engineer) - Creates PRs, manages releases
+**Coordination Agents** (Sonnet Model): 10. **TDM** (Technical Delivery Manager) - Orchestrates agents, updates Linear 11. **RTE** (Release Train Engineer) - Creates PRs, manages releases
 
 ---
 
@@ -57,6 +52,7 @@ The WTFB SAFe methodology uses **11 specialized AI agents** that act like team m
 ### Option A: Claude Code (Recommended)
 
 **Step 1: Verify Claude Code is Installed**
+
 ```bash
 # Check if Claude Code is available
 which claude-code
@@ -67,6 +63,7 @@ claude-code --version
 If not installed, visit: https://docs.anthropic.com/claude/docs/claude-code
 
 **Step 2: Clone the Repository**
+
 ```bash
 git clone https://github.com/ByBren-LLC/WTFB-SAFe-Agentic-Workflow
 cd WTFB-SAFe-Agentic-Workflow
@@ -83,17 +80,19 @@ ls -la .claude/agents/
 ```
 
 **Step 4: Verify Installation**
+
 ```bash
 # Run the session-start hook to verify
 .claude/hooks/session-start-pattern-check.sh
 ```
 
 Expected output:
+
 ```
 📚 Pattern Library Status:
    Location: docs/patterns
    Available patterns: 12
-   
+
 🤖 Agent System Ready
    11 agents available in .claude/agents/
    Tool restrictions: ✅ Configured
@@ -105,6 +104,7 @@ Expected output:
 ### Option B: Augment Code
 
 **Step 1: Verify Augment Code is Installed**
+
 ```bash
 # Check if Augment is available
 which augment
@@ -113,18 +113,21 @@ which augment
 If not installed, visit: https://www.augmentcode.com/
 
 **Step 2: Clone the Repository**
+
 ```bash
 git clone https://github.com/ByBren-LLC/WTFB-SAFe-Agentic-Workflow
 cd WTFB-SAFe-Agentic-Workflow
 ```
 
 **Step 3: Copy Augment Configurations**
+
 ```bash
 # Copy Augment-specific agent configurations
 cp -r agent_providers/augment/* ~/.augment/
 ```
 
 **Step 4: Verify Installation**
+
 ```bash
 # Check Augment recognizes the agents
 augment agents list
@@ -143,6 +146,7 @@ augment agents list
 ```
 
 **Expected Response**: The agent should respond with:
+
 - "I am the Business Systems Analyst (BSA)"
 - Mentions "pattern discovery" and "acceptance criteria"
 - Explains their role in creating specs
@@ -168,6 +172,7 @@ Please:
 ```
 
 **Expected Output**:
+
 - User story: "As a developer, I want to..."
 - 3-5 acceptance criteria
 - Pattern reference (likely `docs/patterns/api/user-context-api.md` or similar)
@@ -195,6 +200,7 @@ Note: This is just a test, so you can show me the implementation without actuall
 ```
 
 **Expected Output**:
+
 - Pattern discovery results (searches `docs/patterns/api/`)
 - Implementation code following the pattern
 - Explanation of how it meets acceptance criteria
@@ -212,6 +218,7 @@ Note: This is just a test, so you can show me the implementation without actuall
 ```
 
 **Example**:
+
 ```
 @tech-writer Update the README.md to include installation instructions for the agent system.
 ```
@@ -226,17 +233,19 @@ For complex, multi-step tasks, use the Task tool:
 Task({
   subagent_type: "agent-name",
   description: "Short 3-5 word description",
-  prompt: "Detailed instructions for the agent"
-})
+  prompt: "Detailed instructions for the agent",
+});
 ```
 
 **Example**:
+
 ```typescript
 Task({
   subagent_type: "bsa",
   description: "Create spec for WOR-123",
-  prompt: "Create comprehensive spec for WOR-123 user profile feature. Include pattern discovery, acceptance criteria, and testing strategy. Reference existing patterns from docs/patterns/."
-})
+  prompt:
+    "Create comprehensive spec for WOR-123 user profile feature. Include pattern discovery, acceptance criteria, and testing strategy. Reference existing patterns from docs/patterns/.",
+});
 ```
 
 ---
@@ -306,18 +315,18 @@ The TDM will orchestrate all other agents automatically!
 
 ### What Each Agent Can Do
 
-| Agent | Can Do | Cannot Do |
-|-------|--------|-----------|
-| **BSA** | Read/write specs, search patterns, update Linear | Write code, create PRs |
-| **System Architect** | Read/write patterns, validate architecture | Implement features, run tests |
-| **BE Developer** | Implement backend code, search patterns | Update Linear, create PRs, modify DB schema |
-| **FE Developer** | Implement frontend code, search patterns | Update Linear, create PRs, backend code |
-| **Data Engineer** | Create migrations, update schema | Implement features, create PRs |
-| **QAS** | Write/run tests, validate ACs | Implement features, update Linear |
-| **Security Engineer** | Audit security, validate RLS | Implement features, create PRs |
-| **Tech Writer** | Write documentation | Implement features, create PRs |
-| **TDM** | Orchestrate agents, update Linear, read Confluence | Write code, create PRs |
-| **RTE** | Create PRs, run CI/CD, manage releases | Implement features, update Linear |
+| Agent                 | Can Do                                             | Cannot Do                                   |
+| --------------------- | -------------------------------------------------- | ------------------------------------------- |
+| **BSA**               | Read/write specs, search patterns, update Linear   | Write code, create PRs                      |
+| **System Architect**  | Read/write patterns, validate architecture         | Implement features, run tests               |
+| **BE Developer**      | Implement backend code, search patterns            | Update Linear, create PRs, modify DB schema |
+| **FE Developer**      | Implement frontend code, search patterns           | Update Linear, create PRs, backend code     |
+| **Data Engineer**     | Create migrations, update schema                   | Implement features, create PRs              |
+| **QAS**               | Write/run tests, validate ACs                      | Implement features, update Linear           |
+| **Security Engineer** | Audit security, validate RLS                       | Implement features, create PRs              |
+| **Tech Writer**       | Write documentation                                | Implement features, create PRs              |
+| **TDM**               | Orchestrate agents, update Linear, read Confluence | Write code, create PRs                      |
+| **RTE**               | Create PRs, run CI/CD, manage releases             | Implement features, update Linear           |
 
 ---
 
@@ -350,18 +359,22 @@ head -6 .claude/agents/bsa.md
 ### Common Issues
 
 **Issue**: Agent not found
+
 - **Solution**: Verify `.claude/agents/` directory exists and has 11 .md files
 - **Check**: `ls -la .claude/agents/`
 
 **Issue**: Agent doesn't respond correctly
+
 - **Solution**: Check agent frontmatter has correct format
 - **Check**: `head -10 .claude/agents/bsa.md`
 
 **Issue**: Agent can't access a tool
+
 - **Solution**: Check `tools:` line in agent frontmatter
 - **Example**: BSA should have `tools: [Read, Write, Edit, Bash, Grep, Glob, mcp__linear-mcp__*]`
 
 **Issue**: Pattern discovery not working
+
 - **Solution**: Verify pattern library exists
 - **Check**: `ls docs/patterns/`
 
@@ -444,6 +457,7 @@ yarn ci:validate && echo "CI SUCCESS"
 **Congratulations!** 🎉 You've successfully set up the WTFB SAFe 11-agent system.
 
 **You now know how to**:
+
 - ✅ Install agents in Claude Code or Augment
 - ✅ Invoke agents for different tasks
 - ✅ Understand agent roles and capabilities
@@ -454,7 +468,7 @@ yarn ci:validate && echo "CI SUCCESS"
 
 ---
 
-**Questions?** 
+**Questions?**
+
 - GitHub Discussions: https://github.com/ByBren-LLC/WTFB-SAFe-Agentic-Workflow/discussions
 - Email: scott@wordstofilmby.com
-

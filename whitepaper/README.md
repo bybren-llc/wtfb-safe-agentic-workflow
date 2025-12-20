@@ -135,17 +135,17 @@ This methodology evolved over **2+ years** from [Auggie's Architect Handbook](ht
 
 ### Sprint Cycle Performance (9 Cycles)
 
-| Cycle | Duration | Completed | Total | % |
-|-------|----------|-----------|-------|---|
-| 1 | Jun 16-30 | 31 | 34 | 91% |
-| 2 | Jun 30-Jul 14 | 10 | 16 | 63% |
-| 3 | Jul 14-28 | 3 | 12 | 25% |
-| 4 | Jul 28-Aug 11 | 0 | 9 | 0% |
-| 5 | Aug 11-25 | 15 | 30 | 50% |
-| 6 | Aug 25-Sep 8 | 31 | 41 | 76% |
-| 7 | Sep 8-22 | 34 | 49 | 69% |
-| 8 | Sep 22-Oct 6 | 42 | 95 | 44% |
-| 9 | Oct 6-20 | 3* | 56 | In progress |
+| Cycle | Duration      | Completed | Total | %           |
+| ----- | ------------- | --------- | ----- | ----------- |
+| 1     | Jun 16-30     | 31        | 34    | 91%         |
+| 2     | Jun 30-Jul 14 | 10        | 16    | 63%         |
+| 3     | Jul 14-28     | 3         | 12    | 25%         |
+| 4     | Jul 28-Aug 11 | 0         | 9     | 0%          |
+| 5     | Aug 11-25     | 15        | 30    | 50%         |
+| 6     | Aug 25-Sep 8  | 31        | 41    | 76%         |
+| 7     | Sep 8-22      | 34        | 49    | 69%         |
+| 8     | Sep 22-Oct 6  | 42        | 95    | 44%         |
+| 9     | Oct 6-20      | 3\*       | 56    | In progress |
 
 **Total**: 169 issues completed across 9 cycles (5 months)
 **Velocity Growth**: 14× improvement (Cycle 3 → Cycle 8)
@@ -190,7 +190,7 @@ This methodology evolved over **2+ years** from [Auggie's Architect Handbook](ht
 
 ### APA 7th Edition
 
-WTFB Team & Graham, J. S. (2025). *Evidence-based multi-agent development: A SAFe framework implementation with Claude Code* [White paper]. https://github.com/ByBren-LLC/WTFB-SAFe-Agentic-Workflow
+WTFB Team & Graham, J. S. (2025). _Evidence-based multi-agent development: A SAFe framework implementation with Claude Code_ [White paper]. https://github.com/ByBren-LLC/WTFB-SAFe-Agentic-Workflow
 
 ### Inline Citation (Academic Papers)
 
@@ -203,6 +203,7 @@ WTFB Team & Graham, J. S. (2025). *Evidence-based multi-agent development: A SAF
 We welcome community contributions! This is version 1.0 of an evolving methodology.
 
 **Ways to Contribute**:
+
 - Submit case studies from your own implementation
 - Report issues or suggest improvements
 - Share patterns and templates
@@ -248,6 +249,7 @@ This whitepaper is released under the **MIT License** - see [LICENSE](../LICENSE
 **Questions?** Open an issue in the [publication repository](https://github.com/ByBren-LLC/WTFB-SAFe-Agentic-Workflow/issues).
 
 **Want to discuss?** Join the conversation:
+
 - GitHub Discussions (coming soon)
 - Linear Workspace (for team members)
 
@@ -279,6 +281,6 @@ This whitepaper is released under the **MIT License** - see [LICENSE](../LICENSE
 
 ---
 
-*Last Updated*: October 7, 2025
-*Version*: 1.0
-*Status*: Published (WOR-325)
+_Last Updated_: October 7, 2025
+_Version_: 1.0
+_Status_: Published (WOR-325)

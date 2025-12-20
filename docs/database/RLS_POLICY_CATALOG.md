@@ -51,12 +51,13 @@ await withSystemContext(prisma, contextType, async (client) => { ... });
 
 ### Tables with RLS Enabled: ✅ [COUNT] of [TOTAL]
 
-| Table | RLS Status | Policy Type | Test Coverage |
-|-------|------------|-------------|---------------|
-| user | ✅ Enabled | User Isolation | ✅ Tested |
-| [your_table] | ✅ Enabled | [Policy Type] | ✅/⚠️ Tested/Needed |
+| Table        | RLS Status | Policy Type    | Test Coverage       |
+| ------------ | ---------- | -------------- | ------------------- |
+| user         | ✅ Enabled | User Isolation | ✅ Tested           |
+| [your_table] | ✅ Enabled | [Policy Type]  | ✅/⚠️ Tested/Needed |
 
 **Policy Types**:
+
 - **User Isolation**: Users can only access their own data
 - **Role-Based**: Access based on user role (admin, user, etc.)
 - **Public Read**: Anyone can read, only owners can write
@@ -79,13 +80,16 @@ await withSystemContext(prisma, contextType, async (client) => { ... });
 #### Access Rules
 
 **Regular Users**:
+
 - ✅ Can [action] their own [resource]
 - ❌ Cannot [action] other users' [resource]
 
 **Admins**:
+
 - ✅ Can [action] all [resource]
 
 **System**:
+
 - ✅ Can [action] for [purpose]
 
 #### RLS Policies
@@ -97,7 +101,7 @@ FOR ALL
 USING (user_id = current_setting('app.current_user_id', true));
 
 -- Policy 2: Admin Access
-CREATE POLICY [policy_name]_admin ON "[table_name]"
+CREATE POLICY [policy_name]\_admin ON "[table_name]"
 FOR ALL
 USING (current_setting('app.user_role', true) = 'admin');
 \`\`\`
@@ -107,6 +111,7 @@ USING (current_setting('app.user_role', true) = 'admin');
 **Test Coverage**: ✅ Tested / ⚠️ Test needed
 
 **Test Cases**:
+
 1. User can access own data
 2. User cannot access other users' data
 3. Admin can access all data
@@ -129,15 +134,18 @@ USING (current_setting('app.user_role', true) = 'admin');
 #### Access Rules
 
 **Regular Users**:
+
 - ✅ Can view their own user record
 - ✅ Can modify their own user record
 - ❌ Cannot view other users' data
 
 **Admins**:
+
 - ✅ Can view all user records
 - ✅ Can modify all user records
 
 **System**:
+
 - ✅ Can access for background processing
 
 #### RLS Policies
@@ -159,6 +167,7 @@ USING (current_setting('app.user_role', true) = 'admin');
 **Test Coverage**: ✅ Tested
 
 **Test Cases**:
+
 1. ✅ User can read own profile
 2. ✅ User cannot read other profiles
 3. ✅ Admin can read all profiles
@@ -204,12 +213,13 @@ USING (current_setting('app.user_role', true) = 'admin');
 ### Required Tests for Each Table
 
 1. **User Isolation Test**:
+
    ```typescript
    // User A creates data
    const dataA = await withUserContext(prisma, userA, async (client) => {
      return client.table.create({ data: {...} });
    });
-   
+
    // User B cannot see User A's data
    const dataB = await withUserContext(prisma, userB, async (client) => {
      return client.table.findMany();
@@ -218,6 +228,7 @@ USING (current_setting('app.user_role', true) = 'admin');
    ```
 
 2. **Admin Access Test**:
+
    ```typescript
    // Admin can see all data
    const allData = await withAdminContext(prisma, adminId, async (client) => {
@@ -229,9 +240,13 @@ USING (current_setting('app.user_role', true) = 'admin');
 3. **System Context Test**:
    ```typescript
    // System can access for background jobs
-   const systemData = await withSystemContext(prisma, 'webhook', async (client) => {
-     return client.table.findMany();
-   });
+   const systemData = await withSystemContext(
+     prisma,
+     "webhook",
+     async (client) => {
+       return client.table.findMany();
+     },
+   );
    ```
 
 ---
@@ -313,6 +328,7 @@ SELECT * FROM your_table;
 ## 📝 Maintenance Guidelines
 
 **MANDATORY Updates**:
+
 - ✅ Update this catalog when adding new RLS policies
 - ✅ Document all policy changes with ticket references
 - ✅ Test all policies before production deployment
@@ -320,6 +336,7 @@ SELECT * FROM your_table;
 - ✅ Review quarterly for accuracy
 
 **For AI Agents**:
+
 - **Security Engineer**: Audit policies from this catalog
 - **Data Engineer**: Update after schema changes
 - **System Architect**: Validate security model
@@ -331,9 +348,9 @@ SELECT * FROM your_table;
 This catalog provides complete RLS policy documentation for security audits, compliance verification, and development context. Use this as the authoritative source for understanding data access controls.
 
 **🎯 Template Usage:**
+
 1. Replace all `[PLACEHOLDERS]` with your actual values
 2. Document each table's RLS policies
 3. Keep test coverage up-to-date
 4. Track all changes with ticket references
 5. Review quarterly for security compliance
-

@@ -12,6 +12,7 @@ Modern AI-assisted development faces a fundamental limitation: single-agent arch
 These observations, while qualitative, motivated our transition to multi-agent teams.
 
 The single-agent paradigm treats AI as a "better autocomplete" rather than a team of specialists. This leads to:
+
 - Context overload (agents juggling 10+ responsibilities)
 - Expertise dilution (jack of all trades, master of none)
 - Quality gate bypass (no independent validation)
@@ -22,6 +23,7 @@ The single-agent paradigm treats AI as a "better autocomplete" rather than a tea
 We present a novel approach: **SAFe-aligned multi-agent development using Claude Code's Task tool for agent-to-agent delegation**. This simple capability - one agent delegating work to another while preserving context - unlocks a paradigm shift from single-threaded to orchestrated multi-agent teams.
 
 Our implementation maps the Scaled Agile Framework (SAFe) Agile Release Train (ART) model to AI agents:
+
 - 11 specialized agents with defined roles
 - Mandatory quality gates between stages
 - Evidence-based progression
@@ -37,22 +39,23 @@ Based on 5 months of production development (June-October 2025) across 9 sprint 
 
 **Real Production Metrics** (Verified via Linear, GitHub, and repository analysis):
 
-| Metric | Value | Source |
-|--------|-------|--------|
-| **Sprint Cycles Completed** | 9 cycles (5 months) | Linear |
-| **Issues Completed** | 169 issues | Linear |
-| **Velocity Growth** | 14× improvement (Cycle 3 → Cycle 8) | Linear |
-| **Commits** | 2,193 commits (10.3/day, 2-3× industry avg) | GitHub |
-| **Pull Requests** | 175 PRs (159 merged, 90.9% success rate) | GitHub |
-| **Documentation** | 136 docs, 36 specs, 208 Confluence pages | Repository/Confluence |
-| **Test Coverage** | 58 test files (unit, integration, E2E) | Repository |
-| **Code Quality** | 0 open PRs (no bottlenecks) | GitHub |
+| Metric                      | Value                                       | Source                |
+| --------------------------- | ------------------------------------------- | --------------------- |
+| **Sprint Cycles Completed** | 9 cycles (5 months)                         | Linear                |
+| **Issues Completed**        | 169 issues                                  | Linear                |
+| **Velocity Growth**         | 14× improvement (Cycle 3 → Cycle 8)         | Linear                |
+| **Commits**                 | 2,193 commits (10.3/day, 2-3× industry avg) | GitHub                |
+| **Pull Requests**           | 175 PRs (159 merged, 90.9% success rate)    | GitHub                |
+| **Documentation**           | 136 docs, 36 specs, 208 Confluence pages    | Repository/Confluence |
+| **Test Coverage**           | 58 test files (unit, integration, E2E)      | Repository            |
+| **Code Quality**            | 0 open PRs (no bottlenecks)                 | GitHub                |
 
 **Note on Missing Metrics**: We cannot verify defect reduction or rework rates without baseline measurements from pre-SAFe implementation. Claims of "75% reduction" are REMOVED in favor of honest reporting of what we can measure.
 
 ### Case Study: WOR-321 Migration Automation
 
 A complex database migration requiring 15 file updates across CI/CD, database, and backend systems:
+
 - **Single-agent estimate**: 8-12 hours with high risk
 - **Multi-agent actual**: 5.5 hours with zero defects (after remediation)
 - **Critical finding**: System Architect review caught 4 production-threatening issues
@@ -86,12 +89,14 @@ A complex database migration requiring 15 file updates across CI/CD, database, a
 ### When It Works
 
 ✅ **Excellent for**:
+
 - Complex features (>4 hours)
 - High-risk changes (payments, auth, data)
 - Compliance requirements
 - Knowledge transfer needs
 
 ❌ **Terrible for**:
+
 - Hotfixes (too slow)
 - Simple changes (excessive overhead)
 - Exploratory development (too rigid)
@@ -136,4 +141,4 @@ The future of AI-assisted development lies not in better single agents, but in o
 
 ---
 
-*"The best way to predict the future is to invent it. The second best way is to share your failures honestly so others can build on them." - The Authors*
+_"The best way to predict the future is to invent it. The second best way is to share your failures honestly so others can build on them." - The Authors_

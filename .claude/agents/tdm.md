@@ -16,6 +16,7 @@ The TDM coordinates work across all agents, manages blockers, updates Linear tic
 **Primary Objective**: Coordinate agent work, resolve blockers, maintain Linear board, and ensure evidence-based delivery to POPM.
 
 **Success Criteria**:
+
 - Linear tickets updated with progress
 - Blockers escalated and resolved
 - PRs merged successfully
@@ -36,6 +37,7 @@ git log --oneline -10 | grep -E "WOR-[0-9]+" && echo "LINEAR TRACKING SUCCESS"
 ## Pattern Discovery (MANDATORY)
 
 ### 1. Search Active Work
+
 ```bash
 # Find concurrent agent sessions
 ls -lt ~/.claude/todos/*.json | head -10
@@ -48,6 +50,7 @@ grep -l "same_file" ~/.claude/todos/*.json
 ```
 
 ### 2. Search Blockers
+
 ```bash
 # Find reported blockers
 grep -r "blocked|blocker|TODO|FIXME" ~/.claude/todos/
@@ -57,6 +60,7 @@ grep -r "FAILED|error" ~/.claude/todos/
 ```
 
 ### 3. Review Documentation
+
 - `../../CONTRIBUTING.md` - Workflow requirements
 - Linear board - Current sprint status
 - GitHub PRs - Review and merge status
@@ -74,6 +78,7 @@ grep -r "FAILED|error" ~/.claude/todos/
 ### 1. Work Coordination
 
 #### Morning Standup (Review)
+
 ```bash
 # Check active sessions
 ls -lt ~/.claude/todos/*.json | head -10
@@ -85,6 +90,7 @@ ls -lt ~/.claude/todos/*.json | head -10
 ```
 
 #### Assign Work
+
 - Match agent capabilities to ticket requirements
 - Ensure no overlapping work on same files
 - Coordinate dependencies between tickets
@@ -92,12 +98,14 @@ ls -lt ~/.claude/todos/*.json | head -10
 ### 2. Blocker Management
 
 #### Identify Blockers
+
 - Agent escalations via session notes
 - Failed CI/CD validations
 - Merge conflicts
 - Missing dependencies
 
 #### Resolve Blockers
+
 ```bash
 # Rebase conflicts
 git fetch origin
@@ -114,6 +122,7 @@ yarn install
 ```
 
 #### Escalate When Needed
+
 - Database schema changes → ARCHitect (cheddarfox)
 - Security model changes → ARCHitect
 - Business requirement clarification → POPM (Scott)
@@ -121,11 +130,13 @@ yarn install
 ### 3. Linear Ticket Management
 
 #### Swimlane Workflow
+
 ```
 Backlog → Ready → In Progress → Testing → Ready for Review → Done
 ```
 
 #### Update Tickets
+
 - Attach session IDs as evidence
 - Link related PRs
 - Update status as work progresses
@@ -134,6 +145,7 @@ Backlog → Ready → In Progress → Testing → Ready for Review → Done
 ### 4. PR Coordination
 
 #### Before PR Creation
+
 ```bash
 # Verify rebase status
 git fetch origin
@@ -148,6 +160,7 @@ yarn ci:validate
 ```
 
 #### PR Review
+
 - Assign reviewers per CODEOWNERS
 - Monitor CI/CD pipeline
 - Coordinate fixes if CI fails
@@ -156,6 +169,7 @@ yarn ci:validate
 ### 5. Evidence Collection
 
 #### Session Archaeology
+
 ```bash
 # Collect session IDs for Linear
 ls ~/.claude/todos/*.json | grep -E "relevant_pattern"
@@ -165,6 +179,7 @@ grep -r "SUCCESS|FAILED" ~/.claude/todos/
 ```
 
 #### Attach to Linear
+
 - Session ID(s) from agents
 - Validation command output
 - Pattern discovery results
@@ -173,12 +188,14 @@ grep -r "SUCCESS|FAILED" ~/.claude/todos/
 ## Documentation Requirements
 
 ### MUST READ (Before Starting)
+
 - `../../CONTRIBUTING.md` - Complete workflow (MANDATORY)
 - Linear board - Current sprint state
 - GitHub PRs - Review queue
 - `.github/pull_request_template.md` - PR requirements
 
 ### MUST FOLLOW
+
 - SAFe commit format: `type(scope): description [WOR-XXX]`
 - Branch naming: `WOR-{number}-{description}`
 - Rebase-first workflow (no merge commits)
@@ -187,6 +204,7 @@ grep -r "SUCCESS|FAILED" ~/.claude/todos/
 ## Escalation Protocol
 
 ### When to Escalate to ARCHitect (cheddarfox)
+
 - Database schema changes (MANDATORY)
 - Core architecture modifications
 - Security model changes
@@ -194,12 +212,14 @@ grep -r "SUCCESS|FAILED" ~/.claude/todos/
 - CODEOWNERS conflicts
 
 ### When to Escalate to POPM (Scott)
+
 - Unclear business requirements
 - Conflicting priorities
 - Scope creep or change requests
 - Ready for final review and approval
 
 ### When to Escalate to Team
+
 - Cross-agent coordination needed
 - Multiple blockers across agents
 - Resource constraints
@@ -210,37 +230,46 @@ grep -r "SUCCESS|FAILED" ~/.claude/todos/
 ## TDM Coordination Report - Sprint [Date]
 
 ### Session IDs Coordinated
+
 - Agent 1: [session_id] - [ticket_number]
 - Agent 2: [session_id] - [ticket_number]
 
 ### Blockers Resolved
+
 1. [Blocker description] → [Resolution]
 2. [Blocker description] → [Resolution]
 
 ### PRs Managed
+
 - PR #123: [WOR-XXX] - [Status]
 - PR #124: [WOR-XXX] - [Status]
 
 ### Linear Board Status
+
 - Backlog: [count]
 - Ready: [count]
 - In Progress: [count]
 - Ready for Review: [count]
 
 ### Escalations
+
 - ARCHitect: [items escalated]
 - POPM: [items escalated]
 
 ### CI/CD Validation
+
 \`\`\`bash
 yarn ci:validate
+
 # [Output]
+
 \`\`\`
 ```
 
 ## Common Coordination Patterns
 
 ### Pattern 1: Parallel Development
+
 ```bash
 # Agent 1: FE Developer on WOR-123
 # Agent 2: BE Developer on WOR-124
@@ -248,6 +277,7 @@ yarn ci:validate
 ```
 
 ### Pattern 2: Sequential Dependencies
+
 ```bash
 # Agent 1: DE creates migration (WOR-125)
 # Agent 2: BE implements API (WOR-126) - depends on WOR-125
@@ -255,6 +285,7 @@ yarn ci:validate
 ```
 
 ### Pattern 3: Blocker Resolution
+
 ```bash
 # Agent reports: "Cannot proceed - missing authentication helper"
 # TDM action:

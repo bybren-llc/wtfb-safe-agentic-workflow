@@ -61,28 +61,28 @@ ls docs/patterns/testing/
 **For API Integration Tests (api-integration-test.md):**
 
 ```typescript
-import { describe, it, expect, jest } from '@jest/globals';
-import { NextRequest } from 'next/server';
+import { describe, it, expect, jest } from "@jest/globals";
+import { NextRequest } from "next/server";
 
 // Mock auth and RLS
-jest.mock('@clerk/nextjs/server');
-jest.mock('@/lib/rls-context');
+jest.mock("@clerk/nextjs/server");
+jest.mock("@/lib/rls-context");
 
-import { auth } from '@clerk/nextjs/server';
-import { GET, POST } from '@/app/api/{resource}/route';
+import { auth } from "@clerk/nextjs/server";
+import { GET, POST } from "@/app/api/{resource}/route";
 
 const mockAuth = auth as jest.MockedFunction<typeof auth>;
 
-describe('API Integration: /api/{resource}', () => {
-  it('should return user data successfully', async () => {
-    mockAuth.mockResolvedValue({ userId: 'test_user' } as any);
+describe("API Integration: /api/{resource}", () => {
+  it("should return user data successfully", async () => {
+    mockAuth.mockResolvedValue({ userId: "test_user" } as any);
 
-    const request = new NextRequest('http://localhost/api/{resource}');
+    const request = new NextRequest("http://localhost/api/{resource}");
     const response = await GET(request);
     const data = await response.json();
 
     expect(response.status).toBe(200);
-    expect(data).toHaveProperty('data');
+    expect(data).toHaveProperty("data");
   });
 });
 ```
@@ -90,23 +90,23 @@ describe('API Integration: /api/{resource}', () => {
 **For E2E Tests (e2e-user-flow.md):**
 
 ```typescript
-import { test, expect } from '@playwright/test';
+import { test, expect } from "@playwright/test";
 
-test.describe('{Feature} Workflow', () => {
+test.describe("{Feature} Workflow", () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/sign-in');
-    await page.fill('input[name="email"]', 'test@example.com');
+    await page.goto("/sign-in");
+    await page.fill('input[name="email"]', "test@example.com");
     await page.fill('input[name="password"]', process.env.TEST_USER_PASSWORD!);
     await page.click('button[type="submit"]');
-    await page.waitForURL('/dashboard');
+    await page.waitForURL("/dashboard");
   });
 
-  test('complete {feature} flow', async ({ page }) => {
-    await page.goto('/dashboard/{feature}');
+  test("complete {feature} flow", async ({ page }) => {
+    await page.goto("/dashboard/{feature}");
     await page.click('button:has-text("Create")');
-    await page.fill('input[name="name"]', 'Test');
+    await page.fill('input[name="name"]', "Test");
     await page.click('button[type="submit"]');
-    await expect(page.locator('text=Success')).toBeVisible();
+    await expect(page.locator("text=Success")).toBeVisible();
   });
 });
 ```

@@ -20,6 +20,7 @@
 #### The Gap (WOR-321)
 
 **What Happened**:
+
 - ARCHitect-in-CLI orchestrated 10 subagent invocations
 - Data Engineer delivered 710-line bash deployment script (`deploy-migration-prod.sh`)
 - Data Engineer delivered 3 TypeScript validation scripts
@@ -27,7 +28,8 @@
 - System Architect was **NEVER invoked**
 - Complex automation merged without architectural oversight
 
-**Impact**: 
+**Impact**:
+
 - Potential security/quality issues in unreviewed code
 - Violated architectural governance process
 - No quality gate before PR
@@ -38,6 +40,7 @@
 **New Requirement**: ARCHitect-in-CLI MUST invoke System Architect for:
 
 **Infrastructure & Automation**:
+
 - Bash scripts >100 lines
 - CI/CD workflows
 - Infrastructure-as-code
@@ -45,6 +48,7 @@
 - Container orchestration
 
 **Security-Critical Code**:
+
 - Database migration automation
 - Auth/authorization logic
 - SSH/remote execution
@@ -52,12 +56,14 @@
 - RLS policy automation
 
 **Complex Code**:
+
 - TypeScript/JavaScript >200 lines
 - Custom build tools
 - Database query builders
 - Pre-commit hooks
 
 **Process**:
+
 1. Specialist delivers complex code
 2. ARCHitect-in-CLI invokes System Architect for review
 3. System Architect approves OR requires fixes
@@ -66,6 +72,7 @@
 #### Workflow Comparison
 
 **Before v1.3.1 (WOR-321 Gap)**:
+
 ```
 ARCHitect-in-CLI
 ├─ Data Engineer (710-line script)
@@ -75,6 +82,7 @@ ARCHitect-in-CLI
 ```
 
 **After v1.3.1 (Correct)**:
+
 ```
 ARCHitect-in-CLI
 ├─ Data Engineer (710-line script)
@@ -90,12 +98,14 @@ ARCHitect-in-CLI
 #### Success Metrics
 
 v1.3.1 prevents gaps when:
+
 - 100% of complex automation reviewed before PR
 - Architectural decisions documented
 - Security patterns validated
 - Code quality standards enforced
 
 **Measurable Outcomes**:
+
 - 0% unreviewed scripts >100 lines in production
 - 100% System Architect approval for complex code
 - Reduced production incidents from bad automation
@@ -109,7 +119,8 @@ v1.3.1 prevents gaps when:
 
 **Pattern**: ARCHitect-in-CLI orchestrates specialists directly (not through TDM)
 
-**Rationale**: 
+**Rationale**:
+
 - Faster coordination (no TDM intermediary)
 - Direct communication with specialists
 - Parallel invocation when no dependencies
@@ -126,6 +137,7 @@ ARCHitect-in-CLI (Main Instance)
 ```
 
 **vs v1.2 (TDM Orchestration)**:
+
 ```
 ARCHitect-in-CLI
 └─ TDM (Orchestrator)
@@ -154,7 +166,8 @@ ARCHitect-in-CLI
 
 **Pattern**: TDM coordinates specialist invocations
 
-**Rationale**: 
+**Rationale**:
+
 - Clear separation of concerns
 - TDM expertise in coordination
 - Standardized handoffs
@@ -184,7 +197,8 @@ ARCHitect-in-CLI
 
 **Pattern**: ARCHitect-in-CLI invokes single specialist for focused work
 
-**Rationale**: 
+**Rationale**:
+
 - Simple tasks don't need orchestration
 - Direct communication for clarity
 - Faster turnaround
@@ -211,7 +225,8 @@ ARCHitect-in-CLI
 
 **Simulated Subagent Work**: ARCHitect-in-CLI performed all work, simulating specialist roles
 
-**Rationale**: 
+**Rationale**:
+
 - Proof of concept
 - No actual subagent invocation capability
 - Single-agent workflow
@@ -240,6 +255,7 @@ What type of work?
 ### Complexity Indicators
 
 **Use v1.3.1 (System Architect Review) when**:
+
 - Creating bash scripts >100 lines
 - Modifying CI/CD workflows
 - Building infrastructure automation
@@ -247,18 +263,21 @@ What type of work?
 - Writing complex TypeScript/JavaScript >200 lines
 
 **Use v1.3 (Direct Orchestration) when**:
+
 - Multiple specialists needed
 - Clear dependencies between work
 - ARCHitect-in-CLI has full context
 - Parallel work possible
 
 **Use v1.2 (TDM Orchestration) when**:
+
 - Standard feature development
 - Multiple teams involved
 - Clear requirements defined
 - TDM coordination valuable
 
 **Use v1.1 (Direct Specialist) when**:
+
 - Single specialist sufficient
 - Simple, focused task
 - Quick turnaround needed
@@ -307,6 +326,7 @@ What type of work?
 **Action Required**: Add System Architect review gates
 
 **Steps**:
+
 1. Review all existing complex automation
 2. Invoke System Architect for retroactive review (if needed)
 3. Update workflow documentation
@@ -320,6 +340,7 @@ What type of work?
 **Action Required**: Enable ARCHitect-in-CLI direct orchestration
 
 **Steps**:
+
 1. Identify complex investigations
 2. Use v1.3 pattern for multi-specialist work
 3. Maintain v1.2 for standard features
@@ -374,4 +395,3 @@ What type of work?
 ---
 
 **Current Recommendation**: Use v1.3.1 for all complex automation to ensure architectural governance
-

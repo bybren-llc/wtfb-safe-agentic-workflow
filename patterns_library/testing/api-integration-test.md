@@ -16,27 +16,34 @@ Tests API routes end-to-end with mocked auth and database operations. Validates 
 
 ```typescript
 // __tests__/integration/{resource}.test.ts
-import { describe, it, expect, jest, beforeEach, afterEach } from '@jest/globals';
-import { NextRequest } from 'next/server';
+import {
+  describe,
+  it,
+  expect,
+  jest,
+  beforeEach,
+  afterEach,
+} from "@jest/globals";
+import { NextRequest } from "next/server";
 
 // 1. Mock dependencies
-jest.mock('@clerk/nextjs/server', () => ({
+jest.mock("@clerk/nextjs/server", () => ({
   auth: jest.fn(),
 }));
 
-jest.mock('@/lib/rls-context', () => ({
+jest.mock("@/lib/rls-context", () => ({
   withUserContext: jest.fn((prisma, userId, callback) => callback(prisma)),
   withAdminContext: jest.fn((prisma, userId, callback) => callback(prisma)),
 }));
 
 // 2. Import after mocks
-import { auth } from '@clerk/nextjs/server';
-import { GET, POST } from '@/app/api/{resource}/route';
+import { auth } from "@clerk/nextjs/server";
+import { GET, POST } from "@/app/api/{resource}/route";
 
 const mockAuth = auth as jest.MockedFunction<typeof auth>;
 
-describe('API Integration: /api/{resource}', () => {
-  const testUserId = 'user_test123';
+describe("API Integration: /api/{resource}", () => {
+  const testUserId = "user_test123";
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -46,8 +53,8 @@ describe('API Integration: /api/{resource}', () => {
     jest.restoreAllMocks();
   });
 
-  describe('GET /api/{resource}', () => {
-    it('should return user data successfully', async () => {
+  describe("GET /api/{resource}", () => {
+    it("should return user data successfully", async () => {
       // Mock authentication
       mockAuth.mockResolvedValue({
         userId: testUserId,
@@ -56,7 +63,7 @@ describe('API Integration: /api/{resource}', () => {
       } as any);
 
       // Create request
-      const request = new NextRequest('http://localhost:3000/api/{resource}');
+      const request = new NextRequest("http://localhost:3000/api/{resource}");
 
       // Execute handler
       const response = await GET(request);
@@ -64,27 +71,27 @@ describe('API Integration: /api/{resource}', () => {
 
       // Assertions
       expect(response.status).toBe(200);
-      expect(data).toHaveProperty('data');
+      expect(data).toHaveProperty("data");
       expect(Array.isArray(data.data)).toBe(true);
     });
 
-    it('should return 401 for unauthenticated request', async () => {
+    it("should return 401 for unauthenticated request", async () => {
       // Mock no auth
       mockAuth.mockResolvedValue({
         userId: null,
       } as any);
 
-      const request = new NextRequest('http://localhost:3000/api/{resource}');
+      const request = new NextRequest("http://localhost:3000/api/{resource}");
       const response = await GET(request);
 
       expect(response.status).toBe(401);
       const data = await response.json();
-      expect(data.error).toBe('Authentication required');
+      expect(data.error).toBe("Authentication required");
     });
   });
 
-  describe('POST /api/{resource}', () => {
-    it('should create resource successfully', async () => {
+  describe("POST /api/{resource}", () => {
+    it("should create resource successfully", async () => {
       // Mock auth
       mockAuth.mockResolvedValue({
         userId: testUserId,
@@ -92,15 +99,15 @@ describe('API Integration: /api/{resource}', () => {
 
       // Create request with body
       const requestBody = {
-        name: 'Test Resource',
-        description: 'Test description',
+        name: "Test Resource",
+        description: "Test description",
       };
 
-      const request = new NextRequest('http://localhost:3000/api/{resource}', {
-        method: 'POST',
+      const request = new NextRequest("http://localhost:3000/api/{resource}", {
+        method: "POST",
         body: JSON.stringify(requestBody),
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
       });
 
@@ -108,21 +115,21 @@ describe('API Integration: /api/{resource}', () => {
       const data = await response.json();
 
       expect(response.status).toBe(201);
-      expect(data).toHaveProperty('data');
-      expect(data.data.name).toBe('Test Resource');
+      expect(data).toHaveProperty("data");
+      expect(data.data.name).toBe("Test Resource");
     });
 
-    it('should return 400 for invalid input', async () => {
+    it("should return 400 for invalid input", async () => {
       mockAuth.mockResolvedValue({
         userId: testUserId,
       } as any);
 
       // Invalid body (missing required fields)
-      const request = new NextRequest('http://localhost:3000/api/{resource}', {
-        method: 'POST',
+      const request = new NextRequest("http://localhost:3000/api/{resource}", {
+        method: "POST",
         body: JSON.stringify({}),
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
       });
 
@@ -139,29 +146,32 @@ describe('API Integration: /api/{resource}', () => {
 ## Advanced Patterns
 
 ### Admin Route Testing
-```typescript
-import { verifyAdminAndGetUserId } from '@/lib/auth-admin';
 
-jest.mock('@/lib/auth-admin', () => ({
+```typescript
+import { verifyAdminAndGetUserId } from "@/lib/auth-admin";
+
+jest.mock("@/lib/auth-admin", () => ({
   verifyAdminAndGetUserId: jest.fn(),
 }));
 
-const mockVerifyAdmin = verifyAdminAndGetUserId as jest.MockedFunction<typeof verifyAdminAndGetUserId>;
+const mockVerifyAdmin = verifyAdminAndGetUserId as jest.MockedFunction<
+  typeof verifyAdminAndGetUserId
+>;
 
-describe('Admin API Tests', () => {
-  it('should allow admin access', async () => {
-    mockVerifyAdmin.mockResolvedValue('admin_user_123');
+describe("Admin API Tests", () => {
+  it("should allow admin access", async () => {
+    mockVerifyAdmin.mockResolvedValue("admin_user_123");
 
-    const request = new NextRequest('http://localhost/api/admin/{resource}');
+    const request = new NextRequest("http://localhost/api/admin/{resource}");
     const response = await GET(request);
 
     expect(response.status).toBe(200);
   });
 
-  it('should deny non-admin access', async () => {
-    mockVerifyAdmin.mockRejectedValue(new Error('Admin access required'));
+  it("should deny non-admin access", async () => {
+    mockVerifyAdmin.mockRejectedValue(new Error("Admin access required"));
 
-    const request = new NextRequest('http://localhost/api/admin/{resource}');
+    const request = new NextRequest("http://localhost/api/admin/{resource}");
     const response = await GET(request);
 
     expect(response.status).toBe(403);
@@ -170,6 +180,7 @@ describe('Admin API Tests', () => {
 ```
 
 ### Database Mocking with Prisma
+
 ```typescript
 import { prisma } from '@/lib/prisma';
 
@@ -203,13 +214,16 @@ it('should query database correctly', async () => {
 ```
 
 ### RLS Enforcement Testing
+
 ```typescript
-import { withUserContext } from '@/lib/rls-context';
+import { withUserContext } from "@/lib/rls-context";
 
-jest.mock('@/lib/rls-context');
-const mockWithUserContext = withUserContext as jest.MockedFunction<typeof withUserContext>;
+jest.mock("@/lib/rls-context");
+const mockWithUserContext = withUserContext as jest.MockedFunction<
+  typeof withUserContext
+>;
 
-it('should enforce RLS context', async () => {
+it("should enforce RLS context", async () => {
   mockAuth.mockResolvedValue({ userId: testUserId } as any);
 
   // Spy on withUserContext
@@ -218,13 +232,13 @@ it('should enforce RLS context', async () => {
     return callback(prisma);
   });
 
-  const request = new NextRequest('http://localhost/api/{resource}');
+  const request = new NextRequest("http://localhost/api/{resource}");
   await GET(request);
 
   expect(mockWithUserContext).toHaveBeenCalledWith(
     expect.anything(),
     testUserId,
-    expect.any(Function)
+    expect.any(Function),
   );
 });
 ```
@@ -277,36 +291,36 @@ yarn jest --coverage __tests__/integration/
 ## Example: Payment API Test
 
 ```typescript
-import { describe, it, expect, jest } from '@jest/globals';
-import { NextRequest } from 'next/server';
+import { describe, it, expect, jest } from "@jest/globals";
+import { NextRequest } from "next/server";
 
-jest.mock('@clerk/nextjs/server');
-jest.mock('@/lib/rls-context');
+jest.mock("@clerk/nextjs/server");
+jest.mock("@/lib/rls-context");
 
-import { auth } from '@clerk/nextjs/server';
-import { GET } from '@/app/api/user/payments/route';
+import { auth } from "@clerk/nextjs/server";
+import { GET } from "@/app/api/user/payments/route";
 
 const mockAuth = auth as jest.MockedFunction<typeof auth>;
 
-describe('GET /api/user/payments', () => {
-  it('returns user payments', async () => {
+describe("GET /api/user/payments", () => {
+  it("returns user payments", async () => {
     mockAuth.mockResolvedValue({
-      userId: 'user_123',
+      userId: "user_123",
     } as any);
 
-    const request = new NextRequest('http://localhost/api/user/payments');
+    const request = new NextRequest("http://localhost/api/user/payments");
     const response = await GET(request);
     const data = await response.json();
 
     expect(response.status).toBe(200);
-    expect(data).toHaveProperty('data');
+    expect(data).toHaveProperty("data");
     expect(Array.isArray(data.data)).toBe(true);
   });
 
-  it('returns 401 without auth', async () => {
+  it("returns 401 without auth", async () => {
     mockAuth.mockResolvedValue({ userId: null } as any);
 
-    const request = new NextRequest('http://localhost/api/user/payments');
+    const request = new NextRequest("http://localhost/api/user/payments");
     const response = await GET(request);
 
     expect(response.status).toBe(401);

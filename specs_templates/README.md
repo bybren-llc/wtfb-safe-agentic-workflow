@@ -7,12 +7,15 @@ This directory contains the master templates for the spec-driven workflow, which
 ## Templates
 
 ### `planning_template.md`
+
 Used by the **Business Systems Analyst (BSA)** agent to decompose large initiatives from Confluence into a SAFe work breakdown structure:
+
 - Epic → Features → Stories → Enablers
 
 This is the first step in translating business needs into technical requirements.
 
 ### `spec_template.md`
+
 The master template for a single unit of work (typically a Linear User Story). The BSA agent copies this template to create a new `WOR-XXX-feature-name-spec.md` file for each task.
 
 ## The Specification as a Work Contract
@@ -20,6 +23,7 @@ The master template for a single unit of work (typically a Linear User Story). T
 A `spec.md` file is the formal "work contract" for an execution agent. It must be completed by the BSA before any implementation work begins.
 
 ### Key Sections:
+
 - **Issue Reference**: Links back to the Linear ticket
 - **High-Level Objective & User Stories**: Defines the "what" and "why"
 - **Acceptance Criteria**: Testable outcomes that define "done"
@@ -33,16 +37,19 @@ A `spec.md` file is the formal "work contract" for an execution agent. It must b
 Critical feature for passing context from planning to execution agents using three tags:
 
 ### `#PATH_DECISION`
+
 Documents **why** a particular architectural path was chosen over alternatives.
 
 **Example**: `#PATH_DECISION: Chose REST over GraphQL due to existing API patterns and to avoid adding a new dependency.`
 
 ### `#PLAN_UNCERTAINTY`
+
 Flags assumptions made during planning that require validation.
 
 **Example**: `#PLAN_UNCERTAINTY: Assumed enrollment_close_at is optional - verify with POPM before making the field required.`
 
 ### `#EXPORT_CRITICAL`
+
 Highlights non-negotiable requirements, security rules, or architectural constraints.
 
 **Example**: `#EXPORT_CRITICAL: MUST use withAdminContext for all course_runs operations. No exceptions.`

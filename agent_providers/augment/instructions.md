@@ -12,10 +12,12 @@ You are part of a SAFe Agile Release Train (ART) with 11 specialized agent roles
 ## Agent Roles & Responsibilities
 
 ### Planning Agents (Use Opus Model if Available)
+
 - **Business Systems Analyst (BSA)**: Requirements decomposition, spec creation
 - **System Architect**: Pattern validation, architectural decisions
 
 ### Execution Agents (Use Sonnet Model if Available)
+
 - **Backend Developer**: API routes, server logic, RLS enforcement
 - **Frontend Developer**: UI components, client-side logic
 - **Data Engineer**: Schema changes, migrations, database architecture
@@ -23,6 +25,7 @@ You are part of a SAFe Agile Release Train (ART) with 11 specialized agent roles
 - **Technical Writer**: Documentation, guides, technical content
 
 ### Quality & Coordination Agents (Use Sonnet Model if Available)
+
 - **Quality Assurance Specialist (QAS)**: Testing strategy execution
 - **Security Engineer**: Security validation, RLS checks
 - **Technical Delivery Manager (TDM)**: Coordination, blocker escalation
@@ -33,6 +36,7 @@ You are part of a SAFe Agile Release Train (ART) with 11 specialized agent roles
 Before writing any new code, you MUST:
 
 1. **Search Codebase**:
+
    ```bash
    grep -r "feature_name|functionality" app/
    find lib/ -name "*helper*"
@@ -40,12 +44,14 @@ Before writing any new code, you MUST:
    ```
 
 2. **Search Git History**:
+
    ```bash
    git log --grep="similar_feature"
    git log --oneline | grep "pattern"
    ```
 
 3. **Search Pattern Library**:
+
    ```bash
    find patterns_library/ -name "*relevant*"
    cat patterns_library/README.md
@@ -59,6 +65,7 @@ Before writing any new code, you MUST:
 ## Spec-Driven Implementation
 
 ### Reading Specs
+
 1. Read entire `spec.md` file before starting
 2. Pay special attention to metacognitive tags:
    - `#PATH_DECISION`: Understand architectural choices
@@ -66,12 +73,14 @@ Before writing any new code, you MUST:
    - `#EXPORT_CRITICAL`: Non-negotiable requirements
 
 ### Following Patterns
+
 1. Locate referenced pattern in `patterns_library/`
 2. Copy template code exactly
 3. Customize according to spec requirements
 4. Maintain pattern integrity
 
 ### Making Changes
+
 1. Make atomic commits for each logical change
 2. Use conventional commit format: `feat(scope): description [TICKET-XXX]`
 3. Run validation frequently: `yarn ci:validate`
@@ -80,6 +89,7 @@ Before writing any new code, you MUST:
 ## Quality Validation
 
 ### Before Committing
+
 ```bash
 yarn lint && yarn build && echo "SUCCESS" || echo "FAILED"
 yarn test:unit && echo "TESTS PASS" || echo "TESTS FAIL"
@@ -87,6 +97,7 @@ yarn ci:validate && echo "CI SUCCESS" || echo "CI FAILED"
 ```
 
 ### Evidence Collection
+
 - Screenshot test results
 - Save validation command outputs
 - Document manual testing steps
@@ -95,16 +106,19 @@ yarn ci:validate && echo "CI SUCCESS" || echo "CI FAILED"
 ## Security Requirements
 
 ### Database Operations
+
 - MUST use `withUserContext`/`withAdminContext`/`withSystemContext`
 - NEVER use direct Prisma calls
 - Always implement Row Level Security (RLS)
 
 ### API Endpoints
+
 - Validate all inputs with Zod schemas
 - Implement proper authentication/authorization
 - Follow established API patterns
 
 ### Code Quality
+
 - Follow ESLint rules strictly
 - Use TypeScript for type safety
 - Implement comprehensive error handling
@@ -112,17 +126,20 @@ yarn ci:validate && echo "CI SUCCESS" || echo "CI FAILED"
 ## Communication Protocols
 
 ### Escalation Path
+
 1. **Technical Issues**: System Architect
 2. **Process Issues**: Technical Delivery Manager
 3. **Business Questions**: Product Owner/Product Manager
 
 ### Status Updates
+
 - Update Linear tickets with session evidence
 - Include validation results and test outputs
 - Document any deviations from spec
 - Flag blockers immediately
 
 ### Handoffs
+
 - Complete all acceptance criteria before handoff
 - Attach comprehensive evidence
 - Update spec if implementation differs
@@ -131,6 +148,7 @@ yarn ci:validate && echo "CI SUCCESS" || echo "CI FAILED"
 ## Success Criteria
 
 ### For Each Task
+
 - [ ] All acceptance criteria met
 - [ ] Pattern library consulted and followed
 - [ ] All tests passing
@@ -139,6 +157,7 @@ yarn ci:validate && echo "CI SUCCESS" || echo "CI FAILED"
 - [ ] PR created with proper template
 
 ### For Each Sprint
+
 - [ ] All committed work completed
 - [ ] Quality metrics maintained
 - [ ] No security vulnerabilities introduced
@@ -148,6 +167,7 @@ yarn ci:validate && echo "CI SUCCESS" || echo "CI FAILED"
 ## Tools and Commands
 
 ### Development
+
 ```bash
 yarn dev          # Start development server
 yarn build        # Build for production
@@ -157,6 +177,7 @@ yarn ci:validate  # Full validation suite
 ```
 
 ### Database
+
 ```bash
 npx prisma generate     # Generate Prisma client
 npx prisma migrate dev  # Run migrations
@@ -164,6 +185,7 @@ npx prisma studio      # Database GUI
 ```
 
 ### Git Workflow
+
 ```bash
 git checkout -b TICKET-XXX-feature-name
 # Make changes
@@ -176,12 +198,14 @@ git push origin TICKET-XXX-feature-name
 ## Continuous Improvement
 
 ### Learning
+
 - Review successful patterns regularly
 - Study failed implementations for lessons
 - Share knowledge with team
 - Contribute to pattern library
 
 ### Process Evolution
+
 - Suggest automation opportunities
 - Document manual workarounds
 - Propose workflow improvements

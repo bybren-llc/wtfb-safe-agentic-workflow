@@ -74,6 +74,7 @@ Created code/automation during investigation?
 ### Review Triggers (Comprehensive List)
 
 #### Infrastructure & Automation
+
 - Bash scripts >100 lines
 - CI/CD workflow creation/modification
 - Infrastructure-as-code (Terraform, CloudFormation)
@@ -81,6 +82,7 @@ Created code/automation during investigation?
 - Container orchestration changes
 
 #### Security-Critical Code
+
 - Database migration automation
 - Authentication/authorization logic
 - SSH/remote execution scripts
@@ -88,6 +90,7 @@ Created code/automation during investigation?
 - RLS policy automation
 
 #### Complex TypeScript/JavaScript
+
 - Validation/verification scripts >200 lines
 - Pre-commit hooks
 - Custom build tools
@@ -123,8 +126,8 @@ Provide:
 Context:
 [Brief description of what automation does, why needed, production impact]
 
-Reference: WOR-XXX investigation findings`
-})
+Reference: WOR-XXX investigation findings`,
+});
 ```
 
 ### Example: WOR-321 Gap
@@ -150,6 +153,7 @@ Reference: WOR-XXX investigation findings`
 **When**: Investigation produces only documentation (no executable code)
 
 **Workflow**:
+
 ```
 ARCHitect-in-CLI
 ├─ Tech Writer (Documentation)
@@ -166,6 +170,7 @@ ARCHitect-in-CLI
 **When**: Small code changes (<100 lines, non-critical)
 
 **Workflow**:
+
 ```
 ARCHitect-in-CLI
 ├─ Specialist (Implementation)
@@ -182,6 +187,7 @@ ARCHitect-in-CLI
 **When**: Complex code/automation created (triggers System Architect review)
 
 **Correct Workflow**:
+
 ```
 ARCHitect-in-CLI
 ├─ Specialist (Complex code)
@@ -194,6 +200,7 @@ ARCHitect-in-CLI
 **Example**: Deployment scripts, CI/CD workflows, infrastructure automation
 
 **WOR-321 Gap** (What NOT to do):
+
 ```
 ARCHitect-in-CLI
 ├─ Data Engineer (710-line script) ❌
@@ -208,6 +215,7 @@ ARCHitect-in-CLI
 **When**: Work requires multiple specialists with dependencies
 
 **Workflow**:
+
 ```
 ARCHitect-in-CLI
 ├─ BSA (Spec)
@@ -222,6 +230,7 @@ ARCHitect-in-CLI
 ```
 
 **Key**: System Architect review at TWO points:
+
 1. After complex code creation
 2. Before PR creation (final validation)
 
@@ -232,6 +241,7 @@ ARCHitect-in-CLI
 ### 1. Parallel vs Sequential Invocation
 
 **Parallel** (when no dependencies):
+
 ```typescript
 // Invoke multiple specialists simultaneously
 Task({ subagent_type: "tech-writer", ... })
@@ -240,6 +250,7 @@ Task({ subagent_type: "security-engineer", ... })
 ```
 
 **Sequential** (when dependencies exist):
+
 ```typescript
 // Step 1: Create code
 Task({ subagent_type: "data-engineer", ... })
@@ -254,6 +265,7 @@ Task({ subagent_type: "rte", ... })
 ### 2. Specialist Selection
 
 **Correct Assignments**:
+
 - Database changes → Data Engineer (NOT BE Developer)
 - Documentation → Tech Writer (NOT Data Engineer)
 - Security → Security Engineer (NOT QAS)
@@ -264,6 +276,7 @@ Task({ subagent_type: "rte", ... })
 ### 3. Deliverable Validation
 
 **Before accepting deliverable**:
+
 - [ ] Specialist completed all requested work
 - [ ] Output matches requirements
 - [ ] Quality standards met
@@ -324,6 +337,7 @@ Task({ subagent_type: "rte", ... })
 ### The Gap
 
 **Missing Workflow Steps**:
+
 ```
 Data Engineer delivers scripts
   ↓
@@ -345,6 +359,7 @@ PR created ← Created without approval
 ### The Fix (v1.1)
 
 **New MANDATORY Steps**:
+
 ```
 Data Engineer delivers scripts
   ↓
@@ -368,16 +383,19 @@ PR created ← Only after approval
 ## Success Metrics
 
 ### Orchestration Quality
+
 - 100% of necessary specialists invoked
 - Correct specialist for each task
 - Efficient parallel/sequential coordination
 
 ### Architectural Governance
+
 - 100% of complex automation reviewed
 - 0% unreviewed scripts >100 lines
 - System Architect approval before all PRs with complex code
 
 ### Delivery Quality
+
 - All acceptance criteria met
 - Evidence consistently attached
 - Documentation comprehensive
@@ -397,12 +415,14 @@ PR created ← Only after approval
 ## Version History
 
 ### v1.1 (2025-10-06)
+
 - **Added**: "When to Invoke System Architect" section
 - **Added**: WOR-321 retrospective and gap analysis
 - **Added**: Pattern 3 (Complex Automation with MANDATORY review)
 - **Rationale**: Prevent WOR-321-type gaps (unreviewed complex code)
 
 ### v1.0 (2025-10-05)
+
 - Initial ARCHitect-in-CLI role definition
 - Basic orchestration patterns
 - Workflow best practices
@@ -410,4 +430,3 @@ PR created ← Only after approval
 ---
 
 **Reference**: WOR-321 Migration Automation Workflow Report
-

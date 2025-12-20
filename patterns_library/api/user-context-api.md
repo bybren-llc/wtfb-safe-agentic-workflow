@@ -197,10 +197,10 @@ yarn ci:validate
 
 ```typescript
 // app/api/user/payments/route.ts
-import { NextRequest, NextResponse } from 'next/server';
-import { auth } from '@clerk/nextjs/server';
-import { withUserContext } from '@/lib/rls-context';
-import { prisma } from '@/lib/prisma';
+import { NextRequest, NextResponse } from "next/server";
+import { auth } from "@clerk/nextjs/server";
+import { withUserContext } from "@/lib/rls-context";
+import { prisma } from "@/lib/prisma";
 
 export async function GET(request: NextRequest) {
   try {
@@ -208,26 +208,25 @@ export async function GET(request: NextRequest) {
 
     if (!userId) {
       return NextResponse.json(
-        { error: 'Authentication required' },
-        { status: 401 }
+        { error: "Authentication required" },
+        { status: 401 },
       );
     }
 
     const payments = await withUserContext(prisma, userId, async (client) => {
       return client.payments.findMany({
         where: { user_id: userId },
-        orderBy: { created_at: 'desc' },
-        take: 50
+        orderBy: { created_at: "desc" },
+        take: 50,
       });
     });
 
     return NextResponse.json({ data: payments });
-
   } catch (error) {
-    console.error('Error fetching payments:', error);
+    console.error("Error fetching payments:", error);
     return NextResponse.json(
-      { error: 'Failed to fetch payments' },
-      { status: 500 }
+      { error: "Failed to fetch payments" },
+      { status: 500 },
     );
   }
 }

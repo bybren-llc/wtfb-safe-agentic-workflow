@@ -5,7 +5,9 @@ This directory contains security architecture and implementation guidelines.
 ## 📚 Documentation Files
 
 ### [SECURITY_FIRST_ARCHITECTURE.md](./SECURITY_FIRST_ARCHITECTURE.md)
+
 Comprehensive security architecture guide:
+
 - Security-first design principles
 - Authentication and authorization patterns
 - Data protection strategies
@@ -31,4 +33,3 @@ Comprehensive security architecture guide:
 2. **Least Privilege** - Minimal access by default
 3. **Fail Secure** - Errors should deny access
 4. **Security by Design** - Not an afterthought
-

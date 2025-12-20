@@ -32,12 +32,14 @@ The whitepaper provides a comprehensive foundation for implementing SAFe multi-a
 ### ✅ What Works Well
 
 **Technical Prerequisites**:
+
 - Claude API access clearly stated (Opus or Sonnet)
 - Rate limits specified (1000+ requests/day)
 - Infrastructure requirements listed
 - Development environment expectations clear
 
 **Organizational Prerequisites**:
+
 - Leadership buy-in requirement
 - 3-month commitment expectation
 - Learning curve warning
@@ -46,6 +48,7 @@ The whitepaper provides a comprehensive foundation for implementing SAFe multi-a
 ### ❌ Gaps Found
 
 **Budget Expectations Too Vague**:
+
 ```yaml
 # Current (Section 9.1.1)
 Budget: $500-2000/month for small team
@@ -63,6 +66,7 @@ Budget Calculation:
 ```
 
 **Missing Dependency Versions**:
+
 ```yaml
 # Current: Vague
 development_environment:
@@ -79,6 +83,7 @@ Specific Tool Versions:
 ```
 
 **No Team Size Guidance**:
+
 - "Small team (2-5)" appears in Section 9.2.2 but not prerequisites
 - No minimum team size stated
 - Solo developer feasibility unclear (is it possible?)
@@ -86,10 +91,12 @@ Specific Tool Versions:
 ### 🔧 Recommended Fixes
 
 1. **Add Budget Calculator** (Section 9.1.1):
+
 ```markdown
 ### Budget Estimation Tool
 
 Use this formula:
+
 - Base cost: $200/month (Claude API for single developer)
 - Per-developer cost: $150-300/month
 - Per-feature cost: $35 average
@@ -100,20 +107,23 @@ Example: 3 developers, 40 features/month
 ```
 
 2. **Add Tool Version Matrix** (Section 9.1.1):
+
 ```markdown
-| Tool | Minimum Version | Recommended | Required For |
-|------|-----------------|-------------|--------------|
-| Claude API | Sonnet 3.5 | Opus 3 | All agents |
-| Git | 2.30 | Latest | Version control |
-| Node.js | 18.0 | 20+ | Template repo |
-| Docker | 20.0 | Latest | Local DB |
+| Tool       | Minimum Version | Recommended | Required For    |
+| ---------- | --------------- | ----------- | --------------- |
+| Claude API | Sonnet 3.5      | Opus 3      | All agents      |
+| Git        | 2.30            | Latest      | Version control |
+| Node.js    | 18.0            | 20+         | Template repo   |
+| Docker     | 20.0            | Latest      | Local DB        |
 ```
 
 3. **Add Solo Developer Section** (Section 9.1.1):
+
 ```markdown
 ### Can I Use This Solo?
 
 YES, but with modifications:
+
 - Use condensed 5-agent workflow (BSA → Architect → Dev → QAS → RTE)
 - Skip redundant reviews
 - Focus on high-risk features only
@@ -127,12 +137,14 @@ YES, but with modifications:
 ### ✅ What Works Well
 
 **Clear Sequential Steps**:
+
 - Steps 1-5 logically ordered
 - Git clone command provided
 - Environment variable template approach
 - Agent prompt installation method
 
 **Phased Configuration**:
+
 - Smart approach: start with 5 agents, expand to 11
 - Progressive complexity
 - Test before full rollout
@@ -140,6 +152,7 @@ YES, but with modifications:
 ### ❌ Critical Gaps
 
 **Gap 1: Template Repository Doesn't Exist**
+
 ```bash
 # Step 1 says:
 git clone https://github.com/your-org/WTFB-SAFe-Agentic-Workflow
@@ -150,6 +163,7 @@ git clone https://github.com/your-org/WTFB-SAFe-Agentic-Workflow
 ```
 
 **Gap 2: Missing .env.template Content**
+
 ```bash
 # Step 2 says:
 cp .env.template .env
@@ -164,6 +178,7 @@ cp .env.template .env
 ```
 
 **Gap 3: Installation Scripts Don't Exist**
+
 ```bash
 # Step 3 mentions:
 ./scripts/install-prompts.sh --team
@@ -174,29 +189,37 @@ cp .env.template .env
 ```
 
 **Gap 4: No Validation Step**
+
 ```markdown
 # Installation ends at Step 5
+
 # Missing Step 6: Verify Installation
+
 # - How do I know it worked?
+
 # - Test commands to run?
+
 # - Expected output?
 ```
 
 ### 🔧 Recommended Fixes
 
 1. **Create Actual Starter Template** (WOR-326):
+
 ```markdown
 Create repository: github.com/ByBren-LLC/WTFB-SAFe-Starter-Template
 Contents:
-  - .env.template (with all variables commented)
-  - .claude/agents/ (all 11 agent prompts)
-  - scripts/install-prompts.sh
-  - scripts/validate-setup.sh
-  - patterns_library/ (starter patterns)
-  - README.md (quick start guide)
+
+- .env.template (with all variables commented)
+- .claude/agents/ (all 11 agent prompts)
+- scripts/install-prompts.sh
+- scripts/validate-setup.sh
+- patterns_library/ (starter patterns)
+- README.md (quick start guide)
 ```
 
 2. **Add .env.template Example** (Section 9.1.2):
+
 ```bash
 # Claude API Configuration
 CLAUDE_API_KEY=sk-ant-api03-...  # Get from console.anthropic.com
@@ -222,10 +245,12 @@ DATABASE_URL=postgresql://user:password@localhost:5432/dbname
 ```
 
 3. **Add Installation Validation** (Section 9.1.2):
-```markdown
+
+````markdown
 ### Step 6: Validate Installation
 
 Run validation script:
+
 ```bash
 ./scripts/validate-setup.sh
 
@@ -240,7 +265,9 @@ Run validation script:
 # If any ❌ appears, check:
 cat logs/setup-validation.log
 ```
-```
+````
+
+````
 
 ---
 
@@ -259,18 +286,20 @@ Example from Appendix A.1 (BSA):
 # WOR-XXX: [Feature Name] Specification
 ...
 \`\`\`
-```
+````
 
 **Problem**: This is a TEMPLATE, not a USABLE PROMPT.
 
 **What's missing**:
+
 1. **Actual Claude Code syntax** - How does BSA use Task tool?
 2. **Tool invocation examples** - Show Write tool usage
 3. **Error handling** - What if Linear ticket doesn't exist?
 4. **Handoff mechanism** - HOW does BSA pass work to System Architect?
 
 **Real BSA Prompt Should Include**:
-```markdown
+
+````markdown
 # BSA Agent Prompt (ACTUAL WORKING VERSION)
 
 You are the Business Systems Analyst (BSA) in a SAFe multi-agent workflow.
@@ -284,6 +313,7 @@ When you receive a Linear ticket (WOR-XXX):
    # Fetch ticket details
    linear issue view WOR-XXX
    ```
+````
 
 2. **Create specification file**:
    Use the Write tool to create `/specs/WOR-XXX-{feature}-spec.md`
@@ -310,11 +340,13 @@ When you receive a Linear ticket (WOR-XXX):
 User: "Analyze WOR-321 and create specification"
 
 You:
+
 1. Read Linear ticket WOR-321
 2. Create spec at /specs/WOR-321-migration-automation-spec.md
 3. Delegate to System Architect with Task tool
 4. Report: "Specification created, handed off to System Architect"
-```
+
+````
 
 **Issue 2: No Task Tool Usage Examples**
 
@@ -339,11 +371,12 @@ To delegate work to another agent:
 </task>
 
 The other agent will receive this and respond with their work.
-```
+````
 
 **Issue 3: No Error Scenario Handling**
 
 What if:
+
 - Linear ticket doesn't exist?
 - Previous agent failed?
 - Required file missing?
@@ -372,6 +405,7 @@ None of the prompts address failure modes.
    - Missing re-test procedures
 
 4. **Create "Agent Prompt Quick Reference"** (New Appendix A.4):
+
 ```markdown
 # Appendix A.4: Agent Prompt Quick Reference
 
@@ -379,33 +413,38 @@ None of the prompts address failure modes.
 
 Delegate work:
 <task>
-  <agent>System Architect</agent>
-  <description>Review WOR-XXX spec</description>
-  <input_files>
-    <file>/specs/WOR-XXX-spec.md</file>
-  </input_files>
-  <success_criteria>
-    <criterion>Architecture review document</criterion>
-  </success_criteria>
+<agent>System Architect</agent>
+<description>Review WOR-XXX spec</description>
+<input_files>
+<file>/specs/WOR-XXX-spec.md</file>
+</input_files>
+<success_criteria>
+<criterion>Architecture review document</criterion>
+</success_criteria>
 </task>
 
 ## Common Tool Patterns
 
 ### Read Files
+
 Use Read tool: Read /path/to/file.md
 
 ### Search Codebase
+
 Use Grep tool: Grep "pattern" app/
 
 ### Create Files
+
 Use Write tool: Write /path/to/new-file.md
 
 ### Run Commands
+
 Use Bash tool: Run `yarn test`
 
 ## Error Handling Template
 
 If task fails:
+
 1. Document error clearly
 2. Check for known issues (Section 7)
 3. Escalate to TDM if blocked
@@ -419,6 +458,7 @@ If task fails:
 ### ✅ What Works Well
 
 **Excellent Pattern Template Structure** (Appendix B.1):
+
 - Complete markdown template
 - Clear sections (Purpose, When to Use, Implementation)
 - Security checklist
@@ -427,6 +467,7 @@ If task fails:
 - Version history
 
 **Good Example** (RLS Context Pattern):
+
 - Copy-paste ready TypeScript
 - Clear customization guide
 - Security validation steps
@@ -436,6 +477,7 @@ If task fails:
 **Gap 1: Pattern Library Categories Listed But Not Provided**
 
 Section 5.2.2 lists:
+
 ```yaml
 patterns_library:
   api:
@@ -449,6 +491,7 @@ patterns_library:
 ```
 
 **But Appendix B only provides**:
+
 - Pattern template structure
 - Category list
 - NO actual pattern implementations
@@ -458,6 +501,7 @@ patterns_library:
 **Gap 2: No Anti-Pattern Examples**
 
 Section 7 mentions common mistakes:
+
 - Forgetting RLS context
 - Missing error handling
 - No input validation
@@ -469,11 +513,13 @@ New adopters don't know what to avoid.
 **Gap 3: Missing Pattern Discovery Instructions**
 
 Section 5.2.1 says "MUST search for existing patterns":
+
 ```bash
 grep -r "similar_feature" app/ lib/ components/
 ```
 
 **But**:
+
 - What if grep returns 50 files?
 - How to determine relevance?
 - What if multiple conflicting patterns exist?
@@ -482,6 +528,7 @@ grep -r "similar_feature" app/ lib/ components/
 ### 🔧 Recommended Fixes
 
 1. **Provide 5 Starter Patterns** (Appendix B.2):
+
 ```markdown
 # Appendix B.2: Starter Pattern Library
 
@@ -516,20 +563,24 @@ Provide COMPLETE implementations of:
 ```
 
 2. **Add Anti-Pattern Examples** (New Appendix B.3):
-```markdown
+
+````markdown
 # Appendix B.3: Anti-Patterns to Avoid
 
 ## Anti-Pattern 1: Direct Prisma Calls
 
 ❌ **Wrong**:
+
 ```typescript
 export async function getUser(userId: string) {
   return prisma.user.findUnique({ where: { id: userId } });
   // SECURITY ISSUE: No RLS context!
 }
 ```
+````
 
 ✅ **Correct**:
+
 ```typescript
 export async function getUser(userId: string) {
   return withUserContext(prisma, userId, async (client) => {
@@ -539,7 +590,8 @@ export async function getUser(userId: string) {
 ```
 
 [Continue with 5-10 critical anti-patterns]
-```
+
+````
 
 3. **Add Pattern Decision Tree** (Section 5.2.1):
 ```markdown
@@ -554,7 +606,7 @@ export async function getUser(userId: string) {
    ```bash
    ls patterns_library/api/*.md
    # Returns: rest-endpoint.md, graphql-query.md
-   ```
+````
 
 3. **Review pattern purpose**:
    Read first 10 lines of each pattern
@@ -574,7 +626,8 @@ export async function getUser(userId: string) {
    - Choose most specific
    - Document why in ADR
    - Flag for future pattern consolidation
-```
+
+````
 
 ---
 
@@ -720,7 +773,7 @@ export async function getUser(userId: string) {
 
 #### Week 1 Retrospective
 **Sentiment**: "Great idea, terrible documentation for external teams"
-**Blockers**: 
+**Blockers**:
 1. No working template
 2. Agent prompts incomplete
 3. No reference implementation accessible
@@ -982,3 +1035,4 @@ export async function getUser(userId: string) {
 ---
 
 **End of Report**
+````

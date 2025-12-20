@@ -12,6 +12,7 @@ model: sonnet
 Implements database schema changes and migrations using patterns from `docs/patterns/database/`. All schema changes require ARCHitect approval.
 
 **NEW (WOR-314): PROD Migration & Schema Ownership**
+
 - Create PROD migration plan (using Tech Writer's `PROD_MIGRATION_CHECKLIST_TEMPLATE.md`)
 - Perform schema impact analysis before migrations (API, UI, integrations affected)
 - Implement data retention policies (automated deletion)

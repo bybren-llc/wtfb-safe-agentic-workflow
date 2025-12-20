@@ -5,7 +5,9 @@ This directory contains CI/CD pipeline and DevOps documentation.
 ## 📚 Documentation Files
 
 ### [CI-CD-Pipeline-Guide.md](./CI-CD-Pipeline-Guide.md)
+
 Complete CI/CD pipeline documentation:
+
 - Multi-team git workflow
 - Branch protection rules
 - CI validation commands
@@ -31,4 +33,3 @@ Complete CI/CD pipeline documentation:
 2. **Run ci:validate locally** - `yarn ci:validate` before pushing
 3. **Use force-with-lease** - `git push --force-with-lease`
 4. **Follow PR template** - `.github/pull_request_template.md`
-

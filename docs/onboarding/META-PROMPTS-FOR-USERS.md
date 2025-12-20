@@ -32,7 +32,7 @@ Please help me with the following:
 2. **Agent Files**: I see agent files in two locations:
    - `.claude/agents/` (11 files)
    - `agent_providers/claude_code/prompts/` (11 files)
-   
+
    Which directory should I use, and how do I install them?
 
 3. **Environment Setup**: The implementation guide mentions `.env.template` but I don't see it in the repository. What environment variables do I need to configure?
@@ -388,4 +388,3 @@ Reference: Check AGENTS.md, CONTRIBUTING.md, and CI-CD-Pipeline-Guide.md for con
 ---
 
 **Questions?** Open an issue on GitHub or contact scott@wordstofilmby.com
-

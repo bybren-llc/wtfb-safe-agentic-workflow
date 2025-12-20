@@ -298,52 +298,59 @@ export async function PUT(
 ## Advanced Zod Patterns
 
 ### Conditional Validation
+
 ```typescript
-const ConditionalSchema = z.object({
-  userType: z.enum(['individual', 'business']),
-  // Conditionally require business fields
-  businessName: z.string().optional(),
-  taxId: z.string().optional()
-}).refine(
-  (data) => {
-    if (data.userType === 'business') {
-      return data.businessName && data.taxId;
-    }
-    return true;
-  },
-  {
-    message: 'Business name and tax ID required for business accounts',
-    path: ['businessName']
-  }
-);
+const ConditionalSchema = z
+  .object({
+    userType: z.enum(["individual", "business"]),
+    // Conditionally require business fields
+    businessName: z.string().optional(),
+    taxId: z.string().optional(),
+  })
+  .refine(
+    (data) => {
+      if (data.userType === "business") {
+        return data.businessName && data.taxId;
+      }
+      return true;
+    },
+    {
+      message: "Business name and tax ID required for business accounts",
+      path: ["businessName"],
+    },
+  );
 ```
 
 ### Transform Data
+
 ```typescript
 const TransformSchema = z.object({
-  price: z.string()
+  price: z
+    .string()
     .transform((val) => parseFloat(val))
     .pipe(z.number().positive()),
 
-  tags: z.string()
-    .transform((val) => val.split(',').map(t => t.trim()))
-    .pipe(z.array(z.string().min(1)))
+  tags: z
+    .string()
+    .transform((val) => val.split(",").map((t) => t.trim()))
+    .pipe(z.array(z.string().min(1))),
 });
 ```
 
 ### Union Types
+
 ```typescript
-const PaymentMethodSchema = z.discriminatedUnion('type', [
+const PaymentMethodSchema = z.discriminatedUnion("type", [
   z.object({
-    type: z.literal('card'),
+    type: z.literal("card"),
     cardNumber: z.string().length(16),
-    cvv: z.string().length(3)
+    cvv: z.string().length(3),
   }),
   z.object({
-    type: z.literal('bank'),
+    type: z.literal("bank"),
     accountNumber: z.string(),
-    routingNumber: z.string()
-  })
+    routingNumber: z.string(),
+  }),
 ]);
 ```
 
@@ -395,20 +402,19 @@ yarn test:integration
 ## Example: User Registration API
 
 ```typescript
-import { z } from 'zod';
+import { z } from "zod";
 
-const RegisterSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(8),
-  confirmPassword: z.string(),
-  tier: z.enum(['FREE', 'PRO']).default('FREE')
-}).refine(
-  (data) => data.password === data.confirmPassword,
-  {
-    message: 'Passwords do not match',
-    path: ['confirmPassword']
-  }
-);
+const RegisterSchema = z
+  .object({
+    email: z.string().email(),
+    password: z.string().min(8),
+    confirmPassword: z.string(),
+    tier: z.enum(["FREE", "PRO"]).default("FREE"),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords do not match",
+    path: ["confirmPassword"],
+  });
 
 export async function POST(request: NextRequest) {
   try {
@@ -422,15 +428,12 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     if (error instanceof z.ZodError) {
       return NextResponse.json(
-        { error: 'Validation failed', details: error.errors },
-        { status: 400 }
+        { error: "Validation failed", details: error.errors },
+        { status: 400 },
       );
     }
 
-    return NextResponse.json(
-      { error: 'Registration failed' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Registration failed" }, { status: 500 });
   }
 }
 ```

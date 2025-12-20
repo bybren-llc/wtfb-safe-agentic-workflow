@@ -10,6 +10,7 @@
 ## 🎯 Problem Statement
 
 The repository root directory has become cluttered with **17 files** (14 .md files + 3 other), making it difficult for new users to:
+
 - Identify essential files
 - Navigate documentation
 - Understand repository structure
@@ -23,7 +24,9 @@ The repository root directory has become cluttered with **17 files** (14 .md fil
 ## 📊 Proposed Changes
 
 ### Files to Keep in Root (9 files)
+
 ✅ Essential files that users expect at root level:
+
 - `README.md` - Primary entry point
 - `LICENSE` - MIT License
 - `CODE_OF_CONDUCT.md` - Community guidelines
@@ -39,21 +42,26 @@ The repository root directory has become cluttered with **17 files** (14 .md fil
 ### Files to Move (8 files)
 
 **To `docs/database/`** (4 files):
+
 - `DATA_DICTIONARY.md` - Schema template
 - `RLS_IMPLEMENTATION_GUIDE.md` - RLS patterns
 - `RLS_POLICY_CATALOG.md` - RLS policy template
 - `RLS_DATABASE_MIGRATION_SOP.md` - Migration SOP
 
 **To `docs/security/`** (1 file):
+
 - `SECURITY_FIRST_ARCHITECTURE.md` - Security patterns
 
 **To `docs/ci-cd/`** (1 file):
+
 - `CI-CD-Pipeline-Guide.md` - CI/CD standards
 
 **To `docs/archive/`** (1 file):
+
 - `README-TEMPLATE.md` - Archived template
 
 **To `scripts/`** (1 file):
+
 - `apply-workflow.sh` - Workflow script
 
 ---
@@ -71,7 +79,7 @@ The repository root directory has become cluttered with **17 files** (14 .md fil
 
 2. **`scripts/update-doc-references.sh`** (200 lines)
    - Updates all references in README.md
-   - Updates all references in docs/onboarding/*.md
+   - Updates all references in docs/onboarding/\*.md
    - Updates all references in agent prompts
    - Updates all references in whitepaper
    - Creates backups of all modified files
@@ -93,18 +101,21 @@ The repository root directory has become cluttered with **17 files** (14 .md fil
 After running the reorganization script:
 
 ### 1. File Structure
+
 - [ ] Root directory has ≤ 7 files
 - [ ] All moved files in correct subdirectories
 - [ ] Each new directory has README.md index
 - [ ] No orphaned files
 
 ### 2. Links and References
+
 - [ ] README.md links work
-- [ ] docs/onboarding/*.md links work
+- [ ] docs/onboarding/\*.md links work
 - [ ] Agent prompt references work
 - [ ] Whitepaper references work
 
 ### 3. Agent Functionality
+
 - [ ] @bsa invocation works
 - [ ] @system-architect invocation works
 - [ ] @data-engineer invocation works
@@ -112,6 +123,7 @@ After running the reorganization script:
 - [ ] All agents can find referenced docs
 
 ### 4. User Journey
+
 - [ ] README Quick Start for Agents works
 - [ ] docs/onboarding/AGENT-SETUP-GUIDE.md works
 - [ ] docs/onboarding/DAY-1-CHECKLIST.md works
@@ -122,12 +134,14 @@ After running the reorganization script:
 ## 📈 Expected Benefits
 
 ### Before Reorganization
+
 - **Root files**: 17
 - **User confusion**: HIGH
 - **Discoverability**: LOW
 - **Maintainability**: LOW
 
 ### After Reorganization
+
 - **Root files**: 9 (47% reduction)
 - **User confusion**: LOW
 - **Discoverability**: HIGH
@@ -165,33 +179,41 @@ After running the reorganization script:
 ## ⚠️ Risks & Mitigation
 
 ### Risk 1: Broken Links
+
 **Impact**: HIGH  
 **Probability**: MEDIUM  
-**Mitigation**: 
+**Mitigation**:
+
 - Automated reference update script
 - Comprehensive verification checklist
 - Backup files created before changes
 
 ### Risk 2: Agent Prompts Break
+
 **Impact**: HIGH  
 **Probability**: LOW  
 **Mitigation**:
+
 - Test all agent invocations after reorganization
 - Agent prompts updated systematically
 - Rollback plan available
 
 ### Risk 3: User Confusion
+
 **Impact**: MEDIUM  
 **Probability**: LOW  
 **Mitigation**:
+
 - Clear README.md navigation
 - README.md index in each new directory
 - Documentation of changes in commit message
 
 ### Risk 4: External Links Break
+
 **Impact**: LOW  
 **Probability**: LOW  
 **Mitigation**:
+
 - GitHub automatically redirects old file paths
 - Update external documentation if needed
 
@@ -272,4 +294,3 @@ Follow the detailed steps in `docs/REPOSITORY-REORGANIZATION-PLAN.md`.
 **Status**: READY FOR IMPLEMENTATION
 
 **Recommendation**: Create Linear ticket (e.g., WOR-327) and execute reorganization as part of ongoing documentation improvements.
-

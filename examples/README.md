@@ -18,6 +18,6 @@ The whitepaper (v1.0) documents the methodology with production validation.
 Code examples and templates will be added in v1.1 based on community feedback.
 
 For now, see:
+
 - [Section 12: Appendices](../whitepaper/section-12-appendices.md) for pattern templates
 - [Section 9: Implementation Guide](../whitepaper/section-9-implementation-guide.md) for setup instructions
-

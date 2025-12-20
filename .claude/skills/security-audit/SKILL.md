@@ -46,7 +46,7 @@ const query = `SELECT * FROM users WHERE id = ${userId}`; // Interpolated
 
 ```typescript
 // CORRECT: RLS context wrapper
-const users = await withUserContext(prisma, userId, async client => {
+const users = await withUserContext(prisma, userId, async (client) => {
   return client.user.findMany();
 });
 

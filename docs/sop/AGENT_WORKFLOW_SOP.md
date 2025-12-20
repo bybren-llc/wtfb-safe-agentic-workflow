@@ -23,6 +23,7 @@ This SOP defines four standard methods for agent workflow coordination:
 **When to Use**: Simple, focused tasks requiring single specialist
 
 **Examples**:
+
 - Documentation updates
 - Simple bug fixes
 - Configuration changes
@@ -56,6 +57,7 @@ ARCHitect-in-CLI
 **When to Use**: Standard feature development with multiple specialists
 
 **Examples**:
+
 - New feature implementation
 - Multi-component changes
 - Cross-team coordination
@@ -93,6 +95,7 @@ ARCHitect-in-CLI
 **When to Use**: Complex investigations requiring multiple specialists with dependencies
 
 **Examples**:
+
 - Root cause analysis
 - Complex automation creation
 - Multi-specialist coordination
@@ -134,6 +137,7 @@ ARCHitect-in-CLI (Orchestrator)
 **When to Use**: Complex automation/infrastructure code created during investigation
 
 **MANDATORY Triggers**:
+
 - Bash scripts >100 lines
 - CI/CD workflow changes
 - Infrastructure automation
@@ -158,8 +162,8 @@ Requirements:
 - Rollback capability
 - Validation checks
 
-Context: [Investigation findings, requirements, constraints]`
-})
+Context: [Investigation findings, requirements, constraints]`,
+});
 ```
 
 ### Step 2: System Architect Review (MANDATORY)
@@ -192,8 +196,8 @@ Decision Required:
 Context:
 [What automation does, why needed, production impact]
 
-Reference: WOR-XXX investigation findings`
-})
+Reference: WOR-XXX investigation findings`,
+});
 ```
 
 ### Step 3: Address Review Feedback
@@ -206,6 +210,7 @@ If System Architect requires fixes:
 4. **Repeat until approved**
 
 Example:
+
 ```typescript
 Task({
   subagent_type: "data-engineer",
@@ -220,8 +225,8 @@ Task({
 Please update scripts/deploy-migration-prod.sh to address all issues.
 
 Original script: [Attach current version]
-System Architect feedback: [Full review comments]`
-})
+System Architect feedback: [Full review comments]`,
+});
 ```
 
 ### Step 4: Create PR (Only After Approval)
@@ -267,24 +272,28 @@ What type of work?
 ### Complexity Assessment
 
 **Simple** (Method 1):
+
 - Single file changes
 - Documentation updates
 - Configuration tweaks
 - Bug fixes <50 lines
 
 **Standard** (Method 2):
+
 - Feature implementation
 - Multi-component changes
 - Standard user stories
 - Clear requirements
 
 **Complex** (Method 3):
+
 - Root cause analysis
 - Multi-specialist coordination
 - Investigation-driven work
 - Unclear requirements
 
 **Complex Code** (Method 4 - MANDATORY):
+
 - Bash scripts >100 lines
 - CI/CD workflows
 - Infrastructure automation
@@ -394,11 +403,13 @@ What type of work?
 ## Version History
 
 ### v1.1 (2025-10-06)
+
 - **Added**: Method 4 (System Architect Review for Complex Code)
 - **Rationale**: WOR-321 gap discovery (unreviewed complex automation)
 - **Impact**: Prevents future governance gaps
 
 ### v1.0 (2025-10-05)
+
 - Initial SOP with Methods 1-3
 - Basic workflow patterns
 - Quality gates defined
@@ -406,4 +417,3 @@ What type of work?
 ---
 
 **Reference**: WOR-321 Migration Automation Workflow Report
-

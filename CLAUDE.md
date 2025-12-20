@@ -1,4 +1,5 @@
 # CLAUDE.md
+
 ## AI Assistant Context for SAFe Multi-Agent Development
 
 This file provides guidance to AI coding assistants (Claude Code, Cursor, Augment, etc.) when working with code in this repository.
@@ -24,6 +25,7 @@ This is a **SAFe multi-agent development project** using the WTFB (Words to Film
 ### Your Role as an AI Assistant
 
 You are part of a **collaborative team** where:
+
 - ✅ Your input has equal weight with human contributors
 - ✅ You have "stop-the-line" authority for architectural concerns
 - ✅ You should search for existing patterns before creating new ones
@@ -31,6 +33,7 @@ You are part of a **collaborative team** where:
 - ✅ You follow SAFe methodology and respect the agent team structure
 
 **Key Resources**:
+
 - [AGENTS.md](AGENTS.md) - Quick reference for all 11 agent roles
 - [CONTRIBUTING.md](CONTRIBUTING.md) - Git workflow and commit standards
 - [docs/onboarding/AGENT-SETUP-GUIDE.md](docs/onboarding/AGENT-SETUP-GUIDE.md) - Agent installation and setup
@@ -118,6 +121,7 @@ This repository follows the SAFe Agentic Workflow structure:
 ```
 
 **Project-Specific Directories** (customize for your stack):
+
 - `{{SOURCE_DIR}}/` - Source code (e.g., `app/`, `src/`, `lib/`)
 - `{{COMPONENTS_DIR}}/` - Reusable components (if applicable)
 - `{{TESTS_DIR}}/` - Test files (e.g., `__tests__/`, `tests/`)
@@ -132,16 +136,19 @@ This repository follows the SAFe Agentic Workflow structure:
 This project uses 11 specialized AI agents (see [AGENTS.md](AGENTS.md) for details):
 
 **Planning & Coordination**:
+
 - **TDM** (Technical Delivery Manager) - Coordination, blocker escalation, Linear tickets
 - **BSA** (Business Systems Analyst) - Requirements, acceptance criteria, testing strategy
 - **System Architect** - Pattern validation, architectural decisions, ADRs
 
 **Implementation**:
+
 - **FE Developer** - Frontend components and user interactions
 - **BE Developer** - Backend logic, API routes, server-side code
 - **Data Engineer** - Database schema, migrations, RLS enforcement
 
 **Quality & Documentation**:
+
 - **QAS** (Quality Assurance Specialist) - Execute testing strategy, validate ACs
 - **Security Engineer** - Security validation, RLS checks, vulnerability assessment
 - **Tech Writer** - Documentation, guides, technical content
@@ -151,6 +158,7 @@ This project uses 11 specialized AI agents (see [AGENTS.md](AGENTS.md) for detai
 ### Agent Invocation Patterns
 
 **Simple Invocation** (for single-step tasks):
+
 ```
 @bsa Create a spec for user profile API endpoint
 @be-developer Implement the GET /api/user/profile endpoint
@@ -158,6 +166,7 @@ This project uses 11 specialized AI agents (see [AGENTS.md](AGENTS.md) for detai
 ```
 
 **Task Tool Invocation** (for complex, multi-step tasks):
+
 ```typescript
 Task({
   subagent_type: "bsa",
@@ -172,8 +181,8 @@ Task({
   1. Search for existing user/profile patterns
   2. Create user story with acceptance criteria
   3. Define testing strategy
-  4. Add #EXPORT_CRITICAL tags for security requirements`
-})
+  4. Add #EXPORT_CRITICAL tags for security requirements`,
+});
 ```
 
 **See [AGENTS.md](AGENTS.md) for complete invocation examples and agent capabilities.**
@@ -192,6 +201,7 @@ All work follows the SAFe hierarchy:
 4. **Enabler** → Technical work (e.g., "Set up RLS policies for user_profiles table")
 
 **Workflow**:
+
 1. BSA creates spec in `specs/{{TICKET_PREFIX}}-XXX-feature-spec.md`
 2. System Architect validates architectural approach
 3. Implementation agents execute with pattern discovery
@@ -213,18 +223,21 @@ Use these tags in specs to highlight critical decisions:
 Before implementing ANY feature:
 
 1. **Search Specs Directory**:
+
    ```bash
    ls specs/{{TICKET_PREFIX}}-*-spec.md | grep "similar_feature"
    grep -r "As a.*I want to" specs/
    ```
 
 2. **Search Codebase**:
+
    ```bash
    grep -r "feature_name|functionality" {{SOURCE_DIR}}/
    grep -r "component_pattern" {{COMPONENTS_DIR}}/
    ```
 
 3. **Search Pattern Library**:
+
    ```bash
    ls patterns_library/ && cat patterns_library/{{CATEGORY}}/{{PATTERN}}.md
    ```
@@ -264,6 +277,7 @@ You have **"stop-the-line" authority** for:
 - **Scalability Concerns**: Raise issues about solution scalability
 
 **When exercising this authority**:
+
 1. Clearly explain the concern with specific examples
 2. Propose alternative approaches
 3. Document the decision in an ADR (Architecture Decision Record)
@@ -288,11 +302,13 @@ All work requires evidence in Linear before Product Owner/Product Manager review
 **Provider**: {{AUTH_PROVIDER}} (e.g., Clerk, Auth0, NextAuth, Supabase Auth)
 
 **Configuration**:
+
 - Environment variables: See `.env.template`
 - Authentication routes: {{AUTH_ROUTES}} (e.g., `/sign-in`, `/sign-up`)
 - Protected routes: {{PROTECTED_ROUTES}} (e.g., `/dashboard`, `/api/user/*`)
 
 **Patterns**:
+
 - Follow authentication patterns in `patterns_library/auth/`
 - Consult [docs/security/SECURITY_FIRST_ARCHITECTURE.md](docs/security/SECURITY_FIRST_ARCHITECTURE.md)
 - Use RLS (Row-Level Security) for database access control
@@ -302,11 +318,13 @@ All work requires evidence in Linear before Product Owner/Product Manager review
 **Provider**: {{PAYMENT_PROVIDER}} (e.g., Stripe, PayPal, Square)
 
 **Configuration**:
+
 - Environment variables: See `.env.template`
 - Webhook endpoints: {{WEBHOOK_ROUTES}} (e.g., `/api/payments/webhook`)
 - Subscription models: See database schema in [docs/database/DATA_DICTIONARY.md](docs/database/DATA_DICTIONARY.md)
 
 **Patterns**:
+
 - Follow payment patterns in `patterns_library/payments/`
 - Implement idempotency for all payment operations
 - Use proper error handling and retry logic
@@ -316,11 +334,13 @@ All work requires evidence in Linear before Product Owner/Product Manager review
 **Provider**: {{ANALYTICS_PROVIDER}} (e.g., PostHog, Mixpanel, Amplitude)
 
 **Configuration**:
+
 - Environment variables: See `.env.template`
 - Privacy controls: GDPR/CCPA compliance required
 - Feature flags: A/B testing and gradual rollouts
 
 **Patterns**:
+
 - Privacy-first: No tracking without explicit user consent
 - Error boundaries: Analytics failures should not crash the app
 - Server-side tracking: For webhooks and API events
@@ -331,16 +351,19 @@ All work requires evidence in Linear before Product Owner/Product Manager review
 **ORM**: {{ORM_TOOL}} (e.g., Prisma, TypeORM, Sequelize)
 
 **Configuration**:
+
 - Environment variables: See `.env.template`
 - Connection pooling: {{CONNECTION_POOLING}} (e.g., PgBouncer, Prisma connection pool)
 - Migrations: {{MIGRATION_TOOL}} (e.g., Prisma Migrate, TypeORM migrations)
 
 **Schema Documentation**:
+
 - **SINGLE SOURCE OF TRUTH**: [docs/database/DATA_DICTIONARY.md](docs/database/DATA_DICTIONARY.md)
 - **RLS Implementation**: [docs/database/RLS_IMPLEMENTATION_GUIDE.md](docs/database/RLS_IMPLEMENTATION_GUIDE.md)
 - **Migration SOP**: [docs/database/RLS_DATABASE_MIGRATION_SOP.md](docs/database/RLS_DATABASE_MIGRATION_SOP.md)
 
 **Development Guidelines**:
+
 - ✅ **ALWAYS** use ORM for database operations (type safety)
 - ✅ **ALWAYS** use RLS context helpers (`withUserContext`, `withAdminContext`, `withSystemContext`)
 - ✅ **ALWAYS** create proper migrations (never use `db push` for production)
@@ -349,6 +372,7 @@ All work requires evidence in Linear before Product Owner/Product Manager review
 - ❌ **NEVER** bypass RLS policies (security risk)
 
 **Migration Workflow**:
+
 ```bash
 # 1. Update schema file (e.g., schema.prisma)
 # 2. Create migration
@@ -378,6 +402,7 @@ git commit -m "feat(db): add feature migration"
 **Config Format**: {{LINTER_CONFIG_FORMAT}} (e.g., `eslint.config.mjs`, `.eslintrc.json`, `pyproject.toml`)
 
 **Key Features**:
+
 - ✅ **Modern Configuration**: Uses latest config format for the linter
 - ✅ **Framework Integration**: Extends framework-specific rules (e.g., `next/core-web-vitals`, `react-hooks`)
 - ✅ **Custom Rules**: Project-specific rules for architectural patterns
@@ -385,12 +410,14 @@ git commit -m "feat(db): add feature migration"
 - ✅ **Build Artifact Ignoring**: Automatically excludes build directories
 
 **Linting Commands**:
+
 ```bash
 {{LINT_COMMAND}}          # Run linter on entire codebase
 {{LINT_FIX_COMMAND}}      # Auto-fix linting issues
 ```
 
 **Custom Rules Example** (customize for your project):
+
 ```typescript
 // Example: Enforce RLS context helpers for database operations
 {
@@ -400,6 +427,7 @@ git commit -m "feat(db): add feature migration"
 ```
 
 **Project-Specific Linting**:
+
 - Consult your linting configuration file (e.g., `eslint.config.mjs`, `.eslintrc.json`)
 - Follow architectural patterns enforced by custom rules
 - See [docs/sop/CODE_QUALITY_SOP.md](docs/sop/CODE_QUALITY_SOP.md) for detailed guidelines (if available)
@@ -415,6 +443,7 @@ git commit -m "feat(db): add feature migration"
 This repository uses an **automated CI/CD pipeline** that **ENFORCES** rebase-first workflow and prevents merge conflicts between teams.
 
 **🚨 REQUIRED READING BEFORE ANY DEVELOPMENT:**
+
 1. **CONTRIBUTING.md** - Complete contributor guide (MUST READ FIRST)
 2. **docs/ci-cd/CI-CD-Pipeline-Guide.md** - Detailed pipeline documentation
 3. **docs/workflow/{{WORKFLOW_GUIDE_NAME}}.md** - Team coordination guide
@@ -464,6 +493,7 @@ This repository uses an **automated CI/CD pipeline** that **ENFORCES** rebase-fi
 ### Code Ownership
 
 Key areas require specific team review (see `.github/CODEOWNERS`):
+
 - **Core config files**: @{{ARCHITECT_GITHUB_HANDLE}} (ARCHitect-in-the-IDE)
 - **Payment features**: @{{PAYMENT_TEAM}} @{{ARCHITECT_GITHUB_HANDLE}}
 - **Authentication**: @{{AUTH_TEAM}} @{{ARCHITECT_GITHUB_HANDLE}}
