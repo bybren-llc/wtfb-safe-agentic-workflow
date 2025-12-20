@@ -258,17 +258,131 @@ cd WTFB-SAFe-Agentic-Workflow
 
 ---
 
+## 🔧 Claude Code Harness
+
+This repository includes a **battle-tested Claude Code harness** adopted from production use. The harness implements a three-layer architecture that reduces agent cognitive load by ~40%:
+
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│                      Claude Code Harness                              │
+├──────────────────────────────────────────────────────────────────────┤
+│                                                                       │
+│  LAYER 1: HOOKS (Automatic Guardrails)                               │
+│  ├─ Trigger: Events (SessionStart, PreToolUse, PostToolUse)          │
+│  ├─ Invocation: Automatic, no user action                            │
+│  ├─ Purpose: Reminders, blockers, auto-formatting                    │
+│  └─ Examples: Push blocker, commit format reminder                   │
+│                                                                       │
+│  LAYER 2: SLASH COMMANDS (User-Invoked Workflows)                    │
+│  ├─ Trigger: User types /command-name                                │
+│  ├─ Invocation: Explicit user request                                │
+│  ├─ Purpose: Multi-step workflows, deployments, validations          │
+│  └─ Examples: /start-work, /pre-pr, /remote-deploy                   │
+│                                                                       │
+│  LAYER 3: SKILLS (Model-Invoked Expertise)                           │
+│  ├─ Trigger: Claude detects relevant context                         │
+│  ├─ Invocation: Model decision, transparent to user                  │
+│  ├─ Purpose: Pattern enforcement, domain knowledge injection         │
+│  └─ Examples: pattern-discovery, rls-patterns, api-patterns          │
+│                                                                       │
+└──────────────────────────────────────────────────────────────────────┘
+```
+
+### Why Three Layers?
+
+| Layer    | Best For                                        | User Awareness                            |
+|----------|------------------------------------------------|-------------------------------------------|
+| Hooks    | Safety rails that should always apply           | Low (runs silently or with brief message) |
+| Commands | Complex workflows user consciously initiates    | High (user explicitly invokes)            |
+| Skills   | Domain expertise that should apply contextually | Medium (Claude mentions when relevant)    |
+
+### 17 Model-Invoked Skills
+
+Skills are loaded progressively—metadata at startup, full content when relevant:
+
+| Skill                    | Trigger Context                        | Purpose                                    |
+|--------------------------|----------------------------------------|--------------------------------------------|
+| `pattern-discovery`      | Before writing code                    | Search patterns before implementing        |
+| `wtfb-workflow`          | Commits, branches, PRs                 | SAFe workflow patterns                     |
+| `rls-patterns`           | Database operations                    | RLS context helpers, security              |
+| `frontend-patterns`      | UI component work                      | Next.js/React/shadcn conventions           |
+| `api-patterns`           | API route creation                     | Route structure and error handling         |
+| `testing-patterns`       | Writing tests                          | Jest/Playwright patterns                   |
+| `stripe-patterns`        | Payment integration                    | Payment patterns, webhook safety           |
+| `security-audit`         | Security validation                    | RLS validation, vulnerability scanning     |
+| `migration-patterns`     | Database migrations                    | Schema migration SOPs, rollback            |
+| `spec-creation`          | Writing specs                          | Spec templates, acceptance criteria        |
+| `orchestration-patterns` | Multi-step agent work                  | Agent loop, evidence-based delivery        |
+| `agent-coordination`     | Multi-agent workflows                  | Assignment matrix, escalation patterns     |
+| `release-patterns`       | PR creation, releases                  | PR templates, CI validation                |
+| `deployment-sop`         | Deploying to environments              | Deployment workflow, rollback              |
+| `linear-sop`             | Ticket management                      | Linear best practices                      |
+| `confluence-docs`        | Documentation creation                 | Doc templates, standards                   |
+| `git-advanced`           | Complex git operations                 | Rebase, bisect, conflict resolution        |
+
+### 23 Slash Commands
+
+Commands are organized by workflow phase:
+
+**Workflow Commands** (7):
+- `/start-work` - Begin new ticket with proper workflow
+- `/pre-pr` - Run complete validation before PR
+- `/end-work` - Complete work session cleanly
+- `/check-workflow` - Quick status check
+- `/update-docs` - Identify and update documentation
+- `/retro` - Conduct retrospective analysis
+- `/sync-linear` - Sync with Linear ticket
+
+**Local Operations** (3):
+- `/local-sync` - Full sync after git pull
+- `/local-deploy` - Deploy to local Docker
+- `/quick-fix` - Fast-track for small fixes
+
+**Remote Operations** (5):
+- `/remote-status` - Check Docker environment
+- `/remote-deploy` - Deploy to Pop OS
+- `/remote-health` - Full health dashboard
+- `/remote-logs` - View container logs
+- `/remote-rollback` - Rollback deployment
+
+**Other** (3):
+- `/test-pr-docker` - Test PR with Docker build
+- `/audit-deps` - Dependency audit
+- `/search-pattern` - Search code patterns
+
+### Harness Documentation
+
+For complete harness documentation, see:
+
+- **Setup Guide**: [.claude/SETUP.md](.claude/SETUP.md)
+- **Harness README**: [.claude/README.md](.claude/README.md)
+- **Troubleshooting**: [.claude/TROUBLESHOOTING.md](.claude/TROUBLESHOOTING.md)
+
+**Whitepapers** (detailed architecture and philosophy):
+
+- [Claude Code Harness Modernization](docs/whitepapers/CLAUDE-CODE-HARNESS-MODERNIZATION-WOR-444.md) - Complete technical documentation
+- [Agent Perspective: Why This Harness Works](docs/whitepapers/CLAUDE-CODE-HARNESS-AGENT-PERSPECTIVE.md) - Philosophy and design principles
+- [Knowledge Transfer Meta-Prompt](docs/whitepapers/CLAUDE-CODE-HARNESS-KT-META-PROMPT.md) - Adoption guide for other projects
+
+---
+
 ## 🏗️ Repository Structure
 
 ```text
 WTFB-SAFe-Agentic-Workflow/
+├── .claude/                 # Claude Code harness configuration
+│   ├── commands/            # 23 slash commands for workflow automation
+│   ├── skills/              # 17 model-invoked skills for domain expertise
+│   ├── agents/              # 11 SAFe agent profiles
+│   └── hooks-config.json    # Automatic guardrails and reminders
 ├── whitepaper/              # Complete whitepaper (12 sections, ~270KB)
 │   ├── data/                # Supporting data and metrics (6 files)
 │   └── validation/          # Meta-circular validation evidence (19 files)
+├── docs/                    # Documentation
+│   ├── whitepapers/         # Harness architecture and philosophy
+│   ├── onboarding/          # Getting started guides
+│   └── ...                  # Additional documentation
 ├── specs/                   # Implementation specifications
-├── examples/                # Coming in v1.1
-├── patterns/                # Whitepaper patterns (see also patterns_library/)
-├── templates/               # Coming in v1.1
 ├── patterns_library/        # Existing production patterns (11 patterns)
 ├── agent_providers/         # Claude Code & Augment configurations
 ├── project_workflow/        # SAFe workflow templates
@@ -359,8 +473,8 @@ See [whitepaper/validation/VALIDATION-SUMMARY.md](whitepaper/validation/VALIDATI
 
 ---
 
-**Version**: 1.0 (October 2025)  
+**Version**: 1.1 (December 2025)
 **Status**: Production-validated, academically honest, publication-ready
 
-**🎉 This repository contains both the whitepaper AND the complete working template for implementing the methodology!**
+**🎉 This repository contains the whitepaper, complete working template, AND a battle-tested Claude Code harness for implementing the methodology!**
 
