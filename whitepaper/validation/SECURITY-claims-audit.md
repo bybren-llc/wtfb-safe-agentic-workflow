@@ -33,11 +33,12 @@ The whitepaper demonstrates **responsible security documentation** overall, with
 **Problem**: This claim is **misleading and dangerous** for several reasons:
 
 1. **Sample Size Too Small**: 12 violations is not statistically significant to claim 100% detection
-2. **Unknown Unknowns**: You can only detect violations you *find* - there may be undetected violations
+2. **Unknown Unknowns**: You can only detect violations you _find_ - there may be undetected violations
 3. **False Security Confidence**: Readers may assume RLS is "perfectly protected"
-4. **Detection vs Prevention**: Catching 100% of *found* violations ≠ preventing all violations
+4. **Detection vs Prevention**: Catching 100% of _found_ violations ≠ preventing all violations
 
 **Security Risk**: Organizations may adopt this methodology believing RLS violations are "impossible", leading to:
+
 - Reduced vigilance in security reviews
 - Over-reliance on automated tooling
 - Complacency in manual security audits
@@ -52,8 +53,8 @@ The whitepaper demonstrates **responsible security documentation** overall, with
 **Add Disclaimer**:
 
 ```markdown
-**Security Disclaimer**: The 12/12 detection rate represents our current track record, 
-not a guarantee of perfect detection. Security validation is probabilistic, not deterministic. 
+**Security Disclaimer**: The 12/12 detection rate represents our current track record,
+not a guarantee of perfect detection. Security validation is probabilistic, not deterministic.
 No security methodology can claim 100% detection of unknown vulnerabilities.
 ```
 
@@ -62,11 +63,12 @@ No security methodology can claim 100% detection of unknown vulnerabilities.
 **Location**: `section-7-limitations-honest-assessment.md:195`
 
 ```markdown
-**Real Incident**: Prompt update caused System Architect to miss RLS violations 
+**Real Incident**: Prompt update caused System Architect to miss RLS violations
 for 3 days until discovered.
 ```
 
 **Assessment**: ✅ EXCELLENT - This is **exactly** the kind of honest security disclosure needed. Shows:
+
 - Real security limitations
 - Prompt reliability issues
 - Human discovery requirement
@@ -88,6 +90,7 @@ for 3 days until discovered.
 
 ```markdown
 Root Cause Analysis (147 incidents):
+
 - Missing security validation: 31 incidents (21%)
 ```
 
@@ -116,6 +119,7 @@ Root Cause Analysis (147 incidents):
 **Location**: Multiple references to Clerk authentication
 
 **Assessment**: ✅ GOOD
+
 - No overstated claims about Clerk security
 - Appropriate use of authentication examples
 - Missing authentication properly flagged as security issue (WOR-321)
@@ -127,6 +131,7 @@ Root Cause Analysis (147 incidents):
 
 ```markdown
 ## Security Checklist
+
 - [ ] Input validation with Zod
 - [ ] RLS context enforced (if database operation)
 - [ ] Authentication verified
@@ -136,6 +141,7 @@ Root Cause Analysis (147 incidents):
 ```
 
 **Assessment**: ✅ EXCELLENT
+
 - Comprehensive security checklist
 - Appropriate security layers
 - Input validation emphasized
@@ -150,19 +156,20 @@ Root Cause Analysis (147 incidents):
 **Location**: `section-12-appendices.md:325-350`
 
 ```typescript
-import { withUserContext } from '@/lib/db/rls-helpers';
+import { withUserContext } from "@/lib/db/rls-helpers";
 
 const result = await withUserContext(prisma, userId, async (client) => {
   return client.tableName.create({
     data: {
       ...validated.data,
-      user_id: userId
-    }
+      user_id: userId,
+    },
   });
 });
 ```
 
 **Assessment**: ✅ SECURE
+
 - Proper RLS context wrapper usage
 - User ID properly scoped
 - Transaction-based security context
@@ -184,11 +191,12 @@ const InputSchema = z.object({
   userId: z.string().uuid(),
   data: z.object({
     // your schema here
-  })
+  }),
 });
 ```
 
 **Assessment**: ✅ EXCELLENT
+
 - Zod schema validation
 - UUID validation for user IDs
 - Type-safe input handling
@@ -203,17 +211,20 @@ const InputSchema = z.object({
 **Location**: `section-6-case-studies.md` (WOR-321 detailed analysis)
 
 **Issues Disclosed**:
+
 1. Direct Prisma calls bypassing RLS (found 3 locations)
 2. Missing authentication on validation endpoint
 3. No transaction boundaries for multi-table updates
 
 **Assessment**: ✅ RESPONSIBLE DISCLOSURE
+
 - Issues described generically (no exploit details)
 - Remediation steps included
 - No specific code paths exposed
 - Educational value preserved
 
 **Positive Pattern**: Issues are shown as "Found → Fixed → Verified" which:
+
 - Shows vulnerability was remediated
 - Demonstrates security review effectiveness
 - Doesn't expose current vulnerabilities
@@ -225,12 +236,14 @@ const InputSchema = z.object({
 
 ```markdown
 **Almost Leaked Customer Data** (WOR-198)
+
 - QAS caught direct database access bypassing RLS
 - Would have exposed 10K user records
 - Caught 2 hours before production deploy
 ```
 
 **Assessment**: ✅ EXCELLENT DISCLOSURE
+
 - Honest about near-miss
 - Shows defense-in-depth working
 - No specific vulnerability details
@@ -249,7 +262,8 @@ const InputSchema = z.object({
 | **Test Coverage** | 67% | 89% | p < 0.01 |
 ```
 
-**Problem**: 
+**Problem**:
+
 - What does "test coverage" mean for security?
 - Does this include security test coverage?
 - Is 89% adequate for high-risk security features?
@@ -257,8 +271,8 @@ const InputSchema = z.object({
 **Recommendation**: Clarify:
 
 ```markdown
-**Note**: Test coverage metrics include functional tests. Security-specific 
-test coverage (authentication, authorization, RLS enforcement) should be 
+**Note**: Test coverage metrics include functional tests. Security-specific
+test coverage (authentication, authorization, RLS enforcement) should be
 measured separately and target higher thresholds (95%+) for critical paths.
 ```
 
@@ -287,7 +301,7 @@ measured separately and target higher thresholds (95%+) for critical paths.
 
 ### Minor (Clarifications Needed)
 
-4. **Test Coverage Ambiguity** 
+4. **Test Coverage Ambiguity**
    - Clarify security test coverage separately
    - Set higher bar for security-critical features
 
@@ -300,16 +314,19 @@ measured separately and target higher thresholds (95%+) for critical paths.
 ## Overstated Claims
 
 ### Claim 1: "100% Detection Rate"
+
 **Location**: section-7-limitations-honest-assessment.md
 **Issue**: Statistically invalid, creates false confidence
 **Recommended Revision**: "12/12 track record" with disclaimer
 
 ### Claim 2: "89% Security Vulnerabilities"
+
 **Location**: section-1-executive-summary.md
 **Issue**: Unsupported by provided data
 **Recommended Revision**: Remove or provide source data
 
 ### Claim 3: "Security validation catches 100% of RLS violations"
+
 **Location**: section-7-limitations-honest-assessment.md:24
 **Issue**: Conflates tooling detection with actual security posture
 **Recommended Revision**: "Strong track record (12/12) with caveats"
@@ -321,6 +338,7 @@ measured separately and target higher thresholds (95%+) for critical paths.
 ### GOOD NEWS: No Security Anti-Patterns Found
 
 The whitepaper does **NOT** promote:
+
 - ❌ Authentication bypass
 - ❌ SQL injection vulnerabilities
 - ❌ Insecure direct object references
@@ -329,6 +347,7 @@ The whitepaper does **NOT** promote:
 - ❌ Security through obscurity
 
 **Positive Security Patterns Promoted**:
+
 - ✅ Defense in depth (RLS + auth + validation)
 - ✅ Least privilege (withUserContext scoping)
 - ✅ Input validation (Zod schemas)
@@ -342,7 +361,7 @@ The whitepaper does **NOT** promote:
 ### MANDATORY Revisions (Before Publication)
 
 1. **REVISE "100% Detection" Claims**
-   - Change to "12/12 track record" 
+   - Change to "12/12 track record"
    - Add security disclaimer about probabilistic detection
    - Emphasize continuous vigilance requirement
 
@@ -356,8 +375,8 @@ The whitepaper does **NOT** promote:
 ```markdown
 ## Security Methodology Disclaimer
 
-This whitepaper describes security practices that have shown strong results 
-in our specific context (12/12 RLS violation detection, 0 production security 
+This whitepaper describes security practices that have shown strong results
+in our specific context (12/12 RLS violation detection, 0 production security
 incidents). However:
 
 - Security is probabilistic, not deterministic
@@ -393,11 +412,13 @@ No development methodology, including this one, can claim perfect security.
 **Status**: ⚠️ REVISIONS REQUIRED BEFORE SECURITY SIGN-OFF
 
 **Blockers**:
+
 1. "100% detection" claim must be revised
 2. "89% security vulnerabilities" claim must be sourced or removed
 3. Security methodology disclaimer must be added
 
 **After Revisions**:
+
 - Security posture: GOOD
 - Responsible disclosure: EXCELLENT
 - Security patterns: SECURE

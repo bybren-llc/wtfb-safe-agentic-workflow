@@ -56,7 +56,7 @@ describe("User payments", () => {
 
   beforeEach(async () => {
     // Create test user with RLS context
-    await withSystemContext(prisma, "test", async client => {
+    await withSystemContext(prisma, "test", async (client) => {
       await client.user.create({
         data: {
           user_id: testUserId,
@@ -69,11 +69,15 @@ describe("User payments", () => {
   });
 
   it("should only see own payments", async () => {
-    const payments = await withUserContext(prisma, testUserId, async client => {
-      return client.payments.findMany();
-    });
+    const payments = await withUserContext(
+      prisma,
+      testUserId,
+      async (client) => {
+        return client.payments.findMany();
+      },
+    );
     // RLS ensures only this user's payments returned
-    expect(payments.every(p => p.user_id === testUserId)).toBe(true);
+    expect(payments.every((p) => p.user_id === testUserId)).toBe(true);
   });
 });
 ```

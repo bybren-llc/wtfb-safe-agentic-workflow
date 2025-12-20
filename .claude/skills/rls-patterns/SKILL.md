@@ -43,17 +43,17 @@ import {
 } from "@/lib/rls-context";
 
 // ✅ CORRECT - User context for user operations
-const user = await withUserContext(prisma, userId, async client => {
+const user = await withUserContext(prisma, userId, async (client) => {
   return client.user.findUnique({ where: { user_id: userId } });
 });
 
 // ✅ CORRECT - Admin context for admin operations
-const webhooks = await withAdminContext(prisma, userId, async client => {
+const webhooks = await withAdminContext(prisma, userId, async (client) => {
   return client.webhook_events.findMany();
 });
 
 // ✅ CORRECT - System context for webhooks/background tasks
-const event = await withSystemContext(prisma, "webhook", async client => {
+const event = await withSystemContext(prisma, "webhook", async (client) => {
   return client.webhook_events.create({ data: eventData });
 });
 ```
@@ -70,7 +70,7 @@ const event = await withSystemContext(prisma, "webhook", async client => {
 - Course enrollments
 
 ```typescript
-const payments = await withUserContext(prisma, userId, async client => {
+const payments = await withUserContext(prisma, userId, async (client) => {
   return client.payments.findMany({ where: { user_id: userId } });
 });
 ```
@@ -84,7 +84,7 @@ const payments = await withUserContext(prisma, userId, async client => {
 - Accessing payment failures
 
 ```typescript
-const disputes = await withAdminContext(prisma, adminUserId, async client => {
+const disputes = await withAdminContext(prisma, adminUserId, async (client) => {
   return client.disputes.findMany();
 });
 ```
@@ -99,7 +99,7 @@ const disputes = await withAdminContext(prisma, adminUserId, async client => {
 
 ```typescript
 // Stripe webhook handler
-await withSystemContext(prisma, "webhook", async client => {
+await withSystemContext(prisma, "webhook", async (client) => {
   await client.payments.create({ data: paymentData });
 });
 ```
@@ -117,7 +117,7 @@ import { prisma } from "@/lib/prisma";
 export const dynamic = "force-dynamic";
 
 async function getAdminData() {
-  return await withAdminContext(prisma, userId, async client => {
+  return await withAdminContext(prisma, userId, async (client) => {
     return client.someTable.findMany();
   });
 }
@@ -173,7 +173,7 @@ import { prisma } from "@/lib/prisma";
 export async function GET() {
   const { userId } = await requireAuth();
 
-  const payments = await withUserContext(prisma, userId, async client => {
+  const payments = await withUserContext(prisma, userId, async (client) => {
     return client.payments.findMany({
       where: { user_id: userId },
       orderBy: { created_at: "desc" },
@@ -194,7 +194,7 @@ import { prisma } from "@/lib/prisma";
 export async function POST(req: Request) {
   // Verify webhook signature first...
 
-  await withSystemContext(prisma, "webhook", async client => {
+  await withSystemContext(prisma, "webhook", async (client) => {
     await client.webhook_events.create({
       data: {
         event_type: event.type,

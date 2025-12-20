@@ -1,4 +1,5 @@
 # Security-First Architecture Assessment: {{PROJECT_NAME}} Development Standards
+
 **Strategic Analysis for Development Teams**
 
 > **📋 Confluence Reference**: [Security-First Architecture Assessment](https://{{ARCHITECT_GITHUB_HANDLE}}.atlassian.net/wiki/spaces/WA/pages/355565570/Security-First+Architecture+Assessment+{{PROJECT_NAME}}+Development+Standards)
@@ -10,6 +11,7 @@
 ## Quick Reference
 
 ### 🏗️ Three-Tier Security Model
+
 ```
 Clerk Organization (Source of Truth)
          ↓
@@ -21,6 +23,7 @@ RLS Enforcement (Data Protection)
 ### 🚀 Mandatory Patterns for All Services
 
 #### Authentication Context Pattern
+
 ```typescript
 // REQUIRED for all user operations
 const userData = await withUserContext(prisma, userId, async (client) => {
@@ -34,25 +37,27 @@ const adminData = await withAdminContext(prisma, async (client) => {
 ```
 
 #### Authorization Enforcement Pattern
+
 ```typescript
 // REQUIRED at API route entry points
 await requireAdminAuth(); // Throws if not authorized
 
 // REQUIRED for role-based feature access
 const userRole = await getUserRole(userId);
-if (!hasPermission(userRole, 'feature:scriptwriting:advanced')) {
-  throw new Error('Insufficient permissions');
+if (!hasPermission(userRole, "feature:scriptwriting:advanced")) {
+  throw new Error("Insufficient permissions");
 }
 ```
 
 #### Audit Trail Pattern
+
 ```typescript
 // REQUIRED for all business-critical operations
 await auditLog({
   user_id: userId,
-  action: 'script:created',
+  action: "script:created",
   resource_id: scriptId,
-  metadata: { script_type: 'feature', genre: 'thriller' }
+  metadata: { script_type: "feature", genre: "thriller" },
 });
 ```
 
@@ -61,6 +66,7 @@ await auditLog({
 ## 🎯 Key Findings for SOLID/DRY Teams
 
 ### Enterprise-Ready Security
+
 - **SOC2/GDPR/CCPA Compliant**: Complete audit trails and data isolation
 - **Multi-Tenant Architecture**: Organization-based user isolation
 - **Performance Optimized**: < 5ms security overhead per request
@@ -89,12 +95,14 @@ await auditLog({
 ## 📊 Performance & Compliance Status
 
 ### Current Metrics
+
 - **Security Overhead**: < 5ms per request
 - **Compliance Ready**: SOC2, GDPR, CCPA, ISO 27001
 - **Scalability**: Horizontal scale ready, cache-friendly
 - **Developer Impact**: Faster development through solved patterns
 
 ### Optimization Opportunities
+
 - Role caching (5min TTL recommended)
 - Batch permission checks for multi-feature services
 - Redis integration for role lookups
@@ -104,6 +112,7 @@ await auditLog({
 ## 🚀 Future Service Requirements
 
 **Every new {{PROJECT_NAME}} service MUST**:
+
 1. Use `withUserContext`/`withAdminContext` for data access
 2. Implement service-specific auth extensions
 3. Include comprehensive audit logging
@@ -111,6 +120,7 @@ await auditLog({
 5. Test security boundaries thoroughly
 
 **Service Examples**:
+
 - **Scriptwriting**: User ownership + collaboration access patterns
 - **Pitching**: User-specific access with different sharing rules
 - **Analytics**: Admin-only access with user data aggregation
@@ -120,17 +130,20 @@ await auditLog({
 ## 📋 Action Items by Team
 
 ### SOLID/DRY Workflow Teams
+
 - [ ] Review security pattern preservation guidelines
 - [ ] Integrate security tests in workflow optimizations
 - [ ] Document any auth-related changes with security justification
 
 ### Future Service Teams
+
 - [ ] Design auth requirements before coding
 - [ ] Use established auth utilities and patterns
 - [ ] Implement comprehensive audit logging
 - [ ] Test role boundaries and data isolation
 
 ### Operations Teams
+
 - [ ] Monitor security metrics and auth failures
 - [ ] Quarterly review of user roles and permissions
 - [ ] Maintain incident response procedures
@@ -166,4 +179,4 @@ The {{PROJECT_NAME}} security architecture represents **mature enterprise thinki
 **Version**: 1.0
 **Classification**: Internal Development Standards
 
-*This document should be reviewed quarterly to reflect architectural evolution.*
+_This document should be reviewed quarterly to reflect architectural evolution._

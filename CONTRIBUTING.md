@@ -8,6 +8,7 @@ Welcome to {{PROJECT_NAME}}-app! This guide covers everything you need to know t
 **For AI Agents**: Focus on [AI Agent Guidelines](#ai-agent-guidelines) and [Workflow Process](#workflow-process)
 
 ## 📋 Table of Contents
+
 - [Prerequisites & Setup](#prerequisites--setup)
 - [AI Agent Guidelines](#ai-agent-guidelines)
 - [Branch Naming Conventions](#branch-naming-conventions)
@@ -23,6 +24,7 @@ Welcome to {{PROJECT_NAME}}-app! This guide covers everything you need to know t
 ### For Human Developers
 
 1. **Install Dependencies**:
+
    ```bash
    # Install Node.js 18+ and Yarn
    node --version  # Should be 18+
@@ -30,6 +32,7 @@ Welcome to {{PROJECT_NAME}}-app! This guide covers everything you need to know t
    ```
 
 2. **Clone and Setup**:
+
    ```bash
    git clone https://github.com/ByBren-LLC/{{PROJECT_NAME}}-app.git
    cd {{PROJECT_NAME}}-app
@@ -37,12 +40,14 @@ Welcome to {{PROJECT_NAME}}-app! This guide covers everything you need to know t
    ```
 
 3. **Environment Setup**:
+
    ```bash
    cp .env.template .env
    # Fill in your environment variables
    ```
 
 4. **Database Setup**:
+
    ```bash
    docker-compose up -d  # Start PostgreSQL
    npx prisma migrate dev
@@ -57,6 +62,7 @@ Welcome to {{PROJECT_NAME}}-app! This guide covers everything you need to know t
 ### For AI Agents
 
 AI agents (Claude Code, Augment agents) should:
+
 1. **Read this entire document** before starting work
 2. **Follow all workflow processes** exactly as human developers
 3. **Use the PR template** at `.github/pull_request_template.md`
@@ -68,6 +74,7 @@ AI agents (Claude Code, Augment agents) should:
 ### Required Behavior for AI Agents
 
 **✅ MUST DO**:
+
 - Follow the exact branch naming convention: `{{TICKET_PREFIX}}-{number}-{description}`
 - Use SAFe commit message format with Linear ticket references
 - Run `yarn ci:validate` before pushing any code
@@ -77,6 +84,7 @@ AI agents (Claude Code, Augment agents) should:
 - **Implementation Tickets**: Follow ready-to-implement tickets in `docs/technical-improvements/07-implementation-roadmap.md#immediate-implementation-tickets`
 
 **❌ NEVER DO**:
+
 - Skip the CI/CD validation steps
 - Create branches without Linear ticket numbers
 - Use merge commits (always rebase)
@@ -108,6 +116,7 @@ git push --force-with-lease origin {{TICKET_PREFIX}}-123-implement-feature
 **Ready-to-Implement Tickets**: See `docs/technical-improvements/07-implementation-roadmap.md#immediate-implementation-tickets`
 
 **For each implementation ticket:**
+
 1. **Check Acceptance Criteria**: Ensure all requirements are clearly defined
 2. **Verify Dependencies**: Confirm prerequisite tickets are completed
 3. **Follow Effort Estimates**: Most tickets are < 1 hour for quick wins
@@ -115,6 +124,7 @@ git push --force-with-lease origin {{TICKET_PREFIX}}-123-implement-feature
 5. **Separate PRs**: Keep scope tight (one ticket = one PR for easier review)
 
 **Example Implementation Tickets:**
+
 - Add Redis to docker-compose.yml (30 min)
 - Remove unused dependencies (15 min)
 - Add health endpoints (45 min)
@@ -126,11 +136,13 @@ git push --force-with-lease origin {{TICKET_PREFIX}}-123-implement-feature
 **REQUIRED FORMAT**: `{{TICKET_PREFIX}}-{number}-{short-description}`
 
 ### ✅ Correct Examples
+
 - `{{TICKET_PREFIX}}-42-add-user-authentication`
 - `{{TICKET_PREFIX}}-57-fix-profile-image-upload`
 - `{{TICKET_PREFIX}}-123-implement-stripe-checkout`
 
 ### ❌ Incorrect Examples
+
 - `feature/add-dark-mode` (missing ticket number)
 - `fix/broken-login-form` (missing ticket number)
 - `john-new-feature` (personal naming)
@@ -155,6 +167,7 @@ type(scope): description [{{TICKET_PREFIX}}-XXX]
 ```
 
 ### Types (Required)
+
 - `feat` - New feature
 - `fix` - Bug fix
 - `docs` - Documentation changes
@@ -165,6 +178,7 @@ type(scope): description [{{TICKET_PREFIX}}-XXX]
 - `ci` - CI/CD pipeline changes
 
 ### Scope (Optional)
+
 - `payments` - Payment-related changes
 - `auth` - Authentication features
 - `ui` - User interface components
@@ -174,6 +188,7 @@ type(scope): description [{{TICKET_PREFIX}}-XXX]
 ### Examples
 
 ✅ **Correct**:
+
 ```
 feat(payments): add Stripe checkout integration [{{TICKET_PREFIX}}-42]
 fix(auth): resolve login redirect issue [{{TICKET_PREFIX}}-57]
@@ -181,6 +196,7 @@ docs: update API documentation [{{TICKET_PREFIX}}-123]
 ```
 
 ❌ **Incorrect**:
+
 ```
 add new feature (missing ticket reference)
 feat: add checkout (missing ticket reference)
@@ -248,6 +264,7 @@ git push --force-with-lease origin {{TICKET_PREFIX}}-{number}-{description}
 ### 6. Respond to CI/CD Feedback
 
 The automated pipeline will check:
+
 - ✅ Branch naming format
 - ✅ Commit message format
 - ✅ Rebase status (no merge commits)
@@ -270,6 +287,7 @@ The automated pipeline will check:
 **MUST USE**: `.github/pull_request_template.md` (comprehensive template)
 
 **Required Sections**:
+
 - 📋 Summary with Linear ticket link
 - 🎯 Changes Made (detailed list)
 - 🧪 Testing (coverage and results)
@@ -314,12 +332,14 @@ The CI/CD pipeline automatically validates:
 ### Review Process
 
 **Automatic Assignment**: Based on CODEOWNERS file
+
 - Core config files → {{ARCHITECT_GITHUB_HANDLE}} (ARCHitect-in-the-IDE)
 - Payment features → @payments-team {{ARCHITECT_GITHUB_HANDLE}}
 - Authentication → @auth-team {{ARCHITECT_GITHUB_HANDLE}}
 - Database schema → @backend-team {{ARCHITECT_GITHUB_HANDLE}}
 
 **Review Requirements**:
+
 - At least 1 required reviewer approval
 - All CI checks must pass
 - No merge conflicts
@@ -333,8 +353,8 @@ The CI/CD pipeline automatically validates:
 
 1. Navigate to your repository's **Settings → Secrets and variables → Actions**
 2. Add the following repository secrets:
-   - `STRIPE_TEST_SECRET_KEY` - Your Stripe test mode secret key (sk_test_...)
-   - `STRIPE_TEST_WEBHOOK_SECRET` - Your Stripe test webhook signing secret (whsec_...)
+   - `STRIPE_TEST_SECRET_KEY` - Your Stripe test mode secret key (sk*test*...)
+   - `STRIPE_TEST_WEBHOOK_SECRET` - Your Stripe test webhook signing secret (whsec\_...)
 
 **Note**: CI will run with safe placeholders if these aren't configured, but real test keys provide better coverage.
 
@@ -430,16 +450,19 @@ The {{PROJECT_NAME}} application uses **Row Level Security (RLS)** for database-
 ### RLS Development Guidelines
 
 **🚨 CURRENT STATUS:**
+
 - RLS lint is warn-only temporarily; migrate to withRLS()
 - DB migrations are manual-only with ARCHitect approval
 
 **✅ MUST DO when working with database operations:**
+
 - Use `withUserContext()`, `withAdminContext()`, or `withSystemContext()` helpers
 - Test with `wtfb_app_user` role (not `wtfb_user` superuser)
 - Validate user data isolation in your tests
 - Check RLS context is properly set before database queries
 
 **❌ NEVER DO:**
+
 - Bypass RLS context setting for user operations
 - Use `wtfb_user` (superuser) for application testing
 - Trust session variables for role validation
@@ -475,9 +498,13 @@ const webhookEvents = await withAdminContext(prisma, userId, async (client) => {
 });
 
 // System operation - for background tasks
-const systemData = await withSystemContext(prisma, 'webhook', async (client) => {
-  return client.webhook_events.create({ data: webhookData });
-});
+const systemData = await withSystemContext(
+  prisma,
+  "webhook",
+  async (client) => {
+    return client.webhook_events.create({ data: webhookData });
+  },
+);
 ```
 
 ### RLS Documentation
@@ -493,6 +520,7 @@ const systemData = await withSystemContext(prisma, 'webhook', async (client) => 
 ### Common CI/CD Issues
 
 **Branch Name Rejected**:
+
 ```bash
 # Rename branch to correct format
 git branch -m {{TICKET_PREFIX}}-{number}-{description}
@@ -501,6 +529,7 @@ git push origin --delete old-branch-name
 ```
 
 **Rebase Required**:
+
 ```bash
 git fetch origin
 git rebase origin/dev
@@ -509,6 +538,7 @@ git push --force-with-lease origin your-branch
 ```
 
 **Commit Message Format Error**:
+
 ```bash
 # Amend last commit message
 git commit --amend -m "feat(scope): description [{{TICKET_PREFIX}}-XXX]"
@@ -516,6 +546,7 @@ git push --force-with-lease origin your-branch
 ```
 
 **CI Validation Failures**:
+
 ```bash
 # Run local validation to see specific issues
 yarn ci:validate

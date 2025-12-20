@@ -12,15 +12,17 @@
 ### Planning Agents (Opus Model)
 
 #### Business Systems Analyst (BSA)
+
 - **Primary Responsibilities**: Requirements decomposition, acceptance criteria, testing strategy
 - **Tools**: Read, Write, Edit, Bash, Grep, Glob, Linear MCP
 - **When to Assign**: User story creation, spec writing, requirements clarification
 - **Success Validation**: `yarn lint:md`
 
 #### System Architect
+
 - **Primary Responsibilities**: Pattern validation, architectural review, code quality enforcement
 - **Tools**: Read, Grep, Glob (read-only for review)
-- **When to Assign**: 
+- **When to Assign**:
   - Pattern approval requests
   - Architectural decision reviews
   - **MANDATORY: Complex code review (see triggers below)**
@@ -29,18 +31,21 @@
 ### Execution Agents (Sonnet Model)
 
 #### Backend Developer
+
 - **Primary Responsibilities**: API routes, server logic, database operations
 - **Tools**: Read, Write, Edit, Bash, Grep, Glob
 - **When to Assign**: API endpoints, server-side logic, business logic
 - **Success Validation**: `yarn test:integration && yarn lint`
 
 #### Frontend Developer
+
 - **Primary Responsibilities**: UI components, client-side logic, user interactions
 - **Tools**: Read, Write, Edit, Bash, Grep, Glob
 - **When to Assign**: React components, UI/UX, client-side state
 - **Success Validation**: `yarn test:unit && yarn lint && yarn build`
 
 #### Data Engineer
+
 - **Primary Responsibilities**: Schema changes, migrations, database architecture
 - **Tools**: Read, Write, Edit, Bash, Grep, Glob, Prisma
 - **When to Assign**: Database migrations, schema changes, RLS policies
@@ -49,24 +54,28 @@
 ### Quality & Coordination Agents (Sonnet Model)
 
 #### Quality Assurance Specialist (QAS)
+
 - **Primary Responsibilities**: Execute testing strategy, validate acceptance criteria
 - **Tools**: Read, Bash, Playwright, Jest
 - **When to Assign**: Test execution, acceptance criteria validation
 - **Success Validation**: All tests passing, evidence collected
 
 #### Security Engineer
+
 - **Primary Responsibilities**: Security validation, RLS enforcement, vulnerability assessment
 - **Tools**: Read, Bash, RLS validation scripts
 - **When to Assign**: Security reviews, RLS validation, vulnerability scans
 - **Success Validation**: Security audit passed, RLS enforced
 
 #### Technical Delivery Manager (TDM)
+
 - **Primary Responsibilities**: Coordination, blocker escalation, Linear ticket management
 - **Tools**: Linear MCP, GitHub, Confluence
 - **When to Assign**: Cross-team coordination, blocker resolution
 - **Success Validation**: Linear updated, blockers resolved
 
 #### Release Train Engineer (RTE)
+
 - **Primary Responsibilities**: PR creation, CI/CD validation, release coordination
 - **Tools**: Git, GitHub CLI, CI tools
 - **When to Assign**: PR creation, release coordination, CI/CD setup
@@ -144,7 +153,8 @@
 
 **Rule of Thumb**: If deliverable includes ANY executable code that could impact production, invoke System Architect.
 
-**Example Gap (WOR-321)**: 
+**Example Gap (WOR-321)**:
+
 - Created: 710-line deployment script + 641-line CI/CD workflow + 3 TypeScript scripts
 - System Architect Review: ❌ NOT invoked
 - Result: Unreviewed security-critical code in production path
@@ -190,6 +200,7 @@ Based on work type, assign to appropriate specialist agent.
 ### Step 4: System Architect Review (if triggered)
 
 If any complexity trigger matched:
+
 1. Specialist completes work
 2. **MANDATORY**: Invoke System Architect for review
 3. System Architect approves OR requires fixes
@@ -247,16 +258,19 @@ BSA (Spec) → FE Developer (Component) → QAS (E2E Tests) → RTE (PR)
 ## Escalation Paths
 
 ### Technical Blockers
+
 - **First**: System Architect (architectural guidance)
 - **Second**: TDM (cross-team coordination)
 - **Third**: Product Owner (business decision)
 
 ### Process Issues
+
 - **First**: TDM (workflow clarification)
 - **Second**: RTE (CI/CD issues)
 - **Third**: Team retrospective
 
 ### Security Concerns
+
 - **First**: Security Engineer (immediate review)
 - **Second**: System Architect (architectural impact)
 - **Third**: Security team escalation
@@ -266,18 +280,21 @@ BSA (Spec) → FE Developer (Component) → QAS (E2E Tests) → RTE (PR)
 ## Success Metrics
 
 ### Individual Agent Performance
+
 - Deliverables meet acceptance criteria
 - Evidence consistently provided
 - Pattern reuse over new code
 - Quality gates passed
 
 ### System Architect Review Effectiveness
+
 - 100% of complex automation reviewed
 - 0% unreviewed scripts >100 lines
 - Architectural governance enforced
 - Quality standards maintained
 
 ### Team Velocity
+
 - Velocity maintained with quality gates
 - Reduced production incidents
 - Faster reviews (clear triggers)
@@ -288,11 +305,13 @@ BSA (Spec) → FE Developer (Component) → QAS (E2E Tests) → RTE (PR)
 ## Version History
 
 ### v1.1 (2025-10-06)
+
 - **Added**: System Architect Review Triggers (MANDATORY)
 - **Rationale**: WOR-321 gap discovery (unreviewed complex automation)
 - **Impact**: Prevents future governance gaps
 
 ### v1.0 (2025-10-05)
+
 - Initial agent assignment matrix
 - Basic role definitions
 - Assignment patterns
@@ -300,10 +319,10 @@ BSA (Spec) → FE Developer (Component) → QAS (E2E Tests) → RTE (PR)
 ---
 
 **Related Documentation**:
+
 - `ARCHITECT_IN_CLI_ROLE.md` - When to invoke System Architect
 - `AGENT_WORKFLOW_SOP.md` - Detailed workflow processes
 - `PRE_PR_VALIDATION_CHECKLIST.md` - Quality gates before PR
 - `WORKFLOW_QUALITY_CHECKLIST.md` - ARCHitect-in-CLI self-validation
 
 **Reference**: WOR-321 Migration Automation Workflow Report (gap analysis)
-

@@ -5,7 +5,9 @@ This directory contains all database-related documentation including schema, sec
 ## 📚 Documentation Files
 
 ### [DATA_DICTIONARY.md](./DATA_DICTIONARY.md)
+
 **Single source of truth** for database schema:
+
 - Table definitions and relationships
 - Column specifications and constraints
 - Enum types and their values
@@ -14,7 +16,9 @@ This directory contains all database-related documentation including schema, sec
 **Use this when**: You need to understand the database schema or add new tables/columns.
 
 ### [RLS_IMPLEMENTATION_GUIDE.md](./RLS_IMPLEMENTATION_GUIDE.md)
+
 Row-Level Security (RLS) implementation patterns:
+
 - RLS context helpers (`withUserContext`, `withAdminContext`, `withSystemContext`)
 - Security patterns and best practices
 - Common RLS policy patterns
@@ -23,7 +27,9 @@ Row-Level Security (RLS) implementation patterns:
 **Use this when**: Implementing new features that require database access with proper security.
 
 ### [RLS_POLICY_CATALOG.md](./RLS_POLICY_CATALOG.md)
+
 Comprehensive catalog of all RLS policies:
+
 - Policy definitions by table
 - Access control rules
 - Policy testing procedures
@@ -32,7 +38,9 @@ Comprehensive catalog of all RLS policies:
 **Use this when**: You need to understand existing RLS policies or create new ones.
 
 ### [RLS_DATABASE_MIGRATION_SOP.md](./RLS_DATABASE_MIGRATION_SOP.md)
+
 Standard Operating Procedure for database migrations:
+
 - Migration workflow (dev → staging → production)
 - Schema change procedures
 - RLS policy updates
@@ -52,4 +60,3 @@ Standard Operating Procedure for database migrations:
 2. **Test RLS policies** - Verify isolation between users
 3. **Follow migration SOP** - Schema changes require ARCHitect approval
 4. **Update DATA_DICTIONARY.md** - Keep schema documentation current
-

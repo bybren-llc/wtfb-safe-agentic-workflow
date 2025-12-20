@@ -20,6 +20,7 @@ Successfully executed Fixes 1-3 from the WOR-325-FIX remediation specification. 
 **Lines Changed**: 5-10
 
 **Before**:
+
 ```markdown
 Modern AI-assisted development faces a fundamental limitation: single-agent architectures create quality, scalability, and reliability bottlenecks. Our analysis of 147 production incidents over 6 months revealed:
 
@@ -30,6 +31,7 @@ Modern AI-assisted development faces a fundamental limitation: single-agent arch
 ```
 
 **After**:
+
 ```markdown
 Modern AI-assisted development faces a fundamental limitation: single-agent architectures create quality, scalability, and reliability bottlenecks. Our 5-month production experience with the WTFB-app revealed systemic patterns:
 
@@ -52,32 +54,41 @@ These observations, while qualitative, motivated our transition to multi-agent t
 **Change 1 - Section 2.1.2** (Lines 11-23):
 
 **Before**:
+
 ```markdown
 Our analysis of 147 production incidents across three teams (July-September 2025) revealed systemic patterns:
 
 **Quality Gate Failures**:
 ```
+
 Root Cause Analysis (147 incidents):
-- No architectural review:      41 incidents (28%)
-- Missing security validation:   31 incidents (21%)
-- Inadequate testing:           28 incidents (19%)
-- No documentation:             23 incidents (16%)
-- Performance not considered:   24 incidents (16%)
+
+- No architectural review: 41 incidents (28%)
+- Missing security validation: 31 incidents (21%)
+- Inadequate testing: 28 incidents (19%)
+- No documentation: 23 incidents (16%)
+- Performance not considered: 24 incidents (16%)
+
 ```
+
 ```
 
 **After**:
+
 ```markdown
 Our experience with single-agent development on the WTFB-app (March-October 2025) revealed systemic patterns:
 
 **Observed Quality Gate Failures**:
 ```
+
 Common Root Causes (qualitative observation):
+
 - No architectural review before implementation
 - Missing security validation on database operations
 - Inadequate testing of edge cases
 - No documentation for complex logic
 - Performance not considered until production
+
 ```
 
 *Note: We lack quantitative baseline data as we transitioned to multi-agent approach early in the project. These are qualitative observations from our Linear issue history and code reviews.*
@@ -86,11 +97,13 @@ Common Root Causes (qualitative observation):
 **Change 2 - Section 2.1.2** (Line 31):
 
 **Before**:
+
 ```markdown
 4. **No Independent Validation**: Self-review by the implementing agent missed 73% of issues that independent review would catch.
 ```
 
 **After**:
+
 ```markdown
 4. **No Independent Validation**: Self-review by the implementing agent consistently missed issues that independent review would catch, though we cannot quantify the exact percentage without controlled experiments.
 ```
@@ -104,24 +117,26 @@ Common Root Causes (qualitative observation):
 **Lines Changed**: 325-337 (section 6.3.1)
 
 **Before**:
+
 ```markdown
 ### 6.3.1 Comparative Metrics Analysis
 
 **Development Velocity Comparison**
 
-| Metric | Single-Agent Baseline | Multi-Agent Actual | Statistical Significance |
-|--------|----------------------|-------------------|-------------------------|
-| **Features/Week** | 2.3 ± 0.5 | 4.1 ± 0.7 | p < 0.01 |
-| **Defect Density** | 15.2/KLOC | 3.8/KLOC | p < 0.001 |
-| **Rework Rate** | 28% ± 5% | 7% ± 2% | p < 0.001 |
-| **Documentation Coverage** | 42% | 94% | p < 0.001 |
-| **Test Coverage** | 67% | 89% | p < 0.01 |
-| **Production Incidents** | 2.1/month | 0.3/month | p < 0.01 |
+| Metric                     | Single-Agent Baseline | Multi-Agent Actual | Statistical Significance |
+| -------------------------- | --------------------- | ------------------ | ------------------------ |
+| **Features/Week**          | 2.3 ± 0.5             | 4.1 ± 0.7          | p < 0.01                 |
+| **Defect Density**         | 15.2/KLOC             | 3.8/KLOC           | p < 0.001                |
+| **Rework Rate**            | 28% ± 5%              | 7% ± 2%            | p < 0.001                |
+| **Documentation Coverage** | 42%                   | 94%                | p < 0.001                |
+| **Test Coverage**          | 67%                   | 89%                | p < 0.01                 |
+| **Production Incidents**   | 2.1/month             | 0.3/month          | p < 0.01                 |
 
-*Data from 5 months production use (169 issues, 9 cycles)*
+_Data from 5 months production use (169 issues, 9 cycles)_
 ```
 
 **After**:
+
 ```markdown
 ### 6.3.1 Observed Improvements (Qualitative)
 
@@ -183,18 +198,21 @@ While we lack controlled baseline measurements for statistical comparison, we ob
 ### Acceptance Criteria - All Passed
 
 **AC1: No Fabricated Data Remains**
+
 ```bash
 grep -r "147 incident" whitepaper/*.md | wc -l
 # Result: 0 ✅ PASS
 ```
 
 **AC2: No Statistical Table**
+
 ```bash
 grep "p < 0\." whitepaper/section-6-case-studies.md | wc -l
 # Result: 0 ✅ PASS
 ```
 
 **AC3: Test Count Corrected**
+
 ```bash
 grep -r "161 test" whitepaper/*.md | wc -l
 # Result: 0 ✅ PASS
@@ -227,6 +245,7 @@ Total line changes: 35+ lines across multiple sections
 Total instances replaced: 21 (6 in Fix 1, 1 table in Fix 2, 15 in Fix 3)
 
 **Modified Files**:
+
 1. `/home/cheddarfox/Projects/WTFB-app/whitepaper/section-1-executive-summary.md`
 2. `/home/cheddarfox/Projects/WTFB-app/whitepaper/section-2-introduction.md`
 3. `/home/cheddarfox/Projects/WTFB-app/whitepaper/section-6-case-studies.md`
@@ -241,12 +260,14 @@ Total instances replaced: 21 (6 in Fix 1, 1 table in Fix 2, 15 in Fix 3)
 ### Academic Integrity Restored
 
 **Before Fixes**:
+
 - Risk: Academic fraud allegations
 - Risk: Loss of credibility for methodology
 - Risk: Reputation damage to ByBren LLC
 - Risk: Legal/ethical violations in academic contexts
 
 **After Fixes**:
+
 - Academic integrity maintained
 - Honest about data limitations
 - Credibility preserved through transparency
@@ -255,18 +276,21 @@ Total instances replaced: 21 (6 in Fix 1, 1 table in Fix 2, 15 in Fix 3)
 ### Content Quality Improvements
 
 **Removed**:
+
 - 1 fabricated "147 incidents" dataset
 - 11 fabricated percentage breakdowns (73%, 89%, 61%, 94%, 28%, 21%, 19%, 16%, 16%)
 - 1 fraudulent statistical comparison table (6 metrics with p-values)
 - 15 incorrect test count references
 
 **Preserved**:
+
 - All real, verifiable metrics from Linear, GitHub, Repository, Confluence
 - Narrative flow and problem statement structure
 - Methodology explanation and value proposition
 - Case study evidence and conclusions
 
 **Added**:
+
 - Explicit disclaimers about data limitations
 - Qualitative observation framing
 - Honest acknowledgment of missing baselines

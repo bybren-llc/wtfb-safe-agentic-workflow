@@ -1,6 +1,6 @@
 # {{PROJECT_NAME}}-app CI/CD Pipeline Guide
 
-*Automated multi-team collaboration with enforced rebase-first workflow*
+_Automated multi-team collaboration with enforced rebase-first workflow_
 
 ## 🎯 Overview
 
@@ -26,11 +26,13 @@ This CI/CD pipeline solves multi-team collaboration challenges by automating the
 **Triggers**: PR opened/updated to `{{PRIMARY_DEV_BRANCH}}`
 
 **Validates**:
+
 - Branch naming: `{{TICKET_PREFIX}}-{number}-{description}`
 - PR title includes Linear ticket: `[{{TICKET_PREFIX}}-XXX]`
 - Linear ticket extraction and validation
 
 **Failure Actions**:
+
 - Blocks PR progression
 - Provides clear error messages
 - Suggests corrections
@@ -38,11 +40,13 @@ This CI/CD pipeline solves multi-team collaboration challenges by automating the
 ### Stage 2: Rebase Status Check 🔄
 
 **Checks**:
+
 - Branch is up-to-date with `{{PRIMARY_DEV_BRANCH}}`
 - No commits behind `{{PRIMARY_DEV_BRANCH}}` branch
 - Linear history maintained
 
 **Auto-Actions**:
+
 - Comments on PR with rebase instructions
 - Shows recent commits on `{{PRIMARY_DEV_BRANCH}}`
 - Blocks merge until rebased
@@ -50,11 +54,13 @@ This CI/CD pipeline solves multi-team collaboration challenges by automating the
 ### Stage 3: Comprehensive Testing 🧪
 
 **Test Matrix**:
+
 - **Unit Tests**: Fast, isolated component tests
 - **Integration Tests**: API and database integration
 - **E2E Tests**: Full user workflow testing
 
 **Parallel Execution**:
+
 - Tests run simultaneously for speed
 - Individual failure reporting
 - Artifact collection for debugging
@@ -62,12 +68,14 @@ This CI/CD pipeline solves multi-team collaboration challenges by automating the
 ### Stage 4: Quality & Security Checks 🔍
 
 **Code Quality**:
+
 - ESLint with {{PROJECT_NAME}} standards
 - TypeScript compilation
 - Prettier formatting
 - Code complexity analysis
 
 **Security Scanning**:
+
 - Dependency vulnerability audit
 - Secret detection with TruffleHog
 - Sensitive file pattern matching
@@ -75,6 +83,7 @@ This CI/CD pipeline solves multi-team collaboration challenges by automating the
 ### Stage 5: Build Verification 🏗️
 
 **Build Process**:
+
 - Next.js production build
 - Asset optimization
 - Build artifact validation
@@ -83,11 +92,13 @@ This CI/CD pipeline solves multi-team collaboration challenges by automating the
 ### Stage 6: Conflict Detection 🚨
 
 **High-Risk File Monitoring**:
+
 - `.env.template`, `config.ts`, `package.json`
 - `yarn.lock`, `prisma/schema.prisma`
 - API routes and core utilities
 
 **Conflict Prevention**:
+
 - Early warning for risky changes
 - Team notification requirements
 - Extra review triggers
@@ -95,6 +106,7 @@ This CI/CD pipeline solves multi-team collaboration challenges by automating the
 ### Stage 7: Deployment Preview 🚀
 
 **Conditional Deployment**:
+
 - Triggered by `ready-for-preview` label
 - Isolated preview environment
 - Shareable preview URLs
@@ -102,6 +114,7 @@ This CI/CD pipeline solves multi-team collaboration challenges by automating the
 ### Stage 8: Auto-Merge (Optional) 🤖
 
 **Smart Merging**:
+
 - Triggered by `auto-merge` label
 - All checks must pass
 - Uses rebase strategy
@@ -110,6 +123,7 @@ This CI/CD pipeline solves multi-team collaboration challenges by automating the
 ### Stage 9: Post-Merge Validation ✅
 
 **Production Safety**:
+
 - Smoke tests on `{{PRIMARY_DEV_BRANCH}}` branch
 - Integration verification
 - Team notifications on failure
@@ -120,6 +134,7 @@ This CI/CD pipeline solves multi-team collaboration challenges by automating the
 ### Required Status Checks
 
 All PRs to `{{PRIMARY_DEV_BRANCH}}` must pass:
+
 - ✅ Structure validation
 - ✅ Rebase status check
 - ✅ All test suites
@@ -161,12 +176,14 @@ All PRs to `{{PRIMARY_DEV_BRANCH}}` must pass:
 ### Team Notifications
 
 **Slack Integration**:
+
 - New PR notifications by team
 - Build failure alerts
 - Merge success confirmations
 - Conflict warnings
 
 **Team Assignment**:
+
 - Auto-assignment based on ticket ranges
 - {{TICKET_PREFIX}}-1X: Payments team
 - {{TICKET_PREFIX}}-2X: Auth team
@@ -212,6 +229,7 @@ CODECOV_TOKEN=...
 ```
 
 **Important Notes**:
+
 - The CI pipeline uses GitHub secrets with safe fallbacks (`${{ secrets.STRIPE_TEST_SECRET_KEY || 'sk_test_placeholder' }}`)
 - Tests will run with placeholders if secrets aren't configured, preventing 503 errors
 - Real test keys provide better test coverage and more accurate CI results
@@ -304,6 +322,7 @@ git commit -m "style: fix linting issues [{{TICKET_PREFIX}}-15]"
 ### Common Issues
 
 **1. Branch Name Validation Fails**
+
 ```bash
 # Rename branch
 git branch -m {{TICKET_PREFIX}}-15-correct-format
@@ -312,6 +331,7 @@ git push origin --delete old-branch-name
 ```
 
 **2. Rebase Conflicts**
+
 ```bash
 # Start interactive rebase
 git rebase -i origin/dev
@@ -325,6 +345,7 @@ git push --force-with-lease origin feature-branch
 ```
 
 **3. Test Failures**
+
 ```bash
 # Run specific test suite
 yarn test:unit --testNamePattern="payment"
@@ -337,6 +358,7 @@ yarn test:e2e --debug
 ```
 
 **4. Build Failures**
+
 ```bash
 # Check TypeScript errors
 yarn type-check
@@ -351,6 +373,7 @@ yarn install --check-files
 ### Emergency Procedures
 
 **1. Broken Dev Branch**
+
 ```bash
 # Revert problematic commit
 git checkout dev
@@ -362,6 +385,7 @@ git push origin dev
 ```
 
 **2. CI Pipeline Down**
+
 ```bash
 # Check GitHub status
 curl -s https://www.githubstatus.com/api/v2/status.json

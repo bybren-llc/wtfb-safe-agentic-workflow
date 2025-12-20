@@ -4,19 +4,19 @@
 
 ### 5.1.1 Complete Agent Roster
 
-| Agent | Role | Primary Tools | Success Criteria | Handoff Outputs |
-|-------|------|---------------|------------------|-----------------|
-| **Business Systems Analyst (BSA)** | Requirements analysis, spec creation | Read, Write | Complete spec with acceptance criteria | `/specs/WOR-XXX-spec.md` |
-| **System Architect** | Pattern validation, architectural decisions | Read, Grep, Write | No conflicts, patterns approved | Architecture review doc |
-| **Data Engineer** | Database design, migrations, RLS | Read, Write, Bash | Schema valid, RLS enforced | Migration files, SQL scripts |
-| **Backend Developer** | API implementation, business logic | All tools | Tests pass, API functional | Source files, tests |
-| **Frontend Developer** | UI implementation, user experience | All tools | Components render, responsive | React components, styles |
-| **Quality Assurance Specialist (QAS)** | Testing, validation, quality gates | Read, Bash, Grep | 100% test pass, coverage met | Test report, validation evidence |
-| **Release Train Engineer (RTE)** | Deployment, PR creation, coordination | All tools | PR ready, CI passing | Pull request, deployment docs |
-| **DevOps Engineer** | Infrastructure, CI/CD, monitoring | All tools | Pipeline functional, monitoring active | Config files, workflows |
-| **Security Specialist** | Security review, threat analysis | Read, Grep | No vulnerabilities, RLS verified | Security audit report |
-| **Technical Writer** | Documentation, guides, changelog | Read, Write | Docs complete, accurate | User guides, API docs |
-| **Technical Debt Manager (TDM)** | Coordination, prioritization, escalation | Read, Linear MCP | Work assigned, blockers resolved | Status updates, assignments |
+| Agent                                  | Role                                        | Primary Tools     | Success Criteria                       | Handoff Outputs                  |
+| -------------------------------------- | ------------------------------------------- | ----------------- | -------------------------------------- | -------------------------------- |
+| **Business Systems Analyst (BSA)**     | Requirements analysis, spec creation        | Read, Write       | Complete spec with acceptance criteria | `/specs/WOR-XXX-spec.md`         |
+| **System Architect**                   | Pattern validation, architectural decisions | Read, Grep, Write | No conflicts, patterns approved        | Architecture review doc          |
+| **Data Engineer**                      | Database design, migrations, RLS            | Read, Write, Bash | Schema valid, RLS enforced             | Migration files, SQL scripts     |
+| **Backend Developer**                  | API implementation, business logic          | All tools         | Tests pass, API functional             | Source files, tests              |
+| **Frontend Developer**                 | UI implementation, user experience          | All tools         | Components render, responsive          | React components, styles         |
+| **Quality Assurance Specialist (QAS)** | Testing, validation, quality gates          | Read, Bash, Grep  | 100% test pass, coverage met           | Test report, validation evidence |
+| **Release Train Engineer (RTE)**       | Deployment, PR creation, coordination       | All tools         | PR ready, CI passing                   | Pull request, deployment docs    |
+| **DevOps Engineer**                    | Infrastructure, CI/CD, monitoring           | All tools         | Pipeline functional, monitoring active | Config files, workflows          |
+| **Security Specialist**                | Security review, threat analysis            | Read, Grep        | No vulnerabilities, RLS verified       | Security audit report            |
+| **Technical Writer**                   | Documentation, guides, changelog            | Read, Write       | Docs complete, accurate                | User guides, API docs            |
+| **Technical Debt Manager (TDM)**       | Coordination, prioritization, escalation    | Read, Linear MCP  | Work assigned, blockers resolved       | Status updates, assignments      |
 
 ### 5.1.2 Agent Interaction Matrix
 
@@ -44,9 +44,10 @@ Each agent has mandatory success validation:
 interface AgentSuccess {
   agent: string;
   criteria: {
-    mandatory: string[];  // Must pass to proceed
-    optional: string[];   // Should achieve
-    metrics: {           // Quantified measures
+    mandatory: string[]; // Must pass to proceed
+    optional: string[]; // Should achieve
+    metrics: {
+      // Quantified measures
       [key: string]: {
         target: number;
         actual: number;
@@ -54,12 +55,13 @@ interface AgentSuccess {
       };
     };
   };
-  evidence: string[];    // Artifact paths
-  validation: 'PASS' | 'FAIL' | 'PARTIAL';
+  evidence: string[]; // Artifact paths
+  validation: "PASS" | "FAIL" | "PARTIAL";
 }
 ```
 
 Real example from WOR-321:
+
 ```json
 {
   "agent": "QAS",
@@ -76,7 +78,7 @@ Real example from WOR-321:
         "pass": true
       },
       "performance": {
-        "target": 1000,  // ms
+        "target": 1000, // ms
         "actual": 750,
         "pass": true
       }
@@ -145,35 +147,40 @@ Every pattern follows this structure:
 # Pattern: [Name]
 
 ## Purpose
+
 Clear description of what this pattern solves
 
 ## When to Use
+
 - Scenario 1
 - Scenario 2
 - Scenario 3
 
 ## Implementation
+
 \`\`\`typescript
 // Complete, copy-paste ready code
 // With placeholders clearly marked
 export async function {functionName}({params}: {ParamType}) {
-  // RLS context enforcement (if database operation)
-  const result = await withUserContext(prisma, userId, async (client) => {
-    return client.{table}.{operation}({
-      where: { user_id: userId }
-    });
-  });
+// RLS context enforcement (if database operation)
+const result = await withUserContext(prisma, userId, async (client) => {
+return client.{table}.{operation}({
+where: { user_id: userId }
+});
+});
 
-  return result;
+return result;
 }
 \`\`\`
 
 ## Customization Guide
+
 1. Replace `{functionName}` with your function name
 2. Update `{ParamType}` with your parameters
 3. Modify business logic as needed
 
 ## Security Checklist
+
 - [ ] Input validation with Zod
 - [ ] Authentication required
 - [ ] RLS context enforced
@@ -181,20 +188,23 @@ export async function {functionName}({params}: {ParamType}) {
 - [ ] Audit logging implemented
 
 ## Testing Template
+
 \`\`\`typescript
 describe('{functionName}', () => {
-  it('should {expected behavior}', async () => {
-    // Test implementation
-  });
+it('should {expected behavior}', async () => {
+// Test implementation
+});
 });
 \`\`\`
 
 ## Common Mistakes
+
 - Forgetting RLS context
 - Missing error handling
 - No input validation
 
 ## Related Patterns
+
 - [Other Pattern 1]
 - [Other Pattern 2]
 ```
@@ -219,77 +229,100 @@ Every feature begins with a BSA-created specification:
 # WOR-XXX: [Feature Name] Implementation Specification
 
 ## 1. Business Context
+
 ### Objective
+
 [Clear business goal]
 
 ### Success Metrics
+
 - Metric 1: [Target value]
 - Metric 2: [Target value]
 
 ## 2. Technical Requirements
+
 ### Functional Requirements
+
 - REQ-1: [Requirement with acceptance criteria]
 - REQ-2: [Requirement with acceptance criteria]
 
 ### Non-Functional Requirements
+
 - Performance: [Specific targets]
 - Security: [Specific requirements]
 - Scalability: [Specific requirements]
 
 ## 3. Technical Design
+
 ### Architecture
+
 [Diagram or description of architecture]
 
 ### Database Changes
+
 \`\`\`sql
 -- Schema changes with RLS policies
 \`\`\`
 
 ### API Design
+
 \`\`\`typescript
 // API interface definitions
 \`\`\`
 
 ## 4. Implementation Plan
+
 ### Phase 1: [Description]
+
 - Task 1.1: [Assigned to: Agent]
 - Task 1.2: [Assigned to: Agent]
 
 ### Phase 2: [Description]
+
 - Task 2.1: [Assigned to: Agent]
 - Task 2.2: [Assigned to: Agent]
 
 ## 5. Testing Strategy
+
 ### Unit Tests
+
 - Coverage target: X%
 - Key test cases: [List]
 
 ### Integration Tests
+
 - Scenarios: [List]
 
 ### E2E Tests
+
 - User flows: [List]
 
 ## 6. Rollout Plan
+
 ### Deployment Strategy
+
 - [ ] Feature flag
 - [ ] Canary deployment
 - [ ] Blue-green deployment
 
 ### Rollback Plan
+
 [Specific rollback steps]
 
 ## 7. Dependencies
+
 - External services: [List]
 - Internal systems: [List]
 - Team dependencies: [List]
 
 ## 8. Risks and Mitigations
-| Risk | Probability | Impact | Mitigation |
-|------|-------------|---------|------------|
+
+| Risk     | Probability  | Impact       | Mitigation   |
+| -------- | ------------ | ------------ | ------------ |
 | [Risk 1] | High/Med/Low | High/Med/Low | [Mitigation] |
 
 ## 9. Acceptance Criteria
+
 - [ ] All functional requirements met
 - [ ] Performance targets achieved
 - [ ] Security review passed
@@ -307,23 +340,28 @@ Before implementation begins:
 4. **TDM Approval**: Resource allocation
 
 Each review produces evidence:
+
 ```markdown
 ## Architecture Review - WOR-XXX
+
 Date: 2024-10-07
 Reviewer: System Architect
 
 ### Assessment: APPROVED ✅
 
 ### Findings
+
 - Pattern compliance: VERIFIED
 - Architecture conflicts: NONE
 - Performance impact: ACCEPTABLE
 
 ### Recommendations
+
 - Consider caching for frequent queries
 - Add index on user_id column
 
 ### Required Patterns
+
 - API: rest-endpoint.md
 - Database: rls-context.md
 - Testing: integration.md
@@ -335,15 +373,15 @@ Reviewer: System Architect
 
 Every agent produces evidence artifacts:
 
-| Agent | Required Artifacts | Storage Location |
-|-------|-------------------|------------------|
-| BSA | Specification | `/specs/WOR-XXX-spec.md` |
-| System Architect | Architecture review | `/docs/reviews/WOR-XXX-arch-review.md` |
-| Data Engineer | Migration scripts, RLS validation | `/prisma/migrations/`, `/scripts/` |
-| Backend Dev | Source code, unit tests | `/app/api/`, `/__tests__/` |
-| Frontend Dev | Components, styles | `/components/`, `/app/` |
-| QAS | Test report, coverage | `/docs/testing/WOR-XXX-test-report.md` |
-| RTE | PR link, deployment log | `/docs/delivery/WOR-XXX-delivery.md` |
+| Agent            | Required Artifacts                | Storage Location                       |
+| ---------------- | --------------------------------- | -------------------------------------- |
+| BSA              | Specification                     | `/specs/WOR-XXX-spec.md`               |
+| System Architect | Architecture review               | `/docs/reviews/WOR-XXX-arch-review.md` |
+| Data Engineer    | Migration scripts, RLS validation | `/prisma/migrations/`, `/scripts/`     |
+| Backend Dev      | Source code, unit tests           | `/app/api/`, `/__tests__/`             |
+| Frontend Dev     | Components, styles                | `/components/`, `/app/`                |
+| QAS              | Test report, coverage             | `/docs/testing/WOR-XXX-test-report.md` |
+| RTE              | PR link, deployment log           | `/docs/delivery/WOR-XXX-delivery.md`   |
 
 ### 5.4.2 Artifact Quality Standards
 
@@ -351,11 +389,11 @@ Every agent produces evidence artifacts:
 interface ArtifactStandard {
   completeness: {
     required_sections: string[];
-    minimum_detail_level: 'high' | 'medium' | 'low';
+    minimum_detail_level: "high" | "medium" | "low";
   };
   format: {
-    template: string;  // Path to template
-    validation_schema: object;  // JSON schema
+    template: string; // Path to template
+    validation_schema: object; // JSON schema
   };
   evidence: {
     screenshots: boolean;
@@ -428,6 +466,7 @@ project-root/
 ### 5.5.2 Workflow Configuration
 
 `.claude/config.yaml`:
+
 ```yaml
 workflow:
   version: "1.3"
@@ -462,7 +501,7 @@ quality_gates:
     required_checks: ["ci_pass", "security_scan", "review_approved"]
 
 evidence:
-  storage: "local"  # or "s3", "confluence"
+  storage: "local" # or "s3", "confluence"
   retention: "90d"
   format: "markdown"
 
@@ -480,14 +519,17 @@ Each agent prompt follows this template:
 # Agent: [Name]
 
 ## Role
+
 [Clear description of agent's responsibility]
 
 ## Objectives
+
 1. [Primary objective]
 2. [Secondary objective]
 3. [Quality objective]
 
 ## Context
+
 - You are part of an 11-agent SAFe team
 - You receive work via Task delegation
 - You must produce evidence artifacts
@@ -496,12 +538,15 @@ Each agent prompt follows this template:
 ## Workflow
 
 ### Input
+
 You will receive:
+
 - Linear ticket number (WOR-XXX)
 - Specification or previous agent's output
 - Context from previous agents
 
 ### Process
+
 1. Review input artifacts
 2. Search for existing patterns
 3. Implement your specialized task
@@ -510,7 +555,9 @@ You will receive:
 6. Hand off to next agent
 
 ### Output
+
 Produce:
+
 - [Artifact 1]: [Description]
 - [Artifact 2]: [Description]
 - Status report with validation
@@ -518,21 +565,27 @@ Produce:
 ## Patterns
 
 ### Mandatory Patterns to Follow
+
 [List of patterns this agent must use]
 
 ### Pattern Search Protocol
+
 \`\`\`bash
+
 # Before implementing anything
+
 grep -r "pattern" patterns_library/
 \`\`\`
 
 ## Quality Criteria
 
 ### Success Metrics
+
 - [Metric 1]: [Target]
 - [Metric 2]: [Target]
 
 ### Validation Checklist
+
 - [ ] All patterns followed
 - [ ] Evidence artifacts created
 - [ ] Tests passing (if applicable)
@@ -540,10 +593,13 @@ grep -r "pattern" patterns_library/
 - [ ] Documentation complete
 
 ## Tools Available
+
 [List of tools this agent can use]
 
 ## Escalation
+
 If blocked:
+
 1. Document blocker clearly
 2. Create escalation artifact
 3. Tag TDM for resolution
@@ -601,6 +657,7 @@ jobs:
 **Problem**: Large codebases exceed context windows.
 
 **Solution**: Incremental context loading:
+
 ```python
 def load_context_incrementally(agent, ticket):
     # Load only relevant files based on spec
@@ -620,6 +677,7 @@ def load_context_incrementally(agent, ticket):
 **Problem**: Agents working on conflicting changes.
 
 **Solution**: Coordination through TDM:
+
 - Daily standup review of active work
 - Conflict detection before implementation
 - Sequential execution for conflicting changes
@@ -629,6 +687,7 @@ def load_context_incrementally(agent, ticket):
 **Problem**: Agents gradually degrading quality over time.
 
 **Solution**: Continuous monitoring:
+
 ```typescript
 interface QualityMetrics {
   defect_rate: number;
@@ -648,6 +707,7 @@ function assessAgentQuality(agent: string): QualityMetrics {
 ## 5.7 Summary
 
 The architecture implements SAFe principles through:
+
 - 11 specialized agents with clear responsibilities
 - Mandatory pattern-driven development
 - Spec-driven workflow with contracts
@@ -655,12 +715,14 @@ The architecture implements SAFe principles through:
 - Integrated CI/CD validation
 
 This creates a system that is:
+
 - **Predictable**: Same input → same quality output
 - **Traceable**: Complete audit trail
 - **Scalable**: Add agents for new capabilities
 - **Improvable**: Retrospectives drive evolution
 
 But requires:
+
 - **Discipline**: Every step must be followed
 - **Investment**: Significant setup and maintenance
 - **Patience**: Long learning curve
@@ -668,4 +730,4 @@ But requires:
 
 ---
 
-*Next: Section 6 provides detailed case studies with real evidence from production implementations.*
+_Next: Section 6 provides detailed case studies with real evidence from production implementations._

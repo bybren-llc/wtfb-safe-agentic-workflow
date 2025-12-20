@@ -19,7 +19,6 @@ Failure to maintain RLS policies creates **security vulnerabilities** where user
 
 ---
 
-
 ## 🚨 BANNED PRACTICES
 
 **CRITICAL**: The following practices have caused production security incidents and are BANNED.
@@ -31,6 +30,7 @@ Failure to maintain RLS policies creates **security vulnerabilities** where user
 **Impact**: Production incident {{TICKET_PREFIX}}-221/{{TICKET_PREFIX}}-222 (Sept 2025) - RLS policies not applied, 4+ hour emergency debugging
 
 **What NOT to do**:
+
 ```sql
 -- ❌ WRONG: migration.sql
 CREATE TABLE user_data (id SERIAL PRIMARY KEY, ...);
@@ -40,6 +40,7 @@ ALTER TABLE user_data ENABLE ROW LEVEL SECURITY;
 ```
 
 **Correct approach**: ALL RLS in migration.sql
+
 ```sql
 -- ✅ CORRECT: migration.sql (everything in ONE file)
 CREATE TABLE user_data (id SERIAL PRIMARY KEY, ...);
@@ -59,15 +60,17 @@ CREATE POLICY ...
 **Impact**: Production incident {{TICKET_PREFIX}}-315 (Oct 2025) - Tables created WITHOUT RLS protection
 
 **What happened**:
+
 1. Developer ran `npx prisma migrate resolve --applied MIGRATION_NAME`
 2. Prisma marked migration as "applied" ✅
 3. SQL was NEVER executed ❌
 4. Tables created without RLS (security vulnerability)
 
 **Detection**: Check `_prisma_migrations` table:
+
 ```sql
-SELECT migration_name, finished_at, applied_steps_count 
-FROM _prisma_migrations 
+SELECT migration_name, finished_at, applied_steps_count
+FROM _prisma_migrations
 WHERE migration_name = 'YOUR_MIGRATION';
 
 -- If applied_steps_count = 0 → Migration NOT executed!
@@ -91,6 +94,7 @@ WHERE migration_name = 'YOUR_MIGRATION';
 **If RLS missing**: Create new migration with RLS, don't manually apply
 
 ---
+
 ## 📊 Decision Tree for RLS Requirements
 
 ```
@@ -230,7 +234,7 @@ SELECT COUNT(*) FROM user_preferences WHERE user_id = 'test_user_123'; -- Must b
 
 - [ ] **Verify migration actually executed locally**
   - [ ] Run: `npx tsx scripts/pre-migration-audit.ts MIGRATION_NAME`
-  - [ ] Confirm: `applied_steps_count > 0` in _prisma_migrations
+  - [ ] Confirm: `applied_steps_count > 0` in \_prisma_migrations
   - [ ] Confirm: Tables exist with RLS enabled
   - [ ] Confirm: Policies created (not just tables)
 
@@ -245,7 +249,7 @@ SELECT COUNT(*) FROM user_preferences WHERE user_id = 'test_user_123'; -- Must b
     theme     String?
     createdAt DateTime @default(now()) @map("created_at")
     user      User     @relation(fields: [userId], references: [userId])
-    
+
     @@index([userId])
     @@map("user_preferences")
   }
@@ -264,7 +268,7 @@ SELECT COUNT(*) FROM user_preferences WHERE user_id = 'test_user_123'; -- Must b
   export const getUserPreferences = async (userId: string) => {
     // RLS context automatically applied via lib/rls-context.ts
     return await prisma.userPreferences.findUnique({
-      where: { userId }
+      where: { userId },
     });
   };
   ```
@@ -301,7 +305,7 @@ SELECT COUNT(*) FROM user_preferences WHERE user_id = 'test_user_123'; -- Must b
 - [ ] **Production Deployment Verification**
   - [ ] Run: `./scripts/verify-migration-status.sh production`
   - [ ] Verify: Table count matches expectation
-  - [ ] Verify: RLS policy count matches expectation  
+  - [ ] Verify: RLS policy count matches expectation
   - [ ] Verify: Specific tables have RLS enabled
   - [ ] Verify: Application health check passes
 
@@ -314,6 +318,7 @@ SELECT COUNT(*) FROM user_preferences WHERE user_id = 'test_user_123'; -- Must b
 **ALL database schema changes MUST update the DATA_DICTIONARY.md file immediately.**
 
 This ensures:
+
 - ✅ AI agents have complete context without external tool calls
 - ✅ Development teams have current schema reference
 - ✅ Documentation remains synchronized with actual database state
@@ -350,6 +355,7 @@ Every schema change MUST include:
 ### Failure to Update Documentation
 
 **Non-compliance consequences:**
+
 - ❌ PR will be rejected by code review
 - ❌ Schema drift between teams
 - ❌ AI agents unable to provide accurate database guidance
@@ -477,9 +483,9 @@ Every quarter, perform these checks:
 
    ```sql
    -- List all tables without RLS that might need it
-   SELECT tablename 
-   FROM pg_tables 
-   WHERE schemaname = 'public' 
+   SELECT tablename
+   FROM pg_tables
+   WHERE schemaname = 'public'
      AND tablename NOT IN (
        SELECT tablename FROM pg_policies
      )
@@ -498,12 +504,12 @@ Every quarter, perform these checks:
 
    ```sql
    -- Check for missing indexes
-   SELECT tablename, policyname, qual 
-   FROM pg_policies 
+   SELECT tablename, policyname, qual
+   FROM pg_policies
    WHERE qual LIKE '%user_id%'
      AND NOT EXISTS (
-       SELECT 1 FROM pg_indexes 
-       WHERE tablename = pg_policies.tablename 
+       SELECT 1 FROM pg_indexes
+       WHERE tablename = pg_policies.tablename
          AND indexdef LIKE '%user_id%'
      );
    ```
@@ -560,6 +566,7 @@ EOF
 - [RLS Troubleshooting Guide](./RLS_TROUBLESHOOTING.md) - Debugging RLS issues
 - [PostgreSQL RLS Documentation](https://www.postgresql.org/docs/current/ddl-rowsecurity.html) - Official PostgreSQL docs
 - [Prisma Schema Reference](https://www.prisma.io/docs/reference/api-reference/prisma-schema-reference) - Prisma documentation
+
 ---
 
 ## ⚖️ Compliance Statement

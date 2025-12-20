@@ -42,12 +42,14 @@ Define project-specific guidelines for development using SAFe Essentials methodo
 ### Environment Management
 
 #### Local Development
+
 - Use Docker Compose for PostgreSQL (`docker-compose.yml`)
 - Environment variables from `.env.template`
 - Clerk dev keys for authentication
 - Local database: `postgresql://user:password@localhost:5432/dev_db`
 
 #### Production (Coolify.io)
+
 - Self-hosted PostgreSQL and Redis
 - Production Clerk keys in environment variables
 - Proper SSL and security configurations
@@ -56,12 +58,14 @@ Define project-specific guidelines for development using SAFe Essentials methodo
 ### Communication Patterns
 
 #### Tool Integration
+
 - **Confluence**: Single source of truth for planning and architecture
 - **Project Management Tool**: Work decomposition and tracking with proper labels
 - **GitHub**: Code repository with PR templates and SAFe workflow
 - **Slack**: Team notifications and status updates
 
 #### Documentation Requirements
+
 - All architectural decisions documented in Confluence
 - API changes documented with examples
 - Database schema changes tracked in Prisma migrations
@@ -70,6 +74,7 @@ Define project-specific guidelines for development using SAFe Essentials methodo
 ### Quality Assurance
 
 #### Testing Strategy
+
 - Test all changes locally before pushing
 - Include unit tests for business logic
 - Integration tests for API endpoints
@@ -77,6 +82,7 @@ Define project-specific guidelines for development using SAFe Essentials methodo
 - Performance testing for database operations
 
 #### Code Review Process
+
 - Use GitHub PR templates with SAFe requirements
 - Include technical details and testing checklists
 - Require team consultation for architectural changes
@@ -85,6 +91,7 @@ Define project-specific guidelines for development using SAFe Essentials methodo
 ### Tool Usage Standards
 
 #### Confluence API Patterns
+
 ```
 # Document Creation
 endpoint: /content
@@ -149,7 +156,7 @@ mutation IssueUpdate {
 
 # Query Issues
 query Issues {
-  issues(filter: {team: {id: {eq: "__PROJECT_MANAGEMENT_TEAM_ID__"}}}) {
+  issues(filter: { team: { id: { eq: "__PROJECT_MANAGEMENT_TEAM_ID__" } } }) {
     nodes {
       id
       identifier
@@ -171,10 +178,12 @@ query Issues {
 ```
 
 **Project Management Tool Team Configuration:**
+
 - Team ID: `__PROJECT_MANAGEMENT_TEAM_ID__` (Your project team ID)
 - Team Key: `__TICKET_PREFIX__`
 
 **Essential Label IDs:**
+
 - `Auggie-Arch`: `__AUGGIE_ARCH_LABEL_ID__` (Architecture work)
 - `Feature`: `__FEATURE_LABEL_ID__` (New features)
 - `Claude Code`: `__CLAUDE_CODE_LABEL_ID__` (Implementation work)
@@ -183,6 +192,7 @@ query Issues {
 - `Bug`: `__BUG_LABEL_ID__` (Bug fixes)
 
 **State IDs (Your Project Team):**
+
 - `Backlog`: `__BACKLOG_STATE_ID__`
 - `Todo`: `__TODO_STATE_ID__`
 - `In Progress`: `__IN_PROGRESS_STATE_ID__`
@@ -191,6 +201,7 @@ query Issues {
 - `Canceled`: `__CANCELED_STATE_ID__`
 
 **Usage Rules:**
+
 1. Always use GraphQL mutation format, not natural language
 2. Include proper return fields (id, identifier, title, url)
 3. Use correct team ID for your project
@@ -202,6 +213,7 @@ query Issues {
 ### Deployment Process
 
 #### Development Flow
+
 1. Local development and testing
 2. Push to `__PRIMARY_DEV_BRANCH__` branch
 3. Create PR with proper template
@@ -210,6 +222,7 @@ query Issues {
 6. Monitor deployment and performance
 
 #### Emergency Procedures
+
 - Hotfix branches for critical issues
 - Rollback procedures documented
 - Incident response protocols

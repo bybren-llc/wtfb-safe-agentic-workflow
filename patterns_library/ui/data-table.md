@@ -179,6 +179,7 @@ export function {Resource}Table({ data, actions = true }: {Resource}TableProps) 
 ## Advanced Patterns
 
 ### With Client-Side Actions
+
 ```typescript
 "use client"
 
@@ -229,6 +230,7 @@ export function DataTableWithActions({ data }: Props) {
 ```
 
 ### With Sorting
+
 ```typescript
 "use client"
 
@@ -293,6 +295,7 @@ export function SortableTable({ data }: Props) {
 ```
 
 ### With Pagination
+
 ```typescript
 interface PaginatedTableProps {
   data: Resource[];
@@ -347,6 +350,7 @@ export function PaginatedTable({
 ```
 
 ### With Search/Filter
+
 ```typescript
 "use client"
 

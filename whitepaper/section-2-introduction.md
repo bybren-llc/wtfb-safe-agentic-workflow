@@ -11,6 +11,7 @@ The rapid adoption of AI coding assistants has transformed software development.
 Our experience with single-agent development on the WTFB-app (March-October 2025) revealed systemic patterns:
 
 **Observed Quality Gate Failures**:
+
 ```
 Common Root Causes (qualitative observation):
 - No architectural review before implementation
@@ -20,7 +21,7 @@ Common Root Causes (qualitative observation):
 - Performance not considered until production
 ```
 
-*Note: We lack quantitative baseline data as we transitioned to multi-agent approach early in the project. These are qualitative observations from our Linear issue history and code reviews.*
+_Note: We lack quantitative baseline data as we transitioned to multi-agent approach early in the project. These are qualitative observations from our Linear issue history and code reviews._
 
 **Single-Agent Limitations Observed**:
 
@@ -35,6 +36,7 @@ Common Root Causes (qualitative observation):
 ### 2.1.3 The Cost of These Failures
 
 **Quantified Impact** (3-month period):
+
 - **Downtime**: 37 hours ($185,000 at $5,000/hour)
 - **Data Incidents**: 3 minor breaches (remediation: $45,000)
 - **Performance Degradation**: 15% increase in infrastructure costs
@@ -42,6 +44,7 @@ Common Root Causes (qualitative observation):
 - **Total Cost**: ~$380,000
 
 **Hidden Costs**:
+
 - Technical debt accumulation
 - Team morale impact
 - Customer trust erosion
@@ -61,14 +64,14 @@ The Scaled Agile Framework's Agile Release Train (ART) provides a proven model f
 
 ### 2.2.2 Mapping Human Roles to AI Agents
 
-| SAFe Role | AI Agent | Specialization | Quality Gate |
-|-----------|----------|---------------|--------------|
-| Product Manager | BSA | Requirements & Specs | Completeness |
-| System Architect | System Architect | Patterns & Architecture | Consistency |
-| Tech Lead | Data Engineer | Database & Performance | Safety |
-| Developer | Backend/Frontend Dev | Implementation | Functionality |
-| QA Engineer | QAS | Testing & Validation | Quality |
-| Release Manager | RTE | Deployment & Delivery | Production Readiness |
+| SAFe Role        | AI Agent             | Specialization          | Quality Gate         |
+| ---------------- | -------------------- | ----------------------- | -------------------- |
+| Product Manager  | BSA                  | Requirements & Specs    | Completeness         |
+| System Architect | System Architect     | Patterns & Architecture | Consistency          |
+| Tech Lead        | Data Engineer        | Database & Performance  | Safety               |
+| Developer        | Backend/Frontend Dev | Implementation          | Functionality        |
+| QA Engineer      | QAS                  | Testing & Validation    | Quality              |
+| Release Manager  | RTE                  | Deployment & Delivery   | Production Readiness |
 
 ### 2.2.3 Why This Mapping Works
 
@@ -159,18 +162,23 @@ This transparency enables informed adoption decisions.
 This paper addresses several key research questions:
 
 **RQ1**: Can AI agents effectively operate as specialized team members rather than generalist assistants?
+
 - **Answer**: Yes, with 31% better defect detection in specialized domains.
 
 **RQ2**: Does multi-agent orchestration improve software quality?
+
 - **Answer**: Yes, 90.9% PR merge rate and 14× velocity improvement demonstrate quality maintenance at high speed.
 
 **RQ3**: What is the real cost-benefit trade-off?
+
 - **Answer**: 3-4x cost increase, positive ROI for complex/high-risk features.
 
 **RQ4**: How long does team adaptation take?
+
 - **Answer**: 8-12 weeks to full productivity.
 
 **RQ5**: What are the failure modes?
+
 - **Answer**: Process gaps, prompt drift, context overflow, overhead for simple tasks.
 
 ## 2.6 Who Should Read This Paper
@@ -188,6 +196,7 @@ This paper addresses several key research questions:
 ### 2.6.2 Prerequisites
 
 Readers should have:
+
 - Basic understanding of software development lifecycle
 - Familiarity with AI coding assistants (Copilot, Cursor, or Claude)
 - Awareness of agile methodologies (Scrum/SAFe helpful but not required)
@@ -196,6 +205,7 @@ Readers should have:
 ### 2.6.3 What You'll Learn
 
 By the end of this paper, you will understand:
+
 1. How to orchestrate multiple AI agents for development
 2. When multi-agent approaches provide value (and when they don't)
 3. Real costs and benefits with quantified evidence
@@ -219,12 +229,14 @@ By the end of this paper, you will understand:
 ## 2.8 A Note on Timing and Maturity
 
 This paper documents a methodology that is:
+
 - **5 months of tracked cycles** (June-October 2025), with 2+ years of evolution from Auggie's Architect Handbook
 - **Version 1.0** of an evolving approach
 - **Validated on 169 issues** across 9 sprint cycles in single-developer context
 - **Actively improving** through retrospectives (14× velocity growth from Cycle 3 to Cycle 8)
 
 We share it now, despite its early stage, because:
+
 1. The community benefits from early learnings
 2. Others can avoid our mistakes
 3. Collaborative improvement accelerates progress
@@ -234,4 +246,4 @@ This is not the definitive answer to AI-assisted development. It's our current b
 
 ---
 
-*Next: Section 3 provides theoretical background and related work that informed our approach.*
+_Next: Section 3 provides theoretical background and related work that informed our approach._

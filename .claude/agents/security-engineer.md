@@ -12,6 +12,7 @@ model: sonnet
 Validates security implementation using patterns from `docs/patterns/security/`. Focus on RLS enforcement, vulnerability scanning, and security audits.
 
 **NEW (WOR-314): RLS & Compliance Owner**
+
 - Validate RLS policies for new tables (see `../../docs/database/RLS_POLICY_CATALOG.md`)
 - Audit data access patterns (user isolation verification)
 - Validate GDPR/compliance procedures (data retention, deletion, export)
@@ -110,22 +111,26 @@ npx depcheck
 ## Security Review - [WOR-XXX]
 
 ### Authentication & Authorization
+
 - [ ] All API routes check authentication via `auth()`
 - [ ] Unauthorized requests return 401
 - [ ] Role-based access control implemented
 
 ### RLS Enforcement
+
 - [ ] All database operations use context helpers
 - [ ] No direct Prisma calls (ESLint enforces this)
 - [ ] User isolation verified with test
 - [ ] Admin operations use `withAdminContext`
 
 ### Data Protection
+
 - [ ] No sensitive data in logs
 - [ ] No secrets in code (use environment variables)
 - [ ] Input validation on all user input (Zod schemas)
 
 ### Vulnerability Scan
+
 - [ ] npm audit passed (0 high/critical)
 - [ ] No secrets in git diff
 - [ ] Dependencies up-to-date
@@ -191,12 +196,14 @@ cat docs/patterns/security/vulnerability-scan.md
 ## Critical Security Rules
 
 **ZERO TOLERANCE for:**
+
 - Direct Prisma calls without RLS context
 - Missing authentication on protected routes
 - Secrets committed to code
 - High/critical npm vulnerabilities
 
 **MANDATORY for all deployments:**
+
 - RLS validation script passes
 - npm audit shows 0 high/critical issues
 - All API routes have auth checks

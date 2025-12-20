@@ -21,19 +21,19 @@
 
 ## When to Use Which Agent
 
-| Agent Role | Use Case | Success Criteria | Primary Tools |
-|-----------|----------|------------------|---------------|
-| **TDM** (Technical Delivery Manager) | Coordination, blocker escalation, Linear ticket management | Linear updated, PRs merged, blockers resolved | Linear, GitHub, Documentation |
-| **BSA** (Business Systems Analyst) | Requirements decomposition, acceptance criteria, testing strategy | Clear user stories, testable ACs, QA plan defined | Linear, Documentation, Markdown |
-| **System Architect** | Pattern validation, conflict prevention, architectural decisions | ADR created, patterns validated, no conflicts | Read, Grep, ADR templates |
-| **FE Developer** | UI components, client-side logic, user interactions | `yarn lint && yarn build` passes | Read, Write, Edit, Bash |
-| **BE Developer** | API routes, server logic, RLS enforcement | `yarn test:integration` passes | Read, Write, Edit, Bash |
-| **DE** (Data Engineer) | Schema changes, migrations, database architecture | Migration applied, RLS maintained | Prisma, SQL, migration tools |
-| **TW** (Technical Writer) | Documentation, guides, technical content | `yarn lint:md` passes | Read, Write, Edit, Grep, Glob, Bash |
-| **DPE** (Data Provisioning Engineer) | Test data, database access, data validation | Test data available, DB accessible | SQL, Prisma Studio, scripts |
-| **QAS** (Quality Assurance) | Execute BSA testing strategy, validate acceptance criteria | All ACs verified, test report complete | Playwright, Jest, test tools |
-| **SecEng** (Security Engineer) | Security validation, RLS checks, vulnerability assessment | Security audit passed, RLS enforced | RLS scripts, security tools |
-| **RTE** (Release Train Engineer) | PR creation, CI/CD validation, release coordination | `yarn ci:validate` passes, PR merged | Git, GitHub CLI, CI tools |
+| Agent Role                           | Use Case                                                          | Success Criteria                                  | Primary Tools                       |
+| ------------------------------------ | ----------------------------------------------------------------- | ------------------------------------------------- | ----------------------------------- |
+| **TDM** (Technical Delivery Manager) | Coordination, blocker escalation, Linear ticket management        | Linear updated, PRs merged, blockers resolved     | Linear, GitHub, Documentation       |
+| **BSA** (Business Systems Analyst)   | Requirements decomposition, acceptance criteria, testing strategy | Clear user stories, testable ACs, QA plan defined | Linear, Documentation, Markdown     |
+| **System Architect**                 | Pattern validation, conflict prevention, architectural decisions  | ADR created, patterns validated, no conflicts     | Read, Grep, ADR templates           |
+| **FE Developer**                     | UI components, client-side logic, user interactions               | `yarn lint && yarn build` passes                  | Read, Write, Edit, Bash             |
+| **BE Developer**                     | API routes, server logic, RLS enforcement                         | `yarn test:integration` passes                    | Read, Write, Edit, Bash             |
+| **DE** (Data Engineer)               | Schema changes, migrations, database architecture                 | Migration applied, RLS maintained                 | Prisma, SQL, migration tools        |
+| **TW** (Technical Writer)            | Documentation, guides, technical content                          | `yarn lint:md` passes                             | Read, Write, Edit, Grep, Glob, Bash |
+| **DPE** (Data Provisioning Engineer) | Test data, database access, data validation                       | Test data available, DB accessible                | SQL, Prisma Studio, scripts         |
+| **QAS** (Quality Assurance)          | Execute BSA testing strategy, validate acceptance criteria        | All ACs verified, test report complete            | Playwright, Jest, test tools        |
+| **SecEng** (Security Engineer)       | Security validation, RLS checks, vulnerability assessment         | Security audit passed, RLS enforced               | RLS scripts, security tools         |
+| **RTE** (Release Train Engineer)     | PR creation, CI/CD validation, release coordination               | `yarn ci:validate` passes, PR merged              | Git, GitHub CLI, CI tools           |
 
 ## Success Validation Commands
 
@@ -280,8 +280,8 @@ Please:
 2. Create user story with acceptance criteria
 3. Define testing strategy (unit, integration, E2E)
 4. Add #EXPORT_CRITICAL tags for security requirements
-5. Reference relevant patterns from pattern library`
-})
+5. Reference relevant patterns from pattern library`,
+});
 
 // Backend Developer: Implement with pattern discovery
 Task({
@@ -301,8 +301,8 @@ Requirements:
 - Validate input with Zod schemas
 - Write unit tests for each endpoint
 
-Pattern discovery is MANDATORY before implementation.`
-})
+Pattern discovery is MANDATORY before implementation.`,
+});
 
 // QAS: Execute comprehensive testing
 Task({
@@ -329,8 +329,8 @@ Execute the testing strategy defined by BSA:
    - Admin can view any profile
    - Unauthorized access is blocked
 
-Validate all acceptance criteria from the spec.`
-})
+Validate all acceptance criteria from the spec.`,
+});
 
 // TDM: Orchestrate entire workflow
 Task({
@@ -349,19 +349,19 @@ Workflow:
 8. Update Linear ticket with progress after each step
 9. Invoke RTE to create PR when all work complete
 
-Monitor for blockers and escalate to ARCHitect or POPM as needed.`
-})
+Monitor for blockers and escalate to ARCHitect or POPM as needed.`,
+});
 ```
 
 ### When to Use Which Invocation Method
 
-| Scenario | Method | Example |
-|----------|--------|---------|
-| **Simple question** | Direct mention | `@bsa What patterns exist for user authentication?` |
-| **Single-step task** | Direct mention | `@be-developer Add logging to the login endpoint` |
-| **Multi-step task** | Task tool | BSA creating spec with pattern discovery |
-| **Complex coordination** | Task tool | TDM orchestrating multiple agents |
-| **Detailed requirements** | Task tool | QAS executing comprehensive test strategy |
+| Scenario                  | Method         | Example                                             |
+| ------------------------- | -------------- | --------------------------------------------------- |
+| **Simple question**       | Direct mention | `@bsa What patterns exist for user authentication?` |
+| **Single-step task**      | Direct mention | `@be-developer Add logging to the login endpoint`   |
+| **Multi-step task**       | Task tool      | BSA creating spec with pattern discovery            |
+| **Complex coordination**  | Task tool      | TDM orchestrating multiple agents                   |
+| **Detailed requirements** | Task tool      | QAS executing comprehensive test strategy           |
 
 ### Pro Tips
 

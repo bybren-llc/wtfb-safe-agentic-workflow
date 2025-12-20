@@ -13,6 +13,7 @@ WOR-321 presented a critical infrastructure challenge: migrate database validati
 - **Cross-team coordination** between database, backend, and DevOps teams
 
 The risk profile was severe:
+
 - **Production Impact**: Migration failures could corrupt production data
 - **Security Risk**: RLS bypass could expose cross-tenant data
 - **Availability Risk**: Failed migrations could cause downtime
@@ -27,6 +28,7 @@ The Business Systems Analyst began at 9:15 AM with requirements analysis:
 ```markdown
 Input: Linear ticket WOR-321 with high-level requirements
 Process:
+
 1. Analyzed existing migration scripts in /scripts/
 2. Identified gaps in CI/CD validation
 3. Created technical specification
@@ -37,6 +39,7 @@ Time: 45 minutes
 ```
 
 Key specification decisions:
+
 - Separate validation into pre-migration and post-migration phases
 - Implement rollback capabilities
 - Add comprehensive logging
@@ -51,11 +54,13 @@ Task: Design migration validation pipeline
 Context: WOR-321 spec, existing migration patterns
 
 Discoveries:
+
 - Found 3 migration scripts without RLS context
 - Identified performance bottlenecks in validation queries
 - Discovered missing index on migration_status table
 
 Deliverables:
+
 1. /scripts/verify-all-migrations.ts - TypeScript validation
 2. /scripts/validate-migration-safety.sql - SQL safety checks
 3. Migration rollback procedures
@@ -76,8 +81,8 @@ name: Migration Validation
 on:
   pull_request:
     paths:
-      - 'prisma/**'
-      - 'scripts/migration-*.ts'
+      - "prisma/**"
+      - "scripts/migration-*.ts"
 
 jobs:
   validate:
@@ -92,6 +97,7 @@ jobs:
 ```
 
 Implementation included:
+
 - Environment variable management for secrets
 - Parallel validation job execution
 - Failure notification to Slack
@@ -104,10 +110,10 @@ Time: 2 hours
 At 2:00 PM, QAS executed comprehensive validation:
 
 ```markdown
-Test Execution Report (WOR-321)
-================================
+# Test Execution Report (WOR-321)
 
 Test Categories:
+
 1. Migration Success Paths ✅
    - Clean migration: PASS
    - Incremental migration: PASS
@@ -139,14 +145,12 @@ Time: 1 hour
 **Critical Process Failure**: System Architect review was inadvertently skipped. When retroactively performed 3 days later:
 
 ```markdown
-ARCHITECTURAL REVIEW - WOR-321 (RETROACTIVE)
-=============================================
+# ARCHITECTURAL REVIEW - WOR-321 (RETROACTIVE)
 
 Date: 3 days post-deployment
 Reviewer: System Architect (Opus)
 
-CRITICAL ISSUES DISCOVERED:
----------------------------
+## CRITICAL ISSUES DISCOVERED:
 
 1. RLS Context Violations (SEVERITY: CRITICAL)
    Location: /scripts/verify-all-migrations.ts:45-67
@@ -180,12 +184,14 @@ Recommendation: IMMEDIATE REMEDIATION REQUIRED
 Upon discovering the gaps, emergency remediation began:
 
 **Day 1: War Room Formation**
+
 - 10:00 AM: Issues discovered in retroactive review
 - 10:30 AM: War room established
 - 11:00 AM: Impact assessment completed
 - 12:00 PM: Fix implementation began
 
 **Day 1-2: Fix Implementation**
+
 ```bash
 # Fix commit history
 git log --oneline -5
@@ -197,6 +203,7 @@ p3q4r5s test: verify all security fixes [WOR-321-FIX]
 ```
 
 **Day 2: Validation**
+
 - Re-ran entire QAS test suite
 - System Architect approval obtained
 - Production deployment completed
@@ -239,11 +246,13 @@ WOR-323 represented a unique challenge: extract learnings from our multi-agent w
 ### 6.2.2 Process Execution
 
 **Stage 1: Requirements Analysis (BSA)**
+
 ```markdown
 Task: Create OSS template from WOR-321 learnings
 Complexity: META - documenting the documentation process
 
 Approach:
+
 1. Analyzed all WOR-321 artifacts
 2. Identified reusable patterns
 3. Created template structure
@@ -254,10 +263,12 @@ Time: 30 minutes
 ```
 
 **Stage 2: Technical Design (System Architect)**
+
 ```markdown
 Review Focus: Template architecture and extensibility
 
 Decisions:
+
 1. Modular agent prompt structure
 2. Configurable workflow stages
 3. Plugin architecture for tools
@@ -268,12 +279,15 @@ Time: 45 minutes
 ```
 
 **Stage 3: Implementation (Technical Writer + Backend Dev)**
+
 ```markdown
 Collaborative Implementation:
+
 - Technical Writer: Documentation and guides
 - Backend Dev: Configuration and scripts
 
 Deliverables:
+
 1. `.claude/agents/` - Agent prompt templates
 2. `patterns_library/` - Reusable patterns
 3. `specs_templates/` - Spec templates
@@ -285,8 +299,10 @@ Time: 3 hours combined
 ```
 
 **Stage 4: Validation (QAS)**
+
 ```markdown
 Template Testing:
+
 1. Fresh installation test: PASS
 2. Configuration validation: PASS
 3. Agent prompt loading: PASS
@@ -301,12 +317,14 @@ Time: 1 hour
 ### 6.2.3 Results
 
 **Quantitative Metrics**:
+
 - 6 core template files created
 - 100% SAFe compliance achieved
 - 0 defects found in validation
 - 4.5 total hours (50% faster than estimated)
 
 **Qualitative Outcomes**:
+
 - Process successfully self-documented
 - Templates immediately reusable
 - Community contributions enabled
@@ -315,6 +333,7 @@ Time: 1 hour
 ### 6.2.4 Key Learning
 
 The process successfully applied to meta-tasks (improving itself), demonstrating:
+
 - Flexibility beyond traditional development
 - Self-improvement capability
 - Documentation generation efficiency
@@ -341,6 +360,7 @@ While we lack controlled baseline measurements for statistical comparison, we ob
 **Where Time is Spent (Average 4-hour feature)**:
 
 Single-Agent Workflow:
+
 ```
 Planning:        30 min (12.5%)
 Implementation:  150 min (62.5%)
@@ -350,6 +370,7 @@ Total:           240 min
 ```
 
 Multi-Agent Workflow:
+
 ```
 BSA Planning:    45 min (15.6%)
 Arch Review:     30 min (10.4%)
@@ -365,17 +386,20 @@ Total:           288 min (+20% time)
 ### 6.3.3 Cost-Benefit Analysis
 
 **Real Costs (Per Feature)**:
+
 - Single-Agent: $8-12 in API costs
 - Multi-Agent: $30-45 in API costs
 - Overhead: $22-33 per feature
 
 **Real Benefits (Per Feature)**:
+
 - Prevented defects: 0.4 production incidents avoided
 - Incident cost: $500-5000 per incident
 - Expected value: $200-2000 saved per feature
 - ROI: 600-6000% (highly variable)
 
 **Break-even Analysis**:
+
 - Need to prevent 1 incident per 15-150 features
 - Achieved: 1 incident prevented per 12 features
 - **Conclusion**: ROI positive in production
@@ -384,13 +408,13 @@ Total:           288 min (+20% time)
 
 **Defect Detection by Stage**:
 
-| Stage | Defects Caught | % of Total | Single-Agent Comparison |
-|-------|---------------|------------|------------------------|
-| Planning (BSA) | 12% | 12% | 5% |
-| Architecture Review | 31% | 43% | 0% (doesn't exist) |
-| Implementation | 15% | 58% | 60% |
-| QAS Testing | 38% | 96% | 30% |
-| RTE Validation | 4% | 100% | 5% |
+| Stage               | Defects Caught | % of Total | Single-Agent Comparison |
+| ------------------- | -------------- | ---------- | ----------------------- |
+| Planning (BSA)      | 12%            | 12%        | 5%                      |
+| Architecture Review | 31%            | 43%        | 0% (doesn't exist)      |
+| Implementation      | 15%            | 58%        | 60%                     |
+| QAS Testing         | 38%            | 96%        | 30%                     |
+| RTE Validation      | 4%             | 100%       | 5%                      |
 
 **Critical Finding**: Architecture Review catches 31% of defects that would escape to production in single-agent workflow.
 
@@ -398,14 +422,14 @@ Total:           288 min (+20% time)
 
 **Learning Curve (Measured Weekly)**:
 
-| Week | Velocity | Defect Rate | Team Confidence |
-|------|----------|-------------|-----------------|
-| 1 | 40% | High | Low (2/10) |
-| 2 | 55% | High | Low (3/10) |
-| 3 | 70% | Medium | Medium (5/10) |
-| 4 | 85% | Medium | Medium (6/10) |
-| 8 | 110% | Low | High (8/10) |
-| 12 | 140% | Very Low | Very High (9/10) |
+| Week | Velocity | Defect Rate | Team Confidence  |
+| ---- | -------- | ----------- | ---------------- |
+| 1    | 40%      | High        | Low (2/10)       |
+| 2    | 55%      | High        | Low (3/10)       |
+| 3    | 70%      | Medium      | Medium (5/10)    |
+| 4    | 85%      | Medium      | Medium (6/10)    |
+| 8    | 110%     | Low         | High (8/10)      |
+| 12   | 140%     | Very Low    | Very High (9/10) |
 
 **Insight**: 8 weeks to productivity parity, 12 weeks to significant gains.
 
@@ -433,4 +457,4 @@ The evidence is clear: multi-agent SAFe workflow delivers measurable benefits fo
 
 ---
 
-*Next: Section 7 will provide brutally honest assessment of limitations and failures.*
+_Next: Section 7 will provide brutally honest assessment of limitations and failures._

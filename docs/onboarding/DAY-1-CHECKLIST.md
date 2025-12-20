@@ -4,7 +4,8 @@
 
 **Time Estimate**: 2-3 hours
 
-**Prerequisites**: 
+**Prerequisites**:
+
 - Access to Claude Code or Augment Code
 - Linear/Jira account with API access
 - GitHub account with repository access
@@ -27,6 +28,7 @@ cat README.md
 ```
 
 **Validation**:
+
 - [ ] Repository cloned successfully
 - [ ] Can see `.claude/agents/` directory
 - [ ] Can see `whitepaper/` directory
@@ -37,17 +39,20 @@ cat README.md
 ### Step 1.2: Load Repository Context (Optional but Recommended)
 
 **Option A: Use GitIngest** (Recommended)
+
 1. Visit: https://gitingest.com/ByBren-LLC/WTFB-SAFe-Agentic-Workflow
 2. Copy the generated context
 3. Paste into your AI assistant (Claude, ChatGPT, etc.)
 4. Ask: "Explain the WTFB SAFe methodology in 3 paragraphs"
 
 **Option B: Read Documentation**
+
 1. Read: `README.md` (5 min)
 2. Read: `AGENTS.md` (10 min)
 3. Read: `whitepaper/section-1-executive-summary.md` (5 min)
 
 **Validation**:
+
 - [ ] Understand the 11 agent roles
 - [ ] Understand the SAFe workflow (Epic → Feature → Story)
 - [ ] Understand the "Search First, Reuse Always" philosophy
@@ -59,16 +64,19 @@ cat README.md
 ### Step 2.1: Choose Your Agent Provider
 
 **Option A: Claude Code** (Recommended)
+
 - Best for: Teams using Claude API
 - Installation: https://docs.anthropic.com/claude/docs/claude-code
 - Agent files location: `.claude/agents/`
 
 **Option B: Augment Code**
+
 - Best for: Teams using Augment
 - Installation: https://www.augmentcode.com/
 - Agent files location: `agent_providers/augment/`
 
 **Decision**:
+
 - [ ] I'm using: [Claude Code / Augment Code / Other]
 
 ---
@@ -76,6 +84,7 @@ cat README.md
 ### Step 2.2: Install Agent Prompts
 
 **For Claude Code**:
+
 ```bash
 # Option 1: Copy to user directory (single user)
 cp -r .claude/agents/* ~/.claude/agents/
@@ -86,12 +95,14 @@ cp -r .claude/agents/* ~/.claude/agents/
 ```
 
 **For Augment Code**:
+
 ```bash
 # Copy Augment-specific configurations
 cp -r agent_providers/augment/* ~/.augment/
 ```
 
 **Validation**:
+
 - [ ] Agent files copied to correct location
 - [ ] Can see 11 agent files (bsa.md, system-architect.md, etc.)
 - [ ] Agent provider recognizes the agents
@@ -109,6 +120,7 @@ cp -r agent_providers/augment/* ~/.augment/
 **Expected Response**: The agent should respond with its role description from the agent prompt file.
 
 **Validation**:
+
 - [ ] Agent responds with correct role description
 - [ ] Agent mentions "Business Systems Analyst"
 - [ ] Agent mentions "pattern discovery" and "acceptance criteria"
@@ -120,6 +132,7 @@ cp -r agent_providers/augment/* ~/.augment/
 ### Step 3.1: Linear/Jira Setup
 
 **Linear Setup**:
+
 ```bash
 # Get your Linear API key
 # Visit: https://linear.app/settings/api
@@ -134,6 +147,7 @@ curl -H "Authorization: Bearer $LINEAR_API_KEY" \
 ```
 
 **Jira Setup** (Alternative):
+
 ```bash
 # Get your Jira API token
 # Visit: https://id.atlassian.com/manage-profile/security/api-tokens
@@ -144,6 +158,7 @@ export JIRA_DOMAIN="your-domain.atlassian.net"
 ```
 
 **Validation**:
+
 - [ ] API key/token obtained
 - [ ] Environment variable set
 - [ ] API access tested successfully
@@ -164,6 +179,7 @@ gh auth status
 ```
 
 **Validation**:
+
 - [ ] GitHub token obtained
 - [ ] Environment variable set
 - [ ] GitHub CLI authenticated
@@ -196,6 +212,7 @@ EOF
 ```
 
 **Validation**:
+
 - [ ] `.env` file created
 - [ ] All required variables set
 - [ ] File added to `.gitignore` (security)
@@ -223,12 +240,14 @@ Use the BSA agent workflow from .claude/agents/bsa.md
 ```
 
 **Expected Output**:
+
 - User story in "As a... I want... So that..." format
 - 3-5 testable acceptance criteria
 - Testing strategy (unit, integration, E2E)
 - Agent invocation sequence
 
 **Validation**:
+
 - [ ] BSA agent created proper user story
 - [ ] Acceptance criteria are testable
 - [ ] Testing strategy is comprehensive
@@ -239,6 +258,7 @@ Use the BSA agent workflow from .claude/agents/bsa.md
 ### Step 4.2: Create Linear Ticket
 
 **Manual Creation** (for now):
+
 1. Go to Linear: https://linear.app
 2. Create new issue
 3. Title: `PROJ-1: Add Hello World endpoint for agent workflow validation`
@@ -247,6 +267,7 @@ Use the BSA agent workflow from .claude/agents/bsa.md
 6. Add testing strategy
 
 **Validation**:
+
 - [ ] Linear ticket created
 - [ ] Ticket has proper format (PROJ-1)
 - [ ] All BSA output included
@@ -277,12 +298,14 @@ Use the BE Developer agent workflow from .claude/agents/be-developer.md
 ```
 
 **Expected Output**:
+
 - Pattern discovery results
 - Implementation code
 - Test code
 - Validation that ACs are met
 
 **Validation**:
+
 - [ ] Agent searched for patterns first
 - [ ] Implementation follows existing patterns
 - [ ] Tests are comprehensive
@@ -293,6 +316,7 @@ Use the BE Developer agent workflow from .claude/agents/be-developer.md
 ### Step 4.4: Create Pull Request
 
 **Create Feature Branch**:
+
 ```bash
 git checkout -b PROJ-1-hello-world-endpoint
 git add .
@@ -308,6 +332,7 @@ git push origin PROJ-1-hello-world-endpoint
 ```
 
 **Create PR**:
+
 ```bash
 # Using GitHub CLI
 gh pr create \
@@ -329,6 +354,7 @@ https://linear.app/your-team/issue/PROJ-1"
 ```
 
 **Validation**:
+
 - [ ] Feature branch created with proper name
 - [ ] Commit message follows conventional commits
 - [ ] PR created with proper title and description
@@ -341,6 +367,7 @@ https://linear.app/your-team/issue/PROJ-1"
 ### Step 5.1: Validate Complete Workflow
 
 **Checklist**:
+
 - [ ] Repository cloned and explored
 - [ ] Agent provider installed (Claude Code or Augment)
 - [ ] 11 agents installed and accessible
@@ -420,18 +447,23 @@ https://linear.app/your-team/issue/PROJ-1"
 ### Common Issues
 
 **Issue**: Agent not found
+
 - **Solution**: Verify agent files are in correct directory (`~/.claude/agents/` or `.claude/agents/`)
 
 **Issue**: Agent doesn't respond correctly
+
 - **Solution**: Check agent prompt file has correct frontmatter (name, description, tools, model)
 
 **Issue**: Linear API fails
+
 - **Solution**: Verify API key is correct and has proper permissions
 
 **Issue**: Pattern discovery returns no results
+
 - **Solution**: Ensure patterns_library/ directory exists and has content
 
 **Issue**: PR creation fails
+
 - **Solution**: Verify GitHub token has `repo` and `workflow` scopes
 
 ---
@@ -441,6 +473,7 @@ https://linear.app/your-team/issue/PROJ-1"
 **Congratulations!** 🎉 You've completed Day 1 of the WTFB SAFe Multi-Agent Development methodology.
 
 **You now know how to**:
+
 - ✅ Set up the agent system
 - ✅ Invoke agents for different tasks
 - ✅ Create Linear tickets with proper format
@@ -451,8 +484,8 @@ https://linear.app/your-team/issue/PROJ-1"
 
 ---
 
-**Questions?** 
+**Questions?**
+
 - GitHub Discussions: https://github.com/ByBren-LLC/WTFB-SAFe-Agentic-Workflow/discussions
 - Email: scott@wordstofilmby.com
 - Documentation: See `docs/onboarding/` for more guides
-

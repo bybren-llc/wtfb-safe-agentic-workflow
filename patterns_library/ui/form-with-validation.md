@@ -324,6 +324,7 @@ export function {Resource}Form({
 ## Advanced Patterns
 
 ### Conditional Fields
+
 ```typescript
 const FormSchema = z.object({
   accountType: z.enum(['personal', 'business']),
@@ -358,6 +359,7 @@ const accountType = form.watch('accountType');
 ```
 
 ### Dynamic Field Arrays
+
 ```typescript
 import { useFieldArray } from "react-hook-form";
 
@@ -391,6 +393,7 @@ const { fields, append, remove } = useFieldArray({
 ```
 
 ### File Upload
+
 ```typescript
 const FormSchema = z.object({
   file: z

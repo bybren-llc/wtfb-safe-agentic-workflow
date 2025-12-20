@@ -306,16 +306,16 @@ yarn ci:validate
 
 ```typescript
 // app/api/admin/content/route.ts
-import { NextRequest, NextResponse } from 'next/server';
-import { z } from 'zod';
-import { verifyAdminAndGetUserId } from '@/lib/auth-admin';
-import { withAdminContext } from '@/lib/rls-context';
-import { prisma } from '@/lib/prisma';
+import { NextRequest, NextResponse } from "next/server";
+import { z } from "zod";
+import { verifyAdminAndGetUserId } from "@/lib/auth-admin";
+import { withAdminContext } from "@/lib/rls-context";
+import { prisma } from "@/lib/prisma";
 
 const CreateContentSchema = z.object({
   title: z.string().min(1).max(255),
-  tier: z.enum(['FREE', 'PRO', 'VIP']),
-  status: z.enum(['draft', 'published']).default('draft'),
+  tier: z.enum(["FREE", "PRO", "VIP"]),
+  status: z.enum(["draft", "published"]).default("draft"),
 });
 
 export async function POST(request: NextRequest) {
@@ -328,29 +328,26 @@ export async function POST(request: NextRequest) {
       return client.course_content.create({
         data: {
           ...validated,
-          course_id: 'default-course',
-          created_by: adminId
-        }
+          course_id: "default-course",
+          created_by: adminId,
+        },
       });
     });
 
-    return NextResponse.json(
-      { success: true, data: content },
-      { status: 201 }
-    );
+    return NextResponse.json({ success: true, data: content }, { status: 201 });
   } catch (error) {
-    console.error('Error creating content:', error);
+    console.error("Error creating content:", error);
 
-    if (error instanceof Error && error.message === 'Admin access required') {
+    if (error instanceof Error && error.message === "Admin access required") {
       return NextResponse.json(
-        { error: 'Admin access required' },
-        { status: 403 }
+        { error: "Admin access required" },
+        { status: 403 },
       );
     }
 
     return NextResponse.json(
-      { error: 'Failed to create content' },
-      { status: 500 }
+      { error: "Failed to create content" },
+      { status: 500 },
     );
   }
 }

@@ -16,23 +16,23 @@ diverse, inclusive, and healthy community.
 
 ### Positive Behavior
 
-* Using welcoming and inclusive language
-* Being respectful of differing viewpoints and experiences
-* Gracefully accepting constructive criticism
-* Focusing on what is best for the community
-* Showing empathy towards other community members
-* **Honest reporting of data and results**
-* **Evidence-based claims with sources**
+- Using welcoming and inclusive language
+- Being respectful of differing viewpoints and experiences
+- Gracefully accepting constructive criticism
+- Focusing on what is best for the community
+- Showing empathy towards other community members
+- **Honest reporting of data and results**
+- **Evidence-based claims with sources**
 
 ### Unacceptable Behavior
 
-* Harassment or discrimination of any kind
-* Trolling, insulting/derogatory comments, personal attacks
-* Public or private harassment
-* Publishing others' private information without permission
-* **Fabricating data or metrics**
-* **Making unsubstantiated claims**
-* Other conduct which could reasonably be considered inappropriate
+- Harassment or discrimination of any kind
+- Trolling, insulting/derogatory comments, personal attacks
+- Public or private harassment
+- Publishing others' private information without permission
+- **Fabricating data or metrics**
+- **Making unsubstantiated claims**
+- Other conduct which could reasonably be considered inappropriate
 
 ## Enforcement Responsibilities
 
@@ -83,4 +83,3 @@ promptly and fairly.
 
 This Code of Conduct is adapted from the [Contributor Covenant](https://www.contributor-covenant.org/),
 version 2.0, with additions specific to evidence-based methodology development.
-

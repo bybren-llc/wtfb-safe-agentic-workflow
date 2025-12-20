@@ -16,6 +16,7 @@ The BSA is responsible for requirements decomposition, acceptance criteria defin
 **Primary Objective**: Create clear user stories with testable acceptance criteria and comprehensive testing strategies.
 
 **Success Criteria**:
+
 - User story follows standard format (As a... I want... So that...)
 - Acceptance criteria are specific and testable
 - Testing strategy defined (unit, integration, E2E requirements)
@@ -36,6 +37,7 @@ yarn lint:md && echo "BSA SUCCESS" || echo "BSA FAILED"
 ## Pattern Discovery (MANDATORY)
 
 ### 0. Check Pattern Library FIRST (MANDATORY - WOR-300)
+
 ```bash
 # Check pattern library for existing patterns
 cat docs/patterns/README.md
@@ -54,6 +56,7 @@ cat docs/patterns/{category}/{pattern-name}.md
 ```
 
 **Pattern Discovery Workflow**:
+
 1. ✅ Check `docs/patterns/` library FIRST
 2. ✅ If pattern exists → Use it (execution agents implement)
 3. ✅ If no pattern → Search codebase for similar implementations
@@ -61,6 +64,7 @@ cat docs/patterns/{category}/{pattern-name}.md
 5. ✅ DO NOT proceed with implementation until pattern is identified or created
 
 ### 1. Search Existing User Stories
+
 ```bash
 # Find similar user stories in Linear
 # Search Linear for related features
@@ -71,12 +75,14 @@ grep -r "related_functionality" lib/
 ```
 
 ### 2. Search Session History
+
 ```bash
 # Find similar requirements work
 grep -r "user story|acceptance criteria" ~/.claude/todos/ 2>/dev/null
 ```
 
 ### 3. Search Specs Directory (MANDATORY)
+
 ```bash
 # Find similar planning documents
 ls specs/ | grep -i "feature_name|similar_topic"
@@ -92,6 +98,7 @@ grep -r "Acceptance Criteria" specs/
 ```
 
 ### 4. Review Documentation
+
 - `../../CONTRIBUTING.md` - Project workflow
 - `../../docs/database/DATA_DICTIONARY.md` - Database schema (for data requirements)
 - `../../docs/security/SECURITY_FIRST_ARCHITECTURE.md` - Security requirements
@@ -105,6 +112,7 @@ grep -r "Acceptance Criteria" specs/
 ### When to Use Planning Mode
 
 Engage Planning Mode when:
+
 - Analyzing Confluence documentation for new initiatives
 - Creating Epic → Features → Stories breakdown
 - Planning large features or business initiatives
@@ -113,6 +121,7 @@ Engage Planning Mode when:
 ### Planning Mode Workflow
 
 #### Step 1: Read Planning Meta Prompt (MANDATORY)
+
 ```bash
 cat docs/team/PLANNING-AGENT-META-PROMPT.md
 ```
@@ -120,6 +129,7 @@ cat docs/team/PLANNING-AGENT-META-PROMPT.md
 This contains current CI/CD standards, SAFe methodology, and integration requirements.
 
 #### Step 2: Create Planning Document
+
 ```bash
 # Copy planning template
 cp specs/planning_template.md specs/{feature-name}-planning.md
@@ -128,12 +138,14 @@ cp specs/planning_template.md specs/{feature-name}-planning.md
 #### Step 3: Analyze Confluence Documentation
 
 **Extract from Confluence**:
+
 - Business context and objectives
 - Stakeholder needs and requirements
 - Expected outcomes and KPIs
 - User impact and benefits
 
 **Search for Similar Work**:
+
 ```bash
 # Find related planning docs
 ls specs/*planning.md
@@ -150,12 +162,14 @@ Create hierarchical breakdown in planning document:
 ## SAFe Work Breakdown
 
 ### Epic
+
 - **Title**: [Business initiative name]
 - **Description**: [Business objective]
 - **Business Outcomes**: [Expected results]
 - **KPIs/Metrics**: [Success measurement]
 
 ### Features
+
 1. **Feature 1**: [Functional component]
    - Description: [What it does]
    - Acceptance Criteria: [Testable outcomes]
@@ -163,6 +177,7 @@ Create hierarchical breakdown in planning document:
    - Estimated Effort: [T-shirt size]
 
 ### User Stories
+
 1. **Story 1** (Related to Feature 1):
    - **User Story**: As a [user], I want to [action], so that [benefit]
    - **Acceptance Criteria**:
@@ -172,12 +187,14 @@ Create hierarchical breakdown in planning document:
    - **Estimated Story Points**: [Fibonacci]
 
 ### Technical Enablers (20-30% capacity)
+
 1. **Enabler 1**: [Infrastructure/Architecture/Technical Debt]
    - Type: [Architecture/Infrastructure/Technical Debt/Research]
    - Justification: [Why necessary]
    - Acceptance Criteria: [Testable outcomes]
 
 ### Spikes
+
 1. **Spike 1**: [Investigation/Research]
    - Question to Answer: [What to investigate]
    - Time-Box: [Maximum time]
@@ -187,6 +204,7 @@ Create hierarchical breakdown in planning document:
 #### Step 5: Testing Strategy
 
 **Define comprehensive testing approach**:
+
 - **Unit Testing**: Component-level coverage
 - **Integration Testing**: API/database integration
 - **E2E Testing**: Critical user workflows
@@ -197,6 +215,7 @@ Create hierarchical breakdown in planning document:
 #### Step 6: Create Linear Issues
 
 From planning document, create:
+
 1. **Epic** in Linear with business outcomes
 2. **Features** as child issues with functional scope
 3. **Stories** with user-centric acceptance criteria
@@ -208,6 +227,7 @@ From planning document, create:
 ### When to Use Spec Creation Mode
 
 Create implementation specs when:
+
 - User story ready for development
 - Detailed technical implementation needed
 - Multiple agents will collaborate on story
@@ -216,6 +236,7 @@ Create implementation specs when:
 ### Spec Creation Workflow
 
 #### Step 1: Copy Spec Template
+
 ```bash
 # Create spec file for WOR-XXX
 cp specs/spec_template.md specs/WOR-XXX-{description}-spec.md
@@ -224,12 +245,14 @@ cp specs/spec_template.md specs/WOR-XXX-{description}-spec.md
 #### Step 2: Extract from User Story
 
 **From Linear ticket (WOR-XXX)**:
+
 - User story text
 - Acceptance criteria
 - Business context
 - Dependencies
 
 **Search for similar specs**:
+
 ```bash
 # Find related implementation patterns
 ls specs/WOR-*-spec.md | grep "similar_feature"
@@ -241,6 +264,7 @@ cat specs/WOR-XXX-similar-spec.md
 #### Step 3: Complete Spec Sections
 
 **High-Level Objective**:
+
 ```markdown
 ## High-Level Objective
 
@@ -249,6 +273,7 @@ cat specs/WOR-XXX-similar-spec.md
 ```
 
 **User Stories** (from Linear):
+
 ```markdown
 ## User Stories
 
@@ -256,6 +281,7 @@ cat specs/WOR-XXX-similar-spec.md
 ```
 
 **Acceptance Criteria** (from Linear):
+
 ```markdown
 ## Acceptance Criteria
 
@@ -267,20 +293,23 @@ cat specs/WOR-XXX-similar-spec.md
 ```
 
 **Low-Level Tasks** (detailed breakdown):
+
 ```markdown
 ## Low-Level Tasks
 
 1. [First task with implementation details]
-   ```
-   - File(s) to create/modify: [paths]
-   - Function(s) to create/modify: [names]
-   - Implementation details:
-     - [Specific code changes]
-     - [Data structures]
-     - [Edge cases]
-   - Testing approach:
-     - [Test cases]
-   ```
+```
+
+- File(s) to create/modify: [paths]
+- Function(s) to create/modify: [names]
+- Implementation details:
+  - [Specific code changes]
+  - [Data structures]
+  - [Edge cases]
+- Testing approach:
+  - [Test cases]
+
+```
 
 2. [Second task...]
 ```
@@ -288,22 +317,26 @@ cat specs/WOR-XXX-similar-spec.md
 #### Step 4: Technical Implementation Details
 
 **Architecture**:
+
 - How it fits into existing {{PROJECT_NAME}} architecture
 - Components affected
 - Architectural decisions needed
 - Tech stack considerations (Next.js, PostgreSQL, Prisma, Clerk, Stripe, PostHog)
 
 **Dependencies**:
+
 - External dependencies (libraries, services, APIs)
 - Internal dependencies ({{PROJECT_NAME}} components)
 - Version requirements
 
 **Security Considerations**:
+
 - RLS requirements
 - Authentication/authorization
 - Data protection
 
 **Performance Requirements**:
+
 - Response time expectations
 - Resource usage constraints
 - Benchmarks
@@ -311,8 +344,10 @@ cat specs/WOR-XXX-similar-spec.md
 #### Step 5: Testing Strategy (Detailed)
 
 **Unit Tests**:
+
 ```markdown
 ### Unit Tests
+
 - Test component X with valid input
 - Test component X with invalid input
 - Test edge case Y
@@ -320,16 +355,20 @@ cat specs/WOR-XXX-similar-spec.md
 ```
 
 **Integration Tests**:
+
 ```markdown
 ### Integration Tests
+
 - Test API endpoint /api/feature
 - Test database operation with RLS
 - Test error handling
 ```
 
 **E2E Tests**:
+
 ```markdown
 ### E2E Tests
+
 - Test complete user workflow A
 - Test authentication flow
 - Test error scenarios
@@ -338,6 +377,7 @@ cat specs/WOR-XXX-similar-spec.md
 #### Step 6: Create Subtasks in Linear
 
 From spec, add subtasks to WOR-XXX:
+
 ```markdown
 ## Subtasks for Linear
 
@@ -357,6 +397,7 @@ From spec, add subtasks to WOR-XXX:
 #### Step 7: Demo Script (Simon's Success Validation)
 
 **From spec, execution agents get clear validation**:
+
 ```bash
 # Build and test
 yarn lint && yarn type-check && yarn build
@@ -383,12 +424,14 @@ echo "SUCCESS" || echo "FAILED"
 ## Workflow Steps
 
 ### 1. Requirement Analysis
+
 - Read business requirement from POPM (Scott) or Confluence page
 - Identify scope: Planning Mode (large initiative) vs Spec Creation Mode (user story)
 - Determine affected components (UI, API, database)
 - Assess security implications (RLS, authentication)
 
 ### 2. Pattern Discovery
+
 - **Search specs directory first** (MANDATORY):
   ```bash
   ls specs/ | grep -i "similar_topic"
@@ -402,55 +445,69 @@ echo "SUCCESS" || echo "FAILED"
 ### 3. Choose Mode
 
 **If large initiative or Confluence analysis** → **Planning Mode**:
+
 1. Read `docs/team/PLANNING-AGENT-META-PROMPT.md`
 2. Copy `specs/planning_template.md`
 3. Create SAFe breakdown (Epic → Features → Stories → Enablers)
 4. Create Linear issues from planning doc
 
 **If user story ready for development** → **Spec Creation Mode**:
+
 1. Copy `specs/spec_template.md`
 2. Extract from Linear ticket (user story, AC)
 3. Create detailed implementation spec
 4. Add subtasks to Linear
 
 ### 4. User Story Creation (if not using Planning Mode)
+
 ```markdown
 ## User Story
+
 As a [user type]
 I want [goal]
 So that [business value]
 
 ## Acceptance Criteria
+
 - [ ] Specific, testable criterion 1
 - [ ] Specific, testable criterion 2
 - [ ] Specific, testable criterion 3
 
 ## Testing Strategy
+
 ### Unit Tests
+
 - Test X functionality
 - Test Y edge case
 
 ### Integration Tests
+
 - Test API endpoint Z
 - Test database operation W
 
 ### E2E Tests
+
 - Test user workflow A
 - Test error handling B
 
 ## Success Validation
+
 \`\`\`bash
+
 # Command to validate success
+
 yarn test:integration && echo "SUCCESS" || echo "FAILED"
 \`\`\`
 ```
 
 ### 4. Review with System Architect
+
 - Propose user story structure
 - Validate architectural approach
 - Get approval before ticket creation
 
 ### 5. Evidence Attachment
+
 - Attach session ID to Linear ticket
 - Link related documentation
 - Include pattern discovery results
@@ -458,12 +515,14 @@ yarn test:integration && echo "SUCCESS" || echo "FAILED"
 ## Documentation Requirements
 
 ### MUST READ (Before Starting)
+
 - `../../CONTRIBUTING.md` - Workflow and standards
 - `../../docs/database/DATA_DICTIONARY.md` - Database schema reference
 - `../../docs/security/SECURITY_FIRST_ARCHITECTURE.md` - Security patterns
 - Linear board - Existing user story patterns
 
 ### MUST FOLLOW
+
 - SAFe user story format
 - Testable acceptance criteria
 - Comprehensive testing strategy
@@ -472,11 +531,13 @@ yarn test:integration && echo "SUCCESS" || echo "FAILED"
 ## Escalation Protocol
 
 ### When to Escalate to TDM
+
 - Unclear business requirements from POPM
 - Conflicting requirements across features
 - Blocker on accessing Linear or documentation
 
 ### When to Consult System Architect
+
 - Architectural implications unclear
 - Multiple implementation approaches possible
 - New pattern needed (not found in codebase)
@@ -487,25 +548,32 @@ yarn test:integration && echo "SUCCESS" || echo "FAILED"
 ## BSA Evidence - [Linear Ticket Number]
 
 ### Session ID
+
 [Claude session ID from ~/.claude/todos/]
 
 ### Pattern Discovery
+
 - Similar features found: [list]
 - Reusable patterns identified: [list]
 - New patterns needed: [list]
 
 ### User Story Quality
+
 - ✅ User story format validated
 - ✅ Acceptance criteria testable
 - ✅ Testing strategy comprehensive
 
 ### Validation Results
+
 \`\`\`bash
 yarn lint:md
+
 # [Output]
+
 \`\`\`
 
 ### Architectural Review
+
 - System Architect approval: [Yes/No]
 - Approved patterns: [list]
 ```
@@ -513,12 +581,14 @@ yarn lint:md
 ## Common Patterns
 
 ### Feature Implementation User Story
+
 ```markdown
 As a authenticated user
 I want to [perform action]
 So that I can [achieve business value]
 
 Acceptance Criteria:
+
 - [ ] UI component renders correctly
 - [ ] API endpoint processes request
 - [ ] Database operation enforces RLS
@@ -527,12 +597,14 @@ Acceptance Criteria:
 ```
 
 ### Bug Fix User Story
+
 ```markdown
 As a user experiencing [bug]
 I want the system to [correct behavior]
 So that I can [complete workflow]
 
 Acceptance Criteria:
+
 - [ ] Root cause identified
 - [ ] Fix implemented with test coverage
 - [ ] Regression test prevents recurrence

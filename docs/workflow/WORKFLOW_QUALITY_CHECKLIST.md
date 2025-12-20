@@ -105,6 +105,7 @@
 Check if ANY of the following apply:
 
 #### Infrastructure & Automation
+
 - [ ] Created bash scripts >100 lines?
 - [ ] Created/modified CI/CD workflows?
 - [ ] Created infrastructure automation?
@@ -112,6 +113,7 @@ Check if ANY of the following apply:
 - [ ] Created container orchestration?
 
 #### Security-Critical Code
+
 - [ ] Created database migration automation?
 - [ ] Created auth/authorization logic?
 - [ ] Created SSH/remote execution scripts?
@@ -119,6 +121,7 @@ Check if ANY of the following apply:
 - [ ] Created RLS policy automation?
 
 #### Complex Code
+
 - [ ] Created TypeScript/JavaScript >200 lines?
 - [ ] Created custom build tools?
 - [ ] Created database query builders?
@@ -287,6 +290,7 @@ Check if ANY of the following apply:
 ### Pattern 1: Documentation-Only Work
 
 **Checklist Result**:
+
 - ✅ All documentation complete
 - ✅ No complex code created
 - ✅ System Architect review: N/A
@@ -297,6 +301,7 @@ Check if ANY of the following apply:
 ### Pattern 2: Simple Code Changes
 
 **Checklist Result**:
+
 - ✅ Code changes <100 lines
 - ✅ Tests passing
 - ✅ System Architect review: N/A
@@ -307,6 +312,7 @@ Check if ANY of the following apply:
 ### Pattern 3: Complex Automation (MANDATORY Review)
 
 **Checklist Result**:
+
 - ✅ Complex code created
 - ✅ System Architect review: REQUIRED
 - ✅ System Architect approval: OBTAINED
@@ -322,6 +328,7 @@ Check if ANY of the following apply:
 ### Anti-Pattern 1: WOR-321 Gap
 
 **What Happened**:
+
 - ❌ Created 710-line bash script
 - ❌ Created 641-line CI/CD workflow
 - ❌ Created 3 TypeScript scripts
@@ -335,6 +342,7 @@ Check if ANY of the following apply:
 ### Anti-Pattern 2: Skipping Quality Gates
 
 **What Happened**:
+
 - ❌ Tests not run locally
 - ❌ CI/CD validation skipped
 - ❌ Documentation incomplete
@@ -347,6 +355,7 @@ Check if ANY of the following apply:
 ### Anti-Pattern 3: Wrong Specialist Assignment
 
 **What Happened**:
+
 - ❌ BE Developer for database migration (should be Data Engineer)
 - ❌ Data Engineer for documentation (should be Tech Writer)
 - ❌ No System Architect review for complex code
@@ -369,6 +378,7 @@ Check if ANY of the following apply:
 ## Version History
 
 ### v1.0 (2025-10-06)
+
 - Initial workflow quality checklist
 - WOR-321 retrospective check
 - System Architect review gates
@@ -379,4 +389,3 @@ Check if ANY of the following apply:
 **This checklist prevents architectural governance gaps like WOR-321**
 
 **Remember**: Quality is not negotiable. Take time to do it right the first time.
-

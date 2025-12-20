@@ -19,12 +19,14 @@
 ## 🧪 Testing
 
 ### Test Coverage
+
 - [ ] Unit tests added/updated
 - [ ] Integration tests added/updated
 - [ ] E2E tests added/updated
 - [ ] Manual testing completed
 
 ### Test Results
+
 ```bash
 # Paste test results here
 yarn test
@@ -33,28 +35,35 @@ yarn test
 ## 📊 Impact Analysis
 
 ### Files Changed
+
 <!-- Auto-populated by CI, but you can add context -->
 
 ### Breaking Changes
+
 - [ ] No breaking changes
 - [ ] Breaking changes (describe below)
 
 **Breaking Change Details:**
+
 <!-- If there are breaking changes, describe them here -->
 
 ## 🔄 Multi-Team Coordination
 
 ### Rebase Status
+
 - [ ] Branch is up-to-date with `dev`
 - [ ] No merge conflicts
 - [ ] Linear history maintained
 
 ### Team Dependencies
+
 - [ ] No dependencies on other teams
 - [ ] Coordinated with: <!-- @mention teams -->
 
 ### High-Risk Files Modified
+
 <!-- Check if any of these files were modified -->
+
 - [ ] `.env.template`
 - [ ] `config.ts` or `config/features.ts`
 - [ ] `package.json` or `yarn.lock`
@@ -62,26 +71,31 @@ yarn test
 - [ ] API routes (`app/api/`)
 
 **If high-risk files modified, explain why:**
+
 <!-- Provide justification for changes to sensitive files -->
 
 ## 🚀 Deployment
 
 ### Environment Variables
+
 - [ ] No new environment variables
 - [ ] New environment variables added (list below)
 
 **New Environment Variables:**
+
 ```bash
 # List any new environment variables
 VARIABLE_NAME=description
 ```
 
 ### Database Changes
+
 - [ ] No database changes
 - [ ] Database migration required
 - [ ] Seed data changes
 
 **If database changes made:**
+
 - [ ] **DATA_DICTIONARY.md updated** (MANDATORY - single source of truth)
 - [ ] Table/column definitions added with purpose and constraints
 - [ ] Table count metrics updated in quick reference
@@ -91,10 +105,12 @@ VARIABLE_NAME=description
 - [ ] Security review completed for sensitive data changes
 
 ### Feature Flags
+
 - [ ] No feature flags involved
 - [ ] Feature flag changes (describe below)
 
 **Feature Flag Changes:**
+
 <!-- Describe any feature flag modifications -->
 
 ## 📚 Documentation
@@ -105,6 +121,7 @@ VARIABLE_NAME=description
 - [ ] Confluence documentation updated
 
 **Database Documentation (if schema changes):**
+
 - [ ] **docs/database/DATA_DICTIONARY.md updated** (MANDATORY)
 - [ ] Related RLS documentation updated
 - [ ] Team notified of schema changes
@@ -113,6 +130,7 @@ VARIABLE_NAME=description
 ## ✅ Pre-merge Checklist
 
 ### Code Quality
+
 - [ ] ESLint passes
 - [ ] TypeScript compilation successful
 - [ ] Prettier formatting applied
@@ -120,23 +138,27 @@ VARIABLE_NAME=description
 - [ ] No TODO comments without tickets
 
 ### Security
+
 - [ ] No secrets committed
 - [ ] No sensitive data exposed
 - [ ] Security audit passes
 - [ ] Input validation implemented
 
 ### Performance
+
 - [ ] No performance regressions
 - [ ] Bundle size impact acceptable
 - [ ] Database queries optimized
 
 ### SAFe Compliance
+
 - [ ] Commit messages follow SAFe format
 - [ ] Linear ticket linked and updated
 - [ ] Acceptance criteria met
 - [ ] Definition of Done satisfied
 
 ### Database Compliance (if schema changes)
+
 - [ ] RLS_DATABASE_MIGRATION_SOP.md procedures followed
 - [ ] DATA_DICTIONARY.md updated with schema changes
 - [ ] Security implications reviewed and documented
@@ -147,6 +169,7 @@ VARIABLE_NAME=description
 <!-- Guide reviewers on what to focus on -->
 
 **Please pay special attention to:**
+
 - [ ] Business logic in `[specific files]`
 - [ ] Error handling in `[specific areas]`
 - [ ] Performance of `[specific features]`
@@ -157,9 +180,11 @@ VARIABLE_NAME=description
 <!-- Add screenshots or videos if UI changes are involved -->
 
 **Before:**
+
 <!-- Screenshot of before state -->
 
 **After:**
+
 <!-- Screenshot of after state -->
 
 ## 🤝 Reviewer Assignment
@@ -167,10 +192,12 @@ VARIABLE_NAME=description
 <!-- Auto-assigned based on CODEOWNERS, but you can request specific reviewers -->
 
 **Required Reviewers:**
+
 - [ ] @{{ARCHITECT_GITHUB_HANDLE}} (ARCHitect-in-the-IDE)
 - [ ] Team lead: @<!-- team-lead -->
 
 **Optional Reviewers:**
+
 - [ ] @<!-- optional-reviewer-1 -->
 - [ ] @<!-- optional-reviewer-2 -->
 
@@ -183,6 +210,7 @@ VARIABLE_NAME=description
 ## 🚨 For Reviewers
 
 ### Review Checklist
+
 - [ ] Code follows {{PROJECT_NAME}} coding standards
 - [ ] Business logic is sound
 - [ ] Error handling is comprehensive
@@ -193,6 +221,7 @@ VARIABLE_NAME=description
 - [ ] Multi-team coordination considered
 
 ### Approval Criteria
+
 - [ ] All CI checks pass
 - [ ] Code review approved
 - [ ] QA testing completed (if required)

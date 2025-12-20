@@ -97,7 +97,7 @@ export async function processPayment(
     stripe_payment_id: string;
     amount: number;
     subscription_id: string;
-  }
+  },
 ) {
   return await withUserContext(prisma, userId, async (client) => {
     return await client.$transaction(async (tx) => {
@@ -107,22 +107,22 @@ export async function processPayment(
           user_id: userId,
           stripe_payment_id: paymentData.stripe_payment_id,
           amount: paymentData.amount,
-          status: 'succeeded',
-          currency: 'usd'
-        }
+          status: "succeeded",
+          currency: "usd",
+        },
       });
 
       // 2. Update subscription
       const subscription = await tx.subscriptions.update({
         where: {
           id: paymentData.subscription_id,
-          user_id: userId  // RLS check
+          user_id: userId, // RLS check
         },
         data: {
-          status: 'active',
+          status: "active",
           current_period_end: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
-          updated_at: new Date()
-        }
+          updated_at: new Date(),
+        },
       });
 
       // 3. Update user credits (if applicable)
@@ -130,8 +130,8 @@ export async function processPayment(
         where: { user_id: userId },
         data: {
           credits: { increment: 100 },
-          updated_at: new Date()
-        }
+          updated_at: new Date(),
+        },
       });
 
       return { payment, subscription };
@@ -150,28 +150,28 @@ export async function bulkCreateContent(
   userId: string,
   contents: Array<{
     title: string;
-    tier: 'FREE' | 'PRO' | 'VIP';
-  }>
+    tier: "FREE" | "PRO" | "VIP";
+  }>,
 ) {
   return await withAdminContext(prisma, userId, async (client) => {
     return await client.$transaction(async (tx) => {
       // Use createMany for bulk inserts
       const result = await tx.course_content.createMany({
-        data: contents.map(content => ({
+        data: contents.map((content) => ({
           ...content,
-          course_id: 'default-course',
-          status: 'draft',
-          created_by: userId
-        }))
+          course_id: "default-course",
+          status: "draft",
+          created_by: userId,
+        })),
       });
 
       // Update course aggregate
       await tx.courses.update({
-        where: { id: 'default-course' },
+        where: { id: "default-course" },
         data: {
           total_content: { increment: contents.length },
-          updated_at: new Date()
-        }
+          updated_at: new Date(),
+        },
       });
 
       return { count: result.count };
@@ -188,7 +188,7 @@ export async function bulkCreateContent(
  */
 export async function upgradeUserTier(
   userId: string,
-  newTier: 'FREE' | 'PRO' | 'VIP'
+  newTier: "FREE" | "PRO" | "VIP",
 ) {
   return await withUserContext(prisma, userId, async (client) => {
     return await client.$transaction(async (tx) => {
@@ -197,18 +197,21 @@ export async function upgradeUserTier(
         where: {
           user_id_course_id: {
             user_id: userId,
-            course_id: 'default-course'
-          }
-        }
+            course_id: "default-course",
+          },
+        },
       });
 
       if (!enrollment) {
-        throw new Error('No enrollment found');
+        throw new Error("No enrollment found");
       }
 
       const tierHierarchy = { FREE: 0, PRO: 1, VIP: 2 };
-      if (tierHierarchy[newTier] <= tierHierarchy[enrollment.tier as keyof typeof tierHierarchy]) {
-        throw new Error('Cannot downgrade or same tier');
+      if (
+        tierHierarchy[newTier] <=
+        tierHierarchy[enrollment.tier as keyof typeof tierHierarchy]
+      ) {
+        throw new Error("Cannot downgrade or same tier");
       }
 
       // 2. Update enrollment
@@ -216,14 +219,14 @@ export async function upgradeUserTier(
         where: {
           user_id_course_id: {
             user_id: userId,
-            course_id: 'default-course'
-          }
+            course_id: "default-course",
+          },
         },
         data: {
           tier: newTier,
           upgraded_at: new Date(),
-          updated_at: new Date()
-        }
+          updated_at: new Date(),
+        },
       });
 
       // 3. Log tier change
@@ -232,8 +235,8 @@ export async function upgradeUserTier(
           user_id: userId,
           from_tier: enrollment.tier,
           to_tier: newTier,
-          changed_at: new Date()
-        }
+          changed_at: new Date(),
+        },
       });
 
       return updated;
@@ -251,21 +254,21 @@ export async function upgradeUserTier(
 export async function decrementInventory(
   userId: string,
   productId: string,
-  quantity: number
+  quantity: number,
 ) {
-  return await withSystemContext(prisma, 'inventory', async (client) => {
+  return await withSystemContext(prisma, "inventory", async (client) => {
     return await client.$transaction(async (tx) => {
       // 1. Lock row for update
       const product = await tx.products.findUnique({
-        where: { id: productId }
+        where: { id: productId },
       });
 
       if (!product) {
-        throw new Error('Product not found');
+        throw new Error("Product not found");
       }
 
       if (product.inventory < quantity) {
-        throw new Error('Insufficient inventory');
+        throw new Error("Insufficient inventory");
       }
 
       // 2. Update inventory
@@ -273,8 +276,8 @@ export async function decrementInventory(
         where: { id: productId },
         data: {
           inventory: { decrement: quantity },
-          updated_at: new Date()
-        }
+          updated_at: new Date(),
+        },
       });
 
       // 3. Create inventory log
@@ -283,9 +286,9 @@ export async function decrementInventory(
           product_id: productId,
           user_id: userId,
           change: -quantity,
-          reason: 'purchase',
-          created_at: new Date()
-        }
+          reason: "purchase",
+          created_at: new Date(),
+        },
       });
 
       return updated;
@@ -297,6 +300,7 @@ export async function decrementInventory(
 ## Advanced Patterns
 
 ### With Audit Logging
+
 ```typescript
 return await withUserContext(prisma, userId, async (client) => {
   return await client.$transaction(async (tx) => {
@@ -320,20 +324,24 @@ return await withUserContext(prisma, userId, async (client) => {
 ```
 
 ### With Rollback Handling
+
 ```typescript
 try {
-  return await client.$transaction(async (tx) => {
-    // Operations...
-    return result;
-  }, {
-    maxWait: 5000,    // Max wait time to start tx
-    timeout: 10000,   // Max tx duration
-    isolationLevel: 'ReadCommitted'
-  });
+  return await client.$transaction(
+    async (tx) => {
+      // Operations...
+      return result;
+    },
+    {
+      maxWait: 5000, // Max wait time to start tx
+      timeout: 10000, // Max tx duration
+      isolationLevel: "ReadCommitted",
+    },
+  );
 } catch (error) {
-  if (error.code === 'P2034') {
+  if (error.code === "P2034") {
     // Transaction timeout
-    throw new Error('Operation took too long');
+    throw new Error("Operation took too long");
   }
   throw error;
 }
@@ -387,21 +395,21 @@ psql -U wtfb_user -d wtfb_dev \
 ## Example: Order Creation with Items
 
 ```typescript
-import { withUserContext } from '@/lib/rls-context';
-import { prisma } from '@/lib/prisma';
+import { withUserContext } from "@/lib/rls-context";
+import { prisma } from "@/lib/prisma";
 
 export async function createOrder(
   userId: string,
   data: {
     items: Array<{ product_id: string; quantity: number; price: number }>;
-  }
+  },
 ) {
   return await withUserContext(prisma, userId, async (client) => {
     return await client.$transaction(async (tx) => {
       // 1. Calculate total
       const total = data.items.reduce(
-        (sum, item) => sum + (item.price * item.quantity),
-        0
+        (sum, item) => sum + item.price * item.quantity,
+        0,
       );
 
       // 2. Create order
@@ -409,27 +417,27 @@ export async function createOrder(
         data: {
           user_id: userId,
           total_amount: total,
-          status: 'pending',
-          created_at: new Date()
-        }
+          status: "pending",
+          created_at: new Date(),
+        },
       });
 
       // 3. Create order items
       await tx.order_items.createMany({
-        data: data.items.map(item => ({
+        data: data.items.map((item) => ({
           order_id: order.id,
           product_id: item.product_id,
           quantity: item.quantity,
           price: item.price,
-          user_id: userId
-        }))
+          user_id: userId,
+        })),
       });
 
       // 4. Decrement inventory
       for (const item of data.items) {
         await tx.products.update({
           where: { id: item.product_id },
-          data: { inventory: { decrement: item.quantity } }
+          data: { inventory: { decrement: item.quantity } },
         });
       }
 

@@ -257,50 +257,49 @@ yarn test:integration
 
 ```typescript
 // app/api/webhooks/stripe/route.ts
-import { NextRequest, NextResponse } from 'next/server';
-import { headers } from 'next/headers';
-import Stripe from 'stripe';
-import { withSystemContext } from '@/lib/rls-context';
-import { prisma } from '@/lib/prisma';
+import { NextRequest, NextResponse } from "next/server";
+import { headers } from "next/headers";
+import Stripe from "stripe";
+import { withSystemContext } from "@/lib/rls-context";
+import { prisma } from "@/lib/prisma";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: '2024-04-10'
+  apiVersion: "2024-04-10",
 });
 
 export async function POST(req: NextRequest) {
   try {
     const body = await req.text();
-    const signature = headers().get('stripe-signature')!;
+    const signature = headers().get("stripe-signature")!;
 
     const event = stripe.webhooks.constructEvent(
       body,
       signature,
-      process.env.STRIPE_WEBHOOK_SECRET!
+      process.env.STRIPE_WEBHOOK_SECRET!,
     );
 
-    if (event.type === 'payment_intent.succeeded') {
+    if (event.type === "payment_intent.succeeded") {
       const paymentIntent = event.data.object as Stripe.PaymentIntent;
 
-      await withSystemContext(prisma, 'webhook_stripe', async (client) => {
+      await withSystemContext(prisma, "webhook_stripe", async (client) => {
         await client.payments.create({
           data: {
             stripe_payment_id: paymentIntent.id,
             user_id: paymentIntent.metadata.user_id,
             amount: paymentIntent.amount,
             currency: paymentIntent.currency,
-            status: 'succeeded'
-          }
+            status: "succeeded",
+          },
         });
       });
     }
 
     return NextResponse.json({ received: true });
-
   } catch (error) {
-    console.error('Stripe webhook error:', error);
+    console.error("Stripe webhook error:", error);
     return NextResponse.json(
-      { error: 'Webhook processing failed' },
-      { status: 400 }
+      { error: "Webhook processing failed" },
+      { status: 400 },
     );
   }
 }

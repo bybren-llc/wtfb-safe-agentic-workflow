@@ -134,25 +134,28 @@ Add new table documentation:
 
 **RLS**: ✅ Enabled (user isolation)
 
-| Column | Type | Purpose | Constraints |
-|--------|------|---------|-------------|
-| id | SERIAL | Primary key | NOT NULL, AUTO INCREMENT |
-| user_id | VARCHAR(255) | User owner | NOT NULL, FK to user.user_id |
-| theme | VARCHAR(50) | UI theme preference | NULL |
-| notifications | BOOLEAN | Email notifications enabled | DEFAULT true |
-| created_at | TIMESTAMP | Creation time | DEFAULT now() |
-| updated_at | TIMESTAMP | Last update | AUTO UPDATE |
+| Column        | Type         | Purpose                     | Constraints                  |
+| ------------- | ------------ | --------------------------- | ---------------------------- |
+| id            | SERIAL       | Primary key                 | NOT NULL, AUTO INCREMENT     |
+| user_id       | VARCHAR(255) | User owner                  | NOT NULL, FK to user.user_id |
+| theme         | VARCHAR(50)  | UI theme preference         | NULL                         |
+| notifications | BOOLEAN      | Email notifications enabled | DEFAULT true                 |
+| created_at    | TIMESTAMP    | Creation time               | DEFAULT now()                |
+| updated_at    | TIMESTAMP    | Last update                 | AUTO UPDATE                  |
 
 **Indexes**:
+
 - `user_preferences_user_id_idx` on `user_id` (for RLS performance)
 
 **Recent Changes**:
+
 - 2025-10-03: Created table with RLS policies [WOR-300]
 ```
 
 ## RLS Policy Patterns
 
 ### User Isolation (Standard)
+
 ```sql
 -- Users can only access their own data
 CREATE POLICY {table}_isolation ON {table}
@@ -162,6 +165,7 @@ CREATE POLICY {table}_isolation ON {table}
 ```
 
 ### Admin Access
+
 ```sql
 -- Admins can access all data
 CREATE POLICY {table}_admin_access ON {table}
@@ -171,6 +175,7 @@ CREATE POLICY {table}_admin_access ON {table}
 ```
 
 ### System Access
+
 ```sql
 -- System operations bypass user checks
 CREATE POLICY {table}_system_access ON {table}
@@ -180,6 +185,7 @@ CREATE POLICY {table}_system_access ON {table}
 ```
 
 ### Read-Only Public Access
+
 ```sql
 -- Public can read, only owner can modify
 CREATE POLICY {table}_public_read ON {table}

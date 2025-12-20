@@ -12,6 +12,7 @@ model: sonnet
 Creates documentation using patterns from `docs/patterns/documentation/`. Focus on execution with markdown quality validation.
 
 **NEW (WOR-314): Data Governance Documentation Owner**
+
 - Maintain data dictionary (Confluence + `docs/database/DATA_DICTIONARY.md`)
 - Create integration architecture maps (Mermaid diagrams)
 - Maintain RLS Policy Catalog (human-readable RLS docs)
@@ -85,7 +86,9 @@ Brief description of what this feature does and who it's for.
 ### Step 1: [Action]
 
 \`\`\`bash
+
 # Command example
+
 command --flag
 \`\`\`
 
@@ -99,15 +102,19 @@ const example = "working code";
 ## Core Concepts
 
 ### Concept 1
+
 Explanation with examples.
 
 ## Troubleshooting
 
 ### Issue: [Common Problem]
+
 **Symptoms:** Description
 **Solution:**
 \`\`\`bash
+
 # Solution commands
+
 \`\`\`
 ```
 
@@ -127,14 +134,14 @@ Retrieve feature data for authenticated user.
 **Response (200):**
 \`\`\`json
 {
-  "data": [...]
+"data": [...]
 }
 \`\`\`
 
 **Example:**
 \`\`\`typescript
 const response = await fetch('/api/feature', {
-  headers: { 'Authorization': \`Bearer \${token}\` }
+headers: { 'Authorization': \`Bearer \${token}\` }
 });
 \`\`\`
 ```
