@@ -1,64 +1,91 @@
-# WTFB Agent Team Quick Reference
+# SAFe Agent Team Quick Reference
 
 > **Philosophy**: "Search First, Reuse Always, Create Only When Necessary"
 >
 > Pattern discovery is MANDATORY before implementation.
+>
+> **Team Culture**: "We work as a round table team that has 4 pillars of SAFe inscribed on that round table. It means something."
 
-## 🚀 Agent System Enhancements (WOR-310)
+## Documentation
 
-**New Capabilities**:
+**Workflow SOPs:**
 
-- ✅ **Tool Restrictions**: Each agent has specific tool access (see `.claude/agents/*.md` frontmatter)
-- ✅ **Model Selection**: Opus for planning (BSA, ARCHitect), Sonnet for execution
-- ✅ **Metacognitive Tags**: #PATH_DECISION, #PLAN_UNCERTAINTY, #EXPORT_CRITICAL in specs
-- ✅ **Automation Hooks**: RLS validation, Linear updates, pattern library checks
-
-**Documentation**:
-
+- [Agent Workflow SOP v1.3](./docs/sop/AGENT_WORKFLOW_SOP.md) - TDM reactive role, orchestration patterns
 - [Agent Configuration SOP](./docs/sop/AGENT_CONFIGURATION_SOP.md) - Tool restrictions, model selection
-- [Agent Workflow SOP](./docs/sop/AGENT_WORKFLOW_SOP.md) - Invocation, orchestration, handoffs
-- [Hooks Directory](./.claude/hooks/) - Automation scripts
+- [ARCHitect-in-CLI Role](./docs/workflow/ARCHITECT_IN_CLI_ROLE.md) - Primary orchestrator definition
+
+**Deployment SOPs:**
+
+- [Semantic Release SOP](./docs/ci-cd/Semantic-Release-Deployment-SOP.md) - PROD releases via master branch
+- [Staging UAT SOP](./docs/sop/STAGING-UAT-RELEASE-SOP.md) - Pre-production validation gate
+
+**Database SOPs:**
+
+- [RLS Migration SOP](./docs/database/RLS_DATABASE_MIGRATION_SOP.md) - MANDATORY for Data Engineer
+
+**Project Standards:**
+
+- [Harness Whitepaper](./docs/whitepapers/CLAUDE-CODE-HARNESS-MODERNIZATION-WOR-444.md) - Complete harness architecture
+- [Agent Perspective](./docs/whitepapers/CLAUDE-CODE-HARNESS-AGENT-PERSPECTIVE.md) - Why the harness works
+- [SAFe Methodology](https://github.com/bybren-llc/wtfb-safe-agentic-workflow) - This repository
 
 ## When to Use Which Agent
 
-| Agent Role                           | Use Case                                                          | Success Criteria                                  | Primary Tools                       |
-| ------------------------------------ | ----------------------------------------------------------------- | ------------------------------------------------- | ----------------------------------- |
-| **TDM** (Technical Delivery Manager) | Coordination, blocker escalation, Linear ticket management        | Linear updated, PRs merged, blockers resolved     | Linear, GitHub, Documentation       |
-| **BSA** (Business Systems Analyst)   | Requirements decomposition, acceptance criteria, testing strategy | Clear user stories, testable ACs, QA plan defined | Linear, Documentation, Markdown     |
-| **System Architect**                 | Pattern validation, conflict prevention, architectural decisions  | ADR created, patterns validated, no conflicts     | Read, Grep, ADR templates           |
-| **FE Developer**                     | UI components, client-side logic, user interactions               | `yarn lint && yarn build` passes                  | Read, Write, Edit, Bash             |
-| **BE Developer**                     | API routes, server logic, RLS enforcement                         | `yarn test:integration` passes                    | Read, Write, Edit, Bash             |
-| **DE** (Data Engineer)               | Schema changes, migrations, database architecture                 | Migration applied, RLS maintained                 | Prisma, SQL, migration tools        |
-| **TW** (Technical Writer)            | Documentation, guides, technical content                          | `yarn lint:md` passes                             | Read, Write, Edit, Grep, Glob, Bash |
-| **DPE** (Data Provisioning Engineer) | Test data, database access, data validation                       | Test data available, DB accessible                | SQL, Prisma Studio, scripts         |
-| **QAS** (Quality Assurance)          | Execute BSA testing strategy, validate acceptance criteria        | All ACs verified, test report complete            | Playwright, Jest, test tools        |
-| **SecEng** (Security Engineer)       | Security validation, RLS checks, vulnerability assessment         | Security audit passed, RLS enforced               | RLS scripts, security tools         |
-| **RTE** (Release Train Engineer)     | PR creation, CI/CD validation, release coordination               | `yarn ci:validate` passes, PR merged              | Git, GitHub CLI, CI tools           |
+| Agent Role                           | Use Case                                                                                          | Success Criteria                                        | Primary Tools                       |
+| ------------------------------------ | ------------------------------------------------------------------------------------------------- | ------------------------------------------------------- | ----------------------------------- |
+| **TDM** (Technical Delivery Manager) | Reactive blocker resolution, Linear updates, evidence tracking (NOT orchestration - see v1.3 SOP) | Blockers resolved, evidence attached, Linear updated    | Linear, Confluence                  |
+| **BSA** (Business Systems Analyst)   | Requirements decomposition, acceptance criteria, testing strategy                                 | Clear user stories, testable ACs, QA plan defined       | Linear, Confluence, Markdown        |
+| **System Architect**                 | Pattern validation, Stage 1 PR review, migration approval, architectural decisions                | ADR created, PR technical review complete, no conflicts | Read, Grep, ADR templates           |
+| **FE Developer**                     | UI components, client-side logic, user interactions                                               | Lint and build passes                                   | Read, Write, Edit, Bash             |
+| **BE Developer**                     | API routes, server logic, RLS enforcement                                                         | Integration tests pass                                  | Read, Write, Edit, Bash             |
+| **DE** (Data Engineer)               | Schema changes, migrations, database architecture                                                 | Migration applied, RLS maintained                       | Prisma, SQL, migration tools        |
+| **TW** (Technical Writer)            | Documentation, guides, technical content                                                          | Markdown lint passes                                    | Read, Write, Edit, Grep, Glob, Bash |
+| **DPE** (Data Provisioning Engineer) | Test data, database access, data validation                                                       | Test data available, DB accessible                      | SQL, Prisma Studio, scripts         |
+| **QAS** (Quality Assurance)          | Execute BSA testing strategy, validate acceptance criteria                                        | All ACs verified, test report complete                  | Playwright, Jest, test tools        |
+| **SecEng** (Security Engineer)       | Security validation, RLS checks, vulnerability assessment                                         | Security audit passed, RLS enforced                     | RLS scripts, security tools         |
+| **RTE** (Release Train Engineer)     | PR creation, CI/CD validation, PROD deployment via Semantic Release, release coordination         | CI validates passes, PR merged, staging validated       | Git, GitHub CLI, CI tools           |
+
+## Auto-Loaded Skills
+
+Skills are loaded progressively—metadata at startup, full content when context triggers.
+
+| Skill                    | Trigger                | Purpose                                     |
+| ------------------------ | ---------------------- | ------------------------------------------- |
+| `wtfb-workflow`          | Commits, branches, PRs | SAFe format, rebase-first workflow          |
+| `pattern-discovery`      | Before writing code    | Pattern-first development (MANDATORY)       |
+| `rls-patterns`           | Database operations    | RLS context helpers (withUserContext, etc.) |
+| `frontend-patterns`      | UI work                | Clerk, shadcn, Next.js patterns             |
+| `api-patterns`           | API route creation     | Route structure, error handling             |
+| `testing-patterns`       | Writing tests          | Jest, Playwright patterns                   |
+| `orchestration-patterns` | Multi-step work        | Agent loop, evidence-based delivery         |
+| `agent-coordination`     | Multi-agent work       | Assignment matrix, escalation patterns      |
+
+**Note**: `/skills` command has display bug (v2.0.73, GitHub #14733). Skills work but won't show in list. Ask Claude directly: "What skills are available?"
 
 ## Success Validation Commands
 
 ### Frontend Development
 
 ```bash
-yarn lint && yarn build && echo "FE SUCCESS" || echo "FE FAILED"
+npm run type-check && npm run lint && npm run build && echo "FE SUCCESS" || echo "FE FAILED"
 ```
 
 ### Backend Development
 
 ```bash
-yarn test:integration && echo "BE SUCCESS" || echo "BE FAILED"
+npm run test:integration && echo "BE SUCCESS" || echo "BE FAILED"
 ```
 
 ### Documentation
 
 ```bash
-yarn lint:md && echo "DOCS SUCCESS" || echo "DOCS FAILED"
+npm run lint:md && echo "DOCS SUCCESS" || echo "DOCS FAILED"
 ```
 
 ### Pre-Push Validation
 
 ```bash
-yarn ci:validate && echo "CI SUCCESS" || echo "CI FAILED"
+npm run ci:validate && echo "CI SUCCESS" || echo "CI FAILED"
 ```
 
 ### Database Migration
@@ -73,11 +100,11 @@ npx prisma migrate dev --name migration_name && echo "MIGRATION SUCCESS" || echo
 
 ```bash
 # Large initiative → Use planning template
-cp specs/planning_template.md specs/{feature}-planning.md
+cp specs_templates/planning_template.md specs/{feature}-planning.md
 # Fill with Epic → Features → Stories → Enablers
 
 # User story → Use spec template
-cp specs/spec_template.md specs/WOR-XXX-{feature}-spec.md
+cp specs_templates/spec_template.md specs/{TICKET_PREFIX}-XXX-{feature}-spec.md
 # Fill with implementation details
 ```
 
@@ -85,7 +112,7 @@ cp specs/spec_template.md specs/WOR-XXX-{feature}-spec.md
 
 ```bash
 # 1. Read spec for clear goal
-cat specs/WOR-XXX-{feature}-spec.md
+cat specs/{TICKET_PREFIX}-XXX-{feature}-spec.md
 
 # 2. Extract:
 # - User story (goal)
@@ -106,13 +133,13 @@ cat specs/WOR-XXX-{feature}-spec.md
 
 ```bash
 # Find similar implementations in specs
-ls specs/WOR-*-spec.md | grep "similar_feature"
+ls specs/*-spec.md | grep "similar_feature"
 
 # Review SAFe user stories
 grep -r "As a.*I want to" specs/
 
 # Check patterns from past specs
-cat specs/WOR-XXX-similar-spec.md
+cat specs/XXX-similar-spec.md
 ```
 
 ### 1. Search Codebase
@@ -140,10 +167,10 @@ ls -lt ~/.claude/todos/ | head -20
 
 ### 3. Consult Documentation
 
-- CONTRIBUTING.md - Workflow and git process
-- docs/database/DATA_DICTIONARY.md - Database schema (SINGLE SOURCE OF TRUTH)
-- docs/database/RLS_IMPLEMENTATION_GUIDE.md - Row Level Security (MANDATORY for DB ops)
-- docs/security/SECURITY_FIRST_ARCHITECTURE.md - Security patterns
+- `CONTRIBUTING.md` - Workflow and git process
+- `docs/database/DATA_DICTIONARY.md` - Database schema (SINGLE SOURCE OF TRUTH)
+- `docs/database/RLS_IMPLEMENTATION_GUIDE.md` - Row Level Security (MANDATORY for DB ops)
+- `docs/security/SECURITY_FIRST_ARCHITECTURE.md` - Security patterns
 
 ### 4. Architectural Validation
 
@@ -194,17 +221,16 @@ grep -r "linear_ticket_number" ~/.claude/todos/
 grep -r "withUserContext|withAdminContext" ~/.claude/todos/
 ```
 
-## Related Documentation
+## Quick Reference
 
-### Repository Documentation
+### Key Documentation
 
-- `/CONTRIBUTING.md` - Git workflow, branch naming, commits (MANDATORY READ)
-- `/docs/guides/AGENT_TEAM_GUIDE.md` - Team onboarding guide
-- `/docs/database/DATA_DICTIONARY.md` - Database schema (AI Context)
-- `/docs/database/RLS_DATABASE_MIGRATION_SOP.md` - Schema changes (ARCHitect approval required)
-- `/docs/guides/SECURITY_FIRST_ARCHITECTURE.md` - Security patterns (NEW services)
+- `CONTRIBUTING.md` - Complete workflow guide (MANDATORY READ)
+- `docs/database/DATA_DICTIONARY.md` - Database schema (SINGLE SOURCE OF TRUTH)
+- `docs/database/RLS_DATABASE_MIGRATION_SOP.md` - Schema changes (ARCHitect approval required)
+- `docs/security/SECURITY_FIRST_ARCHITECTURE.md` - Security patterns
 
-### Agent Files (Claude Code)
+### Agent Files
 
 - `.claude/agents/bsa.md` - Business Systems Analyst
 - `.claude/agents/system-architect.md` - System Architect
@@ -220,15 +246,11 @@ grep -r "withUserContext|withAdminContext" ~/.claude/todos/
 
 ## Human-in-the-Loop (HITL) Model
 
-**Product Owner / Product Manager**: Scott
+**Product Owner / Product Manager**: {POPM_NAME}
 
 - All work requires evidence in Linear before POPM review
 - Swimlane workflow: Backlog → Ready → In Progress → Testing → Ready for Review → Done
 - POPM has final approval on all deliverables
-
----
-
-**Quick Start**: Read CONTRIBUTING.md, search codebase, propose to System Architect, validate with test command, attach evidence to Linear.
 
 ---
 
@@ -254,8 +276,8 @@ Use `@agent-name` for simple, single-step tasks:
 @tech-writer Document the user profile API in README
 
 # Coordination
-@tdm Coordinate implementation of WOR-123 user profile feature
-@rte Create PR for WOR-123 and run CI validation
+@tdm Coordinate implementation of {TICKET_PREFIX}-123 user profile feature
+@rte Create PR for {TICKET_PREFIX}-123 and run CI validation
 ```
 
 ### Task Tool Invocation (Complex Tasks)
@@ -266,8 +288,8 @@ Use `Task()` for complex, multi-step tasks with detailed instructions:
 // BSA: Create comprehensive spec
 Task({
   subagent_type: "bsa",
-  description: "Create spec for WOR-123",
-  prompt: `Create comprehensive spec for WOR-123 user profile feature.
+  description: "Create spec for {TICKET_PREFIX}-123",
+  prompt: `Create comprehensive spec for {TICKET_PREFIX}-123 user profile feature.
 
 Requirements:
 - User can view and edit their profile
@@ -286,8 +308,8 @@ Please:
 // Backend Developer: Implement with pattern discovery
 Task({
   subagent_type: "be-developer",
-  description: "Implement WOR-123 API",
-  prompt: `Read spec at specs/WOR-123-user-profile-spec.md
+  description: "Implement {TICKET_PREFIX}-123 API",
+  prompt: `Read spec at specs/{TICKET_PREFIX}-123-user-profile-spec.md
 
 Implement the user profile API endpoints:
 1. GET /api/user/profile - Get current user's profile
@@ -307,8 +329,8 @@ Pattern discovery is MANDATORY before implementation.`,
 // QAS: Execute comprehensive testing
 Task({
   subagent_type: "qas",
-  description: "Test WOR-123 feature",
-  prompt: `Read spec at specs/WOR-123-user-profile-spec.md
+  description: "Test {TICKET_PREFIX}-123 feature",
+  prompt: `Read spec at specs/{TICKET_PREFIX}-123-user-profile-spec.md
 
 Execute the testing strategy defined by BSA:
 
@@ -332,24 +354,21 @@ Execute the testing strategy defined by BSA:
 Validate all acceptance criteria from the spec.`,
 });
 
-// TDM: Orchestrate entire workflow
+// TDM: Reactive blocker resolution (NOT orchestration)
 Task({
   subagent_type: "tdm",
-  description: "Coordinate WOR-123 implementation",
-  prompt: `Coordinate complete implementation of WOR-123 user profile feature.
+  description: "Resolve blocker for {TICKET_PREFIX}-123",
+  prompt: `A blocker has been reported for {TICKET_PREFIX}-123.
 
-Workflow:
-1. Invoke BSA to create spec
-2. Review spec and confirm with POPM if needed
-3. Invoke Data Engineer for schema changes (if needed)
-4. Invoke Backend Developer for API implementation
-5. Invoke Frontend Developer for UI implementation
-6. Invoke QAS for testing
-7. Invoke Security Engineer for security audit
-8. Update Linear ticket with progress after each step
-9. Invoke RTE to create PR when all work complete
+TDM Responsibilities (per v1.3 SOP):
+1. Monitor progress - read session archaeology, Linear, PR comments
+2. Identify blocker details - search for "FAILED|error|blocked"
+3. Escalate to appropriate specialist to resolve
+4. Track evidence - attach session IDs, test results to Linear
+5. Update Linear ticket with resolution
 
-Monitor for blockers and escalate to ARCHitect or POPM as needed.`,
+NOTE: TDM is REACTIVE, not an orchestrator.
+ARCHitect-in-CLI is the primary orchestrator.`,
 });
 ```
 
@@ -360,16 +379,18 @@ Monitor for blockers and escalate to ARCHitect or POPM as needed.`,
 | **Simple question**       | Direct mention | `@bsa What patterns exist for user authentication?` |
 | **Single-step task**      | Direct mention | `@be-developer Add logging to the login endpoint`   |
 | **Multi-step task**       | Task tool      | BSA creating spec with pattern discovery            |
-| **Complex coordination**  | Task tool      | TDM orchestrating multiple agents                   |
+| **Complex coordination**  | Task tool      | Multiple agents working on related features         |
 | **Detailed requirements** | Task tool      | QAS executing comprehensive test strategy           |
+| **Blocker resolution**    | Task tool      | TDM investigating and escalating blockers           |
 
 ### Pro Tips
 
-1. **Always reference specs**: `Read spec at specs/WOR-XXX-spec.md`
+1. **Always reference specs**: `Read spec at specs/{TICKET_PREFIX}-XXX-spec.md`
 2. **Mandate pattern discovery**: `Pattern discovery is MANDATORY before implementation`
 3. **Check #EXPORT_CRITICAL tags**: `Review #EXPORT_CRITICAL tags in spec first`
 4. **Validate with commands**: Use success validation commands from agent prompts
 5. **Update Linear**: TDM can update Linear with `mcp__linear-mcp__create_comment`
+6. **TDM is reactive**: Don't use TDM for orchestration—use ARCHitect-in-CLI
 
 ---
 
