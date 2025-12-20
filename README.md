@@ -45,6 +45,7 @@ This isn't just "AI-assisted development" - it's a fundamentally different appro
 - 🔧 **Maintainability Issues**: Identify future maintenance problems
 
 **When Exercised**:
+
 1. Agent clearly explains the concern with specific examples
 2. Proposes alternative approaches
 3. Documents decision in an ADR (Architecture Decision Record)
@@ -57,6 +58,7 @@ This isn't just "AI-assisted development" - it's a fundamentally different appro
 **True Multi-Agent Delegation** - Claude Code's Task tool enables one agent to delegate work to another while preserving context, maintaining quality gates, and enabling parallel development.
 
 **The Innovation**:
+
 ```typescript
 // Agent A delegates to Agent B with full context transfer
 Task({
@@ -65,13 +67,14 @@ Task({
   context: {
     linearTicket: "WOR-321",
     dependencies: ["existing migration scripts", "RLS patterns"],
-    acceptance: ["migration safety verified", "SQL validation queries created"]
+    acceptance: ["migration safety verified", "SQL validation queries created"],
   },
-  expectedArtifacts: ["validation scripts", "safety documentation"]
-})
+  expectedArtifacts: ["validation scripts", "safety documentation"],
+});
 ```
 
 **What This Enables**:
+
 - 🔄 **Context Transfer**: Full project context, ticket requirements, and dependencies passed between agents
 - 🎭 **Role Specialization**: Each agent operates within its specialized expertise and tool access
 - ⚡ **Independent Execution**: Agents work autonomously without blocking each other
@@ -79,6 +82,7 @@ Task({
 - 📝 **Evidence Trail**: Complete audit trail with artifacts at each stage
 
 **Real Example (WOR-321)**:
+
 ```
 BSA → Planning Spec (45 min)
   ├→ Data Engineer → Schema Design (1.5 hrs)
@@ -96,6 +100,7 @@ BSA → Planning Spec (45 min)
 **"Search First, Reuse Always, Create Only When Necessary"** - MANDATORY before any implementation.
 
 **4-Step Discovery Process**:
+
 1. **Search Specs Directory**: Find similar implementations in past specs
 2. **Search Codebase**: Look for existing patterns and helpers
 3. **Search Pattern Library**: Check `patterns_library/` for reusable patterns
@@ -112,6 +117,7 @@ BSA → Planning Spec (45 min)
 - `#EXPORT_CRITICAL` - Highlights non-negotiable requirements (security, compliance, architecture)
 
 **Example**:
+
 ```markdown
 #PATH_DECISION: Chose REST over GraphQL due to existing API patterns
 #PLAN_UNCERTAINTY: Assumed field is optional - verify with POPM
@@ -132,6 +138,7 @@ Epic (Strategic Initiative)
 ```
 
 **Workflow**:
+
 1. BSA creates spec with acceptance criteria and testing strategy
 2. System Architect validates architectural approach
 3. Implementation agents execute with pattern discovery
@@ -182,14 +189,14 @@ Epic (Strategic Initiative)
 
 ## 📊 Real Production Results
 
-| Metric | Value | Source |
-|--------|-------|--------|
-| **Sprint Cycles** | 9 cycles (5 months) | Linear |
-| **Issues Completed** | 169 issues | Linear API |
-| **Velocity Growth** | 14× improvement | Cycle 3 (3) → Cycle 8 (42) |
-| **Commits** | 2,193 commits (10.3/day) | GitHub API |
-| **PR Merge Rate** | 90.9% (159/175) | GitHub |
-| **Documentation** | 136 docs, 36 specs, 208 Confluence pages | Repository |
+| Metric               | Value                                    | Source                     |
+| -------------------- | ---------------------------------------- | -------------------------- |
+| **Sprint Cycles**    | 9 cycles (5 months)                      | Linear                     |
+| **Issues Completed** | 169 issues                               | Linear API                 |
+| **Velocity Growth**  | 14× improvement                          | Cycle 3 (3) → Cycle 8 (42) |
+| **Commits**          | 2,193 commits (10.3/day)                 | GitHub API                 |
+| **PR Merge Rate**    | 90.9% (159/175)                          | GitHub                     |
+| **Documentation**    | 136 docs, 36 specs, 208 Confluence pages | Repository                 |
 
 **All metrics are fully verifiable.** See [whitepaper/data/](whitepaper/data/) for validation.
 
@@ -251,6 +258,7 @@ cd WTFB-SAFe-Agentic-Workflow
 **That's it!** The BSA agent will create a user story with acceptance criteria and testing strategy.
 
 **Next Steps**:
+
 - 📖 **Detailed Setup**: [Agent Setup Guide](docs/onboarding/AGENT-SETUP-GUIDE.md)
 - ✅ **Day 1 Checklist**: [Complete First Workflow](docs/onboarding/DAY-1-CHECKLIST.md)
 - 🎯 **Meta-Prompts**: [Copy-Paste Prompts for Common Tasks](docs/onboarding/META-PROMPTS-FOR-USERS.md)
@@ -291,7 +299,7 @@ This repository includes a **battle-tested Claude Code harness** adopted from pr
 ### Why Three Layers?
 
 | Layer    | Best For                                        | User Awareness                            |
-|----------|------------------------------------------------|-------------------------------------------|
+| -------- | ----------------------------------------------- | ----------------------------------------- |
 | Hooks    | Safety rails that should always apply           | Low (runs silently or with brief message) |
 | Commands | Complex workflows user consciously initiates    | High (user explicitly invokes)            |
 | Skills   | Domain expertise that should apply contextually | Medium (Claude mentions when relevant)    |
@@ -300,31 +308,32 @@ This repository includes a **battle-tested Claude Code harness** adopted from pr
 
 Skills are loaded progressively—metadata at startup, full content when relevant:
 
-| Skill                    | Trigger Context                        | Purpose                                    |
-|--------------------------|----------------------------------------|--------------------------------------------|
-| `pattern-discovery`      | Before writing code                    | Search patterns before implementing        |
-| `wtfb-workflow`          | Commits, branches, PRs                 | SAFe workflow patterns                     |
-| `rls-patterns`           | Database operations                    | RLS context helpers, security              |
-| `frontend-patterns`      | UI component work                      | Next.js/React/shadcn conventions           |
-| `api-patterns`           | API route creation                     | Route structure and error handling         |
-| `testing-patterns`       | Writing tests                          | Jest/Playwright patterns                   |
-| `stripe-patterns`        | Payment integration                    | Payment patterns, webhook safety           |
-| `security-audit`         | Security validation                    | RLS validation, vulnerability scanning     |
-| `migration-patterns`     | Database migrations                    | Schema migration SOPs, rollback            |
-| `spec-creation`          | Writing specs                          | Spec templates, acceptance criteria        |
-| `orchestration-patterns` | Multi-step agent work                  | Agent loop, evidence-based delivery        |
-| `agent-coordination`     | Multi-agent workflows                  | Assignment matrix, escalation patterns     |
-| `release-patterns`       | PR creation, releases                  | PR templates, CI validation                |
-| `deployment-sop`         | Deploying to environments              | Deployment workflow, rollback              |
-| `linear-sop`             | Ticket management                      | Linear best practices                      |
-| `confluence-docs`        | Documentation creation                 | Doc templates, standards                   |
-| `git-advanced`           | Complex git operations                 | Rebase, bisect, conflict resolution        |
+| Skill                    | Trigger Context           | Purpose                                |
+| ------------------------ | ------------------------- | -------------------------------------- |
+| `pattern-discovery`      | Before writing code       | Search patterns before implementing    |
+| `wtfb-workflow`          | Commits, branches, PRs    | SAFe workflow patterns                 |
+| `rls-patterns`           | Database operations       | RLS context helpers, security          |
+| `frontend-patterns`      | UI component work         | Next.js/React/shadcn conventions       |
+| `api-patterns`           | API route creation        | Route structure and error handling     |
+| `testing-patterns`       | Writing tests             | Jest/Playwright patterns               |
+| `stripe-patterns`        | Payment integration       | Payment patterns, webhook safety       |
+| `security-audit`         | Security validation       | RLS validation, vulnerability scanning |
+| `migration-patterns`     | Database migrations       | Schema migration SOPs, rollback        |
+| `spec-creation`          | Writing specs             | Spec templates, acceptance criteria    |
+| `orchestration-patterns` | Multi-step agent work     | Agent loop, evidence-based delivery    |
+| `agent-coordination`     | Multi-agent workflows     | Assignment matrix, escalation patterns |
+| `release-patterns`       | PR creation, releases     | PR templates, CI validation            |
+| `deployment-sop`         | Deploying to environments | Deployment workflow, rollback          |
+| `linear-sop`             | Ticket management         | Linear best practices                  |
+| `confluence-docs`        | Documentation creation    | Doc templates, standards               |
+| `git-advanced`           | Complex git operations    | Rebase, bisect, conflict resolution    |
 
 ### 23 Slash Commands
 
 Commands are organized by workflow phase:
 
 **Workflow Commands** (7):
+
 - `/start-work` - Begin new ticket with proper workflow
 - `/pre-pr` - Run complete validation before PR
 - `/end-work` - Complete work session cleanly
@@ -334,11 +343,13 @@ Commands are organized by workflow phase:
 - `/sync-linear` - Sync with Linear ticket
 
 **Local Operations** (3):
+
 - `/local-sync` - Full sync after git pull
 - `/local-deploy` - Deploy to local Docker
 - `/quick-fix` - Fast-track for small fixes
 
 **Remote Operations** (5):
+
 - `/remote-status` - Check Docker environment
 - `/remote-deploy` - Deploy to Pop OS
 - `/remote-health` - Full health dashboard
@@ -346,6 +357,7 @@ Commands are organized by workflow phase:
 - `/remote-rollback` - Rollback deployment
 
 **Other** (3):
+
 - `/test-pr-docker` - Test PR with Docker build
 - `/audit-deps` - Dependency audit
 - `/search-pattern` - Search code patterns
@@ -409,10 +421,10 @@ https://github.com/ByBren-LLC/WTFB-SAFe-Agentic-Workflow
 
 This is **version 1.0 of an emerging methodology**, not a proven standard:
 
-* **Production use**: 5 months tracked (June-October 2025), 2+ years methodology evolution
-* **Sample size**: 169 issues, 2,193 commits, single-developer validation
-* **Context**: Single-developer context limits multi-team scalability validation
-* **Not universal**: Only valuable for complex/high-risk work (see Section 7)
+- **Production use**: 5 months tracked (June-October 2025), 2+ years methodology evolution
+- **Sample size**: 169 issues, 2,193 commits, single-developer validation
+- **Context**: Single-developer context limits multi-team scalability validation
+- **Not universal**: Only valuable for complex/high-risk work (see Section 7)
 
 **Honest limitations documented** in [Section 7](whitepaper/section-7-limitations-honest-assessment.md).
 
@@ -422,10 +434,10 @@ This is **version 1.0 of an emerging methodology**, not a proven standard:
 
 We welcome contributions:
 
-* **Patterns**: Share production-tested patterns
-* **Case Studies**: Document your implementation experience
-* **Research**: Explore open questions from Section 10
-* **Improvements**: Suggest methodology enhancements
+- **Patterns**: Share production-tested patterns
+- **Case Studies**: Document your implementation experience
+- **Research**: Explore open questions from Section 10
+- **Improvements**: Suggest methodology enhancements
 
 See [CONTRIBUTING.md](project_workflow/CONTRIBUTING.md) for guidelines.
 
@@ -439,10 +451,10 @@ MIT License - See [LICENSE](LICENSE) for details.
 
 ## 📬 Contact
 
-* **Website**: [WordsToFilmBy.com](https://WordsToFilmBy.com)
-* **Email**: <scott@wordstofilmby.com>
-* **Author**: J. Scott Graham (cheddarfox)
-* **Historical Context**: Evolved from [Auggie's Architect Handbook](https://github.com/cheddarfox/auggies-architect-handbook)
+- **Website**: [WordsToFilmBy.com](https://WordsToFilmBy.com)
+- **Email**: <scott@wordstofilmby.com>
+- **Author**: J. Scott Graham (cheddarfox)
+- **Historical Context**: Evolved from [Auggie's Architect Handbook](https://github.com/cheddarfox/auggies-architect-handbook)
 
 ---
 
@@ -477,4 +489,3 @@ See [whitepaper/validation/VALIDATION-SUMMARY.md](whitepaper/validation/VALIDATI
 **Status**: Production-validated, academically honest, publication-ready
 
 **🎉 This repository contains the whitepaper, complete working template, AND a battle-tested Claude Code harness for implementing the methodology!**
-
