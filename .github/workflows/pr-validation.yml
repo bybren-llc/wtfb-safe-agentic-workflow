@@ -1,0 +1,84 @@
+# PR Validation Workflow
+# Template for SAFe Agentic Workflow projects
+#
+# Enforces:
+# - Rebase-first workflow (PR must be up-to-date with base branch)
+# - All CI checks must pass
+# - Commit message format validation
+#
+# Customize placeholders:
+# - {{TICKET_PREFIX}}: Your ticket prefix (e.g., "WOR", "PROJ")
+
+name: PR Validation
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, edited]
+
+jobs:
+  validate-pr:
+    name: Validate PR
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check PR is rebased on base branch
+        run: |
+          git fetch origin ${{ github.base_ref }}
+          BASE_SHA=$(git rev-parse origin/${{ github.base_ref }})
+          MERGE_BASE=$(git merge-base HEAD origin/${{ github.base_ref }})
+
+          if [ "$BASE_SHA" != "$MERGE_BASE" ]; then
+            echo "::error::PR is not rebased on ${{ github.base_ref }}. Please rebase."
+            echo ""
+            echo "Run: git fetch origin && git rebase origin/${{ github.base_ref }}"
+            exit 1
+          fi
+
+          echo "✅ PR is properly rebased on ${{ github.base_ref }}"
+
+      - name: Validate commit messages
+        run: |
+          # Get commits in this PR
+          COMMITS=$(git log --format="%s" origin/${{ github.base_ref }}..HEAD)
+
+          echo "Checking commit messages..."
+          echo "$COMMITS" | while read -r msg; do
+            # Check for conventional commit format with ticket reference
+            if ! echo "$msg" | grep -qE "^(feat|fix|docs|style|refactor|test|chore|perf|ci|build|revert)(\(.+\))?: .+ \[{{TICKET_PREFIX}}-[0-9]+\]$"; then
+              # Allow merge commits and generated commits
+              if ! echo "$msg" | grep -qE "^(Merge|🤖 Generated)"; then
+                echo "::warning::Commit message may not follow SAFe format: $msg"
+                echo "Expected: type(scope): description [{{TICKET_PREFIX}}-XXX]"
+              fi
+            fi
+          done
+
+          echo "✅ Commit message validation complete"
+
+      - name: Check PR title format
+        run: |
+          PR_TITLE="${{ github.event.pull_request.title }}"
+
+          if ! echo "$PR_TITLE" | grep -qE "^(feat|fix|docs|style|refactor|test|chore|perf|ci|build|revert)(\(.+\))?: .+ \[{{TICKET_PREFIX}}-[0-9]+\]$"; then
+            echo "::warning::PR title may not follow SAFe format"
+            echo "Expected: type(scope): description [{{TICKET_PREFIX}}-XXX]"
+            echo "Got: $PR_TITLE"
+          else
+            echo "✅ PR title follows SAFe format"
+          fi
+
+      - name: Check for Linear ticket reference
+        run: |
+          PR_BODY="${{ github.event.pull_request.body }}"
+
+          if echo "$PR_BODY" | grep -qE "{{TICKET_PREFIX}}-[0-9]+"; then
+            echo "✅ Linear ticket reference found in PR body"
+          else
+            echo "::warning::No Linear ticket reference found in PR body"
+            echo "Please include a reference like {{TICKET_PREFIX}}-123"
+          fi

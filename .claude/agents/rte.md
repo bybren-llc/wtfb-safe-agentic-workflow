@@ -211,7 +211,7 @@ gh pr create --title "feat(scope): description [WOR-XXX]" --body "$(cat <<'EOF'
 
 Implements [feature/fix] as specified in Linear ticket WOR-XXX.
 
-**Linear Ticket**: https://linear.app/wtfb/issue/WOR-XXX
+**Linear Ticket**: https://linear.app/{LINEAR_WORKSPACE}/issue/{TICKET_PREFIX}-XXX
 
 ## 🎯 Changes Made
 

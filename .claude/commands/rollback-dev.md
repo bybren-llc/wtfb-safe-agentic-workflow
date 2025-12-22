@@ -213,7 +213,7 @@ If rollback target image not found:
 
 - Try older version
 - Pull from registry manually
-- Check available tags: `docker images | grep wtfb-app`
+- Check available tags: `docker images | grep {PROJECT_NAME}`
 
 ### Services Still Failing
 
@@ -258,14 +258,14 @@ Document issue in Linear to prevent recurrence:
 
 To adapt this command for your infrastructure, replace these placeholders:
 
-| Placeholder       | Description                 | Example                           |
-| ----------------- | --------------------------- | --------------------------------- |
-| `{TICKET_PREFIX}` | Your Linear ticket prefix   | `WOR`, `PROJ`, `TASK`             |
-| `{SSH_KEY_PATH}`  | Path to SSH private key     | `~/.ssh/id_ed25519_staging`       |
-| `{REMOTE_USER}`   | Username on remote host     | `deploy`, `cheddarfox`            |
-| `{REMOTE_HOST}`   | Remote host name/IP         | `pop-os`, `staging.example.com`   |
-| `{PROJECT_PATH}`  | Project directory on remote | `~/Projects/wtfb-team`, `~/app`   |
-| `{REGISTRY}`      | Container registry URL      | `ghcr.io/bybren-llc`              |
-| `{PROJECT_NAME}`  | Project name in registry    | `wtfb-app`, `myapp`               |
-| `{PROJECT}`       | Short project identifier    | `wtfb`, `myapp`                   |
-| `{DEV_MACHINE}`   | Remote dev machine name     | `Pop OS`, `staging`, `dev-server` |
+| Placeholder       | Description                 | Example                              |
+| ----------------- | --------------------------- | ------------------------------------ |
+| `{TICKET_PREFIX}` | Your Linear ticket prefix   | `WOR`, `PROJ`, `TASK`                |
+| `{SSH_KEY_PATH}`  | Path to SSH private key     | `~/.ssh/id_ed25519_staging`          |
+| `{REMOTE_USER}`   | Username on remote host     | `deploy`, `cheddarfox`               |
+| `{REMOTE_HOST}`   | Remote host name/IP         | `pop-os`, `staging.example.com`      |
+| `{PROJECT_PATH}`  | Project directory on remote | `~/Projects/{PROJECT_NAME}`, `~/app` |
+| `{REGISTRY}`      | Container registry URL      | `ghcr.io/bybren-llc`                 |
+| `{PROJECT_NAME}`  | Project name in registry    | `myapp`, `webapp`                    |
+| `{PROJECT}`       | Short project identifier    | `myapp`, `webapp`                    |
+| `{DEV_MACHINE}`   | Remote dev machine name     | `Pop OS`, `staging`, `dev-server`    |

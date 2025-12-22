@@ -98,11 +98,11 @@ Create or update your project's `.claude/settings.local.json`:
 
 Search and replace in all copied files:
 
-| Find         | Replace With                       |
-| ------------ | ---------------------------------- |
-| `WOR-`       | Your ticket prefix (e.g., `PROJ-`) |
+| Find             | Replace With                       |
+| ---------------- | ---------------------------------- |
+| `WOR-`           | Your ticket prefix (e.g., `PROJ-`) |
 | `{PROJECT_NAME}` | Your project name                  |
-| `dev` branch | Your main development branch       |
+| `dev` branch     | Your main development branch       |
 
 ### Update Linear Workspace
 
@@ -184,7 +184,7 @@ After setup, your `.claude/` directory should look like:
 │   ├── end-work.md
 │   └── ... (21 more)
 ├── skills/             # 17 model-invoked skills
-│   ├── wtfb-workflow/SKILL.md
+│   ├── safe-workflow/SKILL.md
 │   ├── pattern-discovery/SKILL.md
 │   ├── rls-patterns/SKILL.md
 │   └── ... (14 more)

@@ -27,7 +27,7 @@ we undertook a systematic effort to:
 - 24 slash commands organized into logical categories
 - Clear distinction between automatic guardrails and user-invoked workflows
 - **Four model-invoked Skills implemented** (WOR-447 through WOR-450):
-  - `wtfb-workflow` - SAFe commit/branch/PR patterns
+  - `safe-workflow` - SAFe commit/branch/PR patterns
   - `pattern-discovery` - Pattern-first development enforcement
   - `rls-patterns` - Database security RLS context helpers
   - `frontend-patterns` - Next.js/Clerk/shadcn/PostHog conventions
@@ -103,7 +103,7 @@ Our Claude Code harness operates on three distinct layers, each with different i
 │  ├─ Trigger: Claude detects relevant context                         │
 │  ├─ Invocation: Model decision, transparent to user                  │
 │  ├─ Purpose: Pattern enforcement, domain knowledge injection         │
-│  └─ Skills: wtfb-workflow, pattern-discovery, rls-patterns, frontend │
+│  └─ Skills: safe-workflow, pattern-discovery, rls-patterns, frontend │
 │                                                                       │
 └──────────────────────────────────────────────────────────────────────┘
 ```
@@ -355,7 +355,7 @@ These scripts exist in `.claude/hooks/` but are not currently called by `hooks-c
 | Phase   | Scope                         | Status | Tickets          | Notes                            |
 | ------- | ----------------------------- | ------ | ---------------- | -------------------------------- |
 | Phase 0 | Fix Docker command/hook drift | ✅     | WOR-445          | Terminology contract, dev-first  |
-| Phase 1 | First Skills                  | ✅     | WOR-447, WOR-448 | wtfb-workflow, pattern-discovery |
+| Phase 1 | First Skills                  | ✅     | WOR-447, WOR-448 | safe-workflow, pattern-discovery |
 | Phase 2 | Domain Skills                 | ✅     | WOR-449, WOR-450 | rls-patterns, frontend-patterns  |
 | Phase 3 | Skills Expansion              | ✅     | WOR-458          | 13 skills, hooks wired/archived  |
 
@@ -402,7 +402,7 @@ Skills follow a three-level progressive disclosure model from Anthropic's archit
 
 | Skill               | Ticket  | Status | Purpose                                        | Triggers When                        |
 | ------------------- | ------- | ------ | ---------------------------------------------- | ------------------------------------ |
-| `wtfb-workflow`     | WOR-447 | ✅     | SAFe commit format, branch naming, PR workflow | Creating commits, branches, PRs      |
+| `safe-workflow`     | WOR-447 | ✅     | SAFe commit format, branch naming, PR workflow | Creating commits, branches, PRs      |
 | `pattern-discovery` | WOR-448 | ✅     | Search docs/patterns before creating new code  | About to write significant new code  |
 | `rls-patterns`      | WOR-449 | ✅     | RLS context helpers, forbid direct Prisma      | Database operations, writing queries |
 | `frontend-patterns` | WOR-450 | ✅     | Clerk auth, shadcn/Radix, Next.js App Router   | UI component work                    |
@@ -416,10 +416,10 @@ Skills provide context; commands execute actions. Here's how they work together:
 
 | User Intent                   | Slash Command         | Skill (Auto-Invokes)                      |
 | ----------------------------- | --------------------- | ----------------------------------------- |
-| "Start work on WOR-123"       | `/start-work WOR-123` | `wtfb-workflow` provides context          |
+| "Start work on WOR-123"       | `/start-work WOR-123` | `safe-workflow` provides context          |
 | "Build a dashboard component" | (none needed)         | `frontend-patterns` + `pattern-discovery` |
 | "Add API for payments"        | (none needed)         | `rls-patterns` + `pattern-discovery`      |
-| "Ready for PR"                | `/pre-pr`             | `wtfb-workflow` validates approach        |
+| "Ready for PR"                | `/pre-pr`             | `safe-workflow` validates approach        |
 
 ### SAFe Methodology Alignment
 
@@ -932,7 +932,7 @@ Users think in workflows, not alphabetical order. Grouping commands by purpose
 
 ### 6. Skills Knowledge Doesn't Guarantee Compliance
 
-Even with the `wtfb-workflow` skill loaded and knowing the process, we still pushed
+Even with the `safe-workflow` skill loaded and knowing the process, we still pushed
 directly to dev "because it's just docs." Skills provide knowledge but can't enforce behavior.
 **Mitigation**: Critical workflow steps need hooks with blockers, not just skills with reminders.
 We added a blocker that prevents pushing to dev/master directly.

@@ -34,7 +34,7 @@ Validates security implementation using patterns from `docs/patterns/security/`.
 
 ```bash
 # Full security validation
-cat scripts/rls-phase4-final-validation.sql | docker exec -i wtfb-team-postgres-1 psql -U wtfb_app_user -d wtfb_dev && npm audit --audit-level=high && yarn lint && echo "SECURITY SUCCESS" || echo "SECURITY FAILED"
+cat scripts/rls-phase4-final-validation.sql | docker exec -i {PROJECT_NAME}-postgres-1 psql -U {PROJECT}_app_user -d {PROJECT}_dev && npm audit --audit-level=high && yarn lint && echo "SECURITY SUCCESS" || echo "SECURITY FAILED"
 ```
 
 ## Pattern Execution Workflow
@@ -68,7 +68,7 @@ ls docs/patterns/security/
 
 ```bash
 # Automated RLS check
-cat scripts/rls-phase4-final-validation.sql | docker exec -i wtfb-team-postgres-1 psql -U wtfb_app_user -d wtfb_dev
+cat scripts/rls-phase4-final-validation.sql | docker exec -i {PROJECT_NAME}-postgres-1 psql -U {PROJECT}_app_user -d {PROJECT}_dev
 
 # Expected output:
 # ✓ User isolation enforced

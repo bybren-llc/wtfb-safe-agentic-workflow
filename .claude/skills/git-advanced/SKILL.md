@@ -285,5 +285,5 @@ git push --force-with-lease origin {TICKET_PREFIX}-XXX-feature
 ## Related Resources
 
 - **CONTRIBUTING.md**: Branch naming and commit format
-- **wtfb-workflow skill**: Complete workflow patterns
+- **safe-workflow skill**: Complete workflow patterns
 - **release-patterns skill**: PR and merge patterns
