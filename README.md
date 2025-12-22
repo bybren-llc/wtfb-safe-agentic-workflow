@@ -6,7 +6,7 @@
 [![Version](https://img.shields.io/badge/version-1.0-green.svg)](whitepaper/README.md)
 [![Production Validated](https://img.shields.io/badge/production-validated-brightgreen.svg)](whitepaper/data/REAL-PRODUCTION-DATA-SYNTHESIS.md)
 
-> **🤖 LLM Context**: Get the entire repository as LLM-ready context → [GitIngest](https://gitingest.com/ByBren-LLC/WTFB-SAFe-Agentic-Workflow)
+> **🤖 LLM Context**: Get the entire repository as LLM-ready context → Use [GitIngest](https://gitingest.com/) with your fork
 >
 > Perfect for loading this methodology into Claude, ChatGPT, or any LLM to understand the complete SAFe multi-agent workflow.
 
@@ -239,9 +239,9 @@ Epic (Strategic Initiative)
 ### Step 2: Install the Agents
 
 ```bash
-# Clone this repository
-git clone https://github.com/ByBren-LLC/WTFB-SAFe-Agentic-Workflow
-cd WTFB-SAFe-Agentic-Workflow
+# Clone this repository (or your fork)
+git clone {{GITHUB_REPO_URL}}
+cd {{PROJECT_NAME}}
 
 # Install agents (choose one)
 ./scripts/install-prompts.sh          # For Claude Code (user install)
@@ -269,6 +269,8 @@ cd WTFB-SAFe-Agentic-Workflow
 ## 🔧 Claude Code Harness
 
 This repository includes a **battle-tested Claude Code harness** adopted from production use. The harness implements a three-layer architecture that reduces agent cognitive load by ~40%:
+
+> **Philosophy**: The harness treats process as _service_, not _control_. Everything exists to help teams ship good product without burning cognitive cycles on already-solved problems.
 
 ```text
 ┌──────────────────────────────────────────────────────────────────────┐
@@ -311,7 +313,7 @@ Skills are loaded progressively—metadata at startup, full content when relevan
 | Skill                    | Trigger Context           | Purpose                                |
 | ------------------------ | ------------------------- | -------------------------------------- |
 | `pattern-discovery`      | Before writing code       | Search patterns before implementing    |
-| `wtfb-workflow`          | Commits, branches, PRs    | SAFe workflow patterns                 |
+| `safe-workflow`          | Commits, branches, PRs    | SAFe workflow patterns                 |
 | `rls-patterns`           | Database operations       | RLS context helpers, security          |
 | `frontend-patterns`      | UI component work         | Next.js/React/shadcn conventions       |
 | `api-patterns`           | API route creation        | Route structure and error handling     |
@@ -351,7 +353,7 @@ Commands are organized by workflow phase:
 **Remote Operations** (5):
 
 - `/remote-status` - Check Docker environment
-- `/remote-deploy` - Deploy to Pop OS
+- `/remote-deploy` - Deploy to remote environment
 - `/remote-health` - Full health dashboard
 - `/remote-logs` - View container logs
 - `/remote-rollback` - Rollback deployment
