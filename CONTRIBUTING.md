@@ -1,4 +1,4 @@
-# Contributing t
+# Contributing
 
 Welcome to Claude Code Harness for Multi-Agent Team Workflows! This guide covers everything you need to know to contribute effectively, whether you're a human developer, Claude Code, or an AI remote agent.
 
