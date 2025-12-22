@@ -338,7 +338,7 @@ MIT License - See [LICENSE](LICENSE) for details.
 ## Contact
 
 - **Website**: [WordsToFilmBy.com](https://WordsToFilmBy.com)
-- **Email**: scott@wordstofilmby.com
+- **Email**: [scott@wordstofilmby.com](mailto:scott@wordstofilmby.com)
 - **Author**: J. Scott Graham (cheddarfox)
 - **Historical Context**: Evolved from [Auggie's Architect Handbook](https://github.com/cheddarfox/auggies-architect-handbook)
 
