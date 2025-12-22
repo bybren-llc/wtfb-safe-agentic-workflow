@@ -1,411 +1,308 @@
-# SAFe Multi-Agent Development Methodology
+# Claude Code Harness for Multi-Agent Team Workflows
 
-**Evidence-Based Multi-Agent Development: A SAFe Framework Implementation with Claude Code**
+**A Production-Tested Three-Layer Architecture for Coordinated AI Teams**
 
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![Version](https://img.shields.io/badge/version-1.0-green.svg)](whitepaper/README.md)
-[![Production Validated](https://img.shields.io/badge/production-validated-brightgreen.svg)](whitepaper/data/REAL-PRODUCTION-DATA-SYNTHESIS.md)
+[![Version](https://img.shields.io/badge/version-2.0-green.svg)](whitepaper/README.md)
+[![Production Validated](https://img.shields.io/badge/5+%20months-production%20validated-brightgreen.svg)](whitepaper/data/REAL-PRODUCTION-DATA-SYNTHESIS.md)
+[![Skills](https://img.shields.io/badge/skills-17%20model--invoked-purple.svg)](.claude/skills/)
+[![Commands](https://img.shields.io/badge/commands-23%20workflows-orange.svg)](.claude/commands/)
 
-> **🤖 LLM Context**: Get the entire repository as LLM-ready context → Use [GitIngest](https://gitingest.com/) with your fork
->
-> Perfect for loading this methodology into Claude, ChatGPT, or any LLM to understand the complete SAFe multi-agent workflow.
-
----
-
-## 🎯 What This Is
-
-A comprehensive methodology for software development using **multi-agent orchestration** with Claude Code's Task tool. Based on 5 months of production experience (169 issues, 9 cycles, 2,193 commits) implementing the Scaled Agile Framework (SAFe) with AI agents.
-
-**Key Innovation**: Treating AI agents like specialized team members (11 roles: BSA, System Architect, Data Engineer, Backend Dev, Frontend Dev, QAS, RTE, DevOps, Security, Technical Writer, TDM) instead of "better autocomplete."
+> **LLM Context**: Get the entire repository as LLM-ready context using [GitIngest](https://gitingest.com/) with your fork.
 
 ---
 
-## ✨ What Makes This Methodology Unique
+## What This Is
 
-This isn't just "AI-assisted development" - it's a fundamentally different approach to human-AI collaboration:
+A **production-tested Claude Code harness** for teams that want structured AI workflows.
 
-### 🎯 Round Table Philosophy
+**Built on SAFe methodology** (Scaled Agile Framework), adapted for AI agent teams.
+Works for any team with repeatable processes: Software, Marketing, Research, Legal, Operations.
 
-**Equal Voice for All Contributors** - Human and AI input have equal weight in technical discussions. No hierarchy, just expertise.
+Includes:
 
-- ✅ **Mutual Respect**: All perspectives valued, regardless of source
-- ✅ **Shared Responsibility**: Everyone owns project success
-- ✅ **Transparent Decision-Making**: Decisions made openly with input from all
-- ✅ **Constructive Disagreement**: Disagreement welcomed when it leads to better solutions
+- **17 Model-Invoked Skills** - Domain expertise Claude loads automatically
+- **23 Slash Commands** - Workflow automation for common tasks
+- **11 SAFe Agent Profiles** - Specialized roles with clear boundaries
+- **Three-Layer Architecture** - Hooks → Commands → Skills
 
-**Why This Matters**: Traditional AI tools are "assistants" - this methodology treats AI as **collaborative team members** with agency and expertise.
-
-### 🛑 Stop-the-Line Authority
-
-**AI Agents Can Halt Work** - Any agent can exercise "stop-the-line" authority for architectural or security concerns.
-
-- 🚨 **Architectural Integrity**: Flag issues that compromise system design
-- 🔐 **Security Concerns**: Highlight potential vulnerabilities
-- 📈 **Performance Implications**: Note potential bottlenecks
-- 🔧 **Maintainability Issues**: Identify future maintenance problems
-
-**When Exercised**:
-
-1. Agent clearly explains the concern with specific examples
-2. Proposes alternative approaches
-3. Documents decision in an ADR (Architecture Decision Record)
-4. Updates Linear ticket with architectural discussion
-
-**Real Example**: System Architect blocked a 710-line deployment script (WOR-321) due to complexity concerns, leading to a complete redesign with proper error handling and rollback capabilities.
-
-### � 3. Claude Code Task Tool - The Breakthrough
-
-**True Multi-Agent Delegation** - Claude Code's Task tool enables one agent to delegate work to another while preserving context, maintaining quality gates, and enabling parallel development.
-
-**The Innovation**:
-
-```typescript
-// Agent A delegates to Agent B with full context transfer
-Task({
-  targetAgent: "data-engineer",
-  taskDescription: "Design migration validation pipeline",
-  context: {
-    linearTicket: "WOR-321",
-    dependencies: ["existing migration scripts", "RLS patterns"],
-    acceptance: ["migration safety verified", "SQL validation queries created"],
-  },
-  expectedArtifacts: ["validation scripts", "safety documentation"],
-});
-```
-
-**What This Enables**:
-
-- 🔄 **Context Transfer**: Full project context, ticket requirements, and dependencies passed between agents
-- 🎭 **Role Specialization**: Each agent operates within its specialized expertise and tool access
-- ⚡ **Independent Execution**: Agents work autonomously without blocking each other
-- 📊 **Quality Gates**: Multiple specialized checkpoints catch different issue types
-- 📝 **Evidence Trail**: Complete audit trail with artifacts at each stage
-
-**Real Example (WOR-321)**:
-
-```
-BSA → Planning Spec (45 min)
-  ├→ Data Engineer → Schema Design (1.5 hrs)
-  ├→ Backend Dev → CI/CD Implementation (2 hrs)
-  └→ QAS → Test Validation (1 hr)
-     └→ RTE → Production Delivery (30 min)
-```
-
-**Why This Matters**: Traditional AI tools are single-threaded (Developer → AI → Code → Review). This enables **parallel, specialized workflows** with multiple quality gates - like having a real team, not just an assistant.
-
-**The Secret**: Treating AI agents like specialized team members with clear roles, handoff protocols, and quality checkpoints - not like "better autocomplete."
-
-### 🔍 4. Pattern Discovery Protocol
-
-**"Search First, Reuse Always, Create Only When Necessary"** - MANDATORY before any implementation.
-
-**4-Step Discovery Process**:
-
-1. **Search Specs Directory**: Find similar implementations in past specs
-2. **Search Codebase**: Look for existing patterns and helpers
-3. **Search Pattern Library**: Check `patterns_library/` for reusable patterns
-4. **Propose to System Architect**: Get approval before creating new patterns
-
-**Why This Works**: Prevents reinventing the wheel, ensures consistency, and builds institutional knowledge over time.
-
-### 🏷️ 5. Metacognitive Tags System
-
-**Explicit Knowledge Transfer** - Three tags for passing context from planning to execution:
-
-- `#PATH_DECISION` - Documents **why** a particular approach was chosen over alternatives
-- `#PLAN_UNCERTAINTY` - Flags assumptions that require validation during implementation
-- `#EXPORT_CRITICAL` - Highlights non-negotiable requirements (security, compliance, architecture)
-
-**Example**:
-
-```markdown
-#PATH_DECISION: Chose REST over GraphQL due to existing API patterns
-#PLAN_UNCERTAINTY: Assumed field is optional - verify with POPM
-#EXPORT_CRITICAL: MUST use withAdminContext for all operations
-```
-
-**Impact**: Execution agents understand not just **what** to build, but **why** decisions were made and **what** cannot be compromised.
-
-### 📋 6. Specs-Driven Workflow
-
-**Single Source of Truth** - Every feature starts with a comprehensive spec following SAFe hierarchy:
-
-```
-Epic (Strategic Initiative)
-  └── Feature (Deliverable Capability)
-      ├── User Story (User-Facing Functionality)
-      └── Enabler (Technical Foundation)
-```
-
-**Workflow**:
-
-1. BSA creates spec with acceptance criteria and testing strategy
-2. System Architect validates architectural approach
-3. Implementation agents execute with pattern discovery
-4. QAS validates against acceptance criteria
-5. Evidence attached to Linear ticket before POPM review
-
-**Key Insight**: Separation of planning (BSA) from execution (developers) ensures thorough upfront thinking and consistent implementation.
-
-### 🎭 7. Specialized Agent Roles with Tool Restrictions
-
-**Each Agent Has Specific Capabilities** - Not all agents can do everything:
-
-- **Planning Agents** (Opus model): BSA, System Architect - Slower but thorough
-- **Execution Agents** (Sonnet model): Developers, Engineers - Faster implementation
-- **Tool Restrictions**: Each agent only has access to tools needed for their role
-
-**Example**: QAS (Quality Assurance) can only Read, Bash, and Grep - cannot Write or Edit code. This enforces role boundaries and prevents scope creep.
-
-### 📊 8. Evidence-Based Delivery
-
-**All Work Requires Verifiable Evidence** - No "trust me, it works":
-
-- ✅ **Test Results**: All tests must pass before PR
-- ✅ **Screenshots**: Visual proof of UI changes
-- ✅ **Validation Output**: Command output showing success
-- ✅ **Session IDs**: Complete audit trail of agent work
-
-**Swimlane Workflow**: Backlog → Ready → In Progress → Testing → Ready for Review → Done
-
-**POPM Approval**: Product Owner/Product Manager has final approval on all deliverables with full evidence trail.
-
-### 🔄 9. Simon Willison's Agent Loop
-
-**Iterative Problem Solving** - Agents follow a clear loop until success or blocked:
-
-1. **Clear Goal** - BSA defines with acceptance criteria
-2. **Pattern Discovery** - Search codebase and sessions
-3. **Iterative Problem Solving**:
-   - Implement approach
-   - Run validation command
-   - If fails → analyze error, adjust, repeat
-   - If blocked → escalate to TDM with context
-4. **Evidence Attachment** - Session ID + validation results in Linear
-
-**No Over-Engineering**: No file locks, circuit breakers, or arbitrary retry limits. Agents iterate until success or blocked, then escalate with context.
+> **Origin**: 5 months production use, 169 issues, 2,193 commits. Implements patterns from
+> [6 Anthropic engineering papers](#implementing-anthropics-research) and [SAFe methodology](https://scaledagileframework.com/).
 
 ---
 
-## 📊 Real Production Results
-
-| Metric               | Value                                    | Source                     |
-| -------------------- | ---------------------------------------- | -------------------------- |
-| **Sprint Cycles**    | 9 cycles (5 months)                      | Linear                     |
-| **Issues Completed** | 169 issues                               | Linear API                 |
-| **Velocity Growth**  | 14× improvement                          | Cycle 3 (3) → Cycle 8 (42) |
-| **Commits**          | 2,193 commits (10.3/day)                 | GitHub API                 |
-| **PR Merge Rate**    | 90.9% (159/175)                          | GitHub                     |
-| **Documentation**    | 136 docs, 36 specs, 208 Confluence pages | Repository                 |
-
-**All metrics are fully verifiable.** See [whitepaper/data/](whitepaper/data/) for validation.
-
----
-
-## 📖 Quick Start
-
-### For Practitioners
-
-1. **Read**: [Executive Summary](whitepaper/section-1-executive-summary.md) (5 min)
-2. **Understand**: [Case Studies](whitepaper/section-6-case-studies.md) (15 min)
-3. **Implement**: [Implementation Guide](whitepaper/section-9-implementation-guide.md) (30 min)
-4. **Assess**: [Limitations](whitepaper/section-7-limitations-honest-assessment.md) (10 min)
-
-### For Researchers
-
-1. **Data Validation**: [Real Production Data Synthesis](whitepaper/data/REAL-PRODUCTION-DATA-SYNTHESIS.md)
-2. **Methodology**: [Background & Related Work](whitepaper/section-3-background-related-work.md)
-3. **Meta-Circular Validation**: [Validation Evidence](whitepaper/validation/VALIDATION-SUMMARY.md)
-4. **Future Research**: [Open Questions](whitepaper/section-10-future-work-community.md)
-
-### For Leaders
-
-1. **ROI Analysis**: [Executive Summary](whitepaper/section-1-executive-summary.md)
-2. **Risk Assessment**: [Limitations](whitepaper/section-7-limitations-honest-assessment.md)
-3. **Adoption Guide**: [Implementation Prerequisites](whitepaper/section-9-implementation-guide.md)
-4. **Cost-Benefit**: [Cost Analysis](whitepaper/section-1-executive-summary.md#cost-benefit-analysis)
-
----
-
-## 🚀 Quick Start for Agents
-
-**Want to use the 11-agent system in your project?** Here's how to get started in 3 steps:
-
-### Step 1: Install Claude Code or Augment Code
-
-- **Claude Code**: <https://docs.anthropic.com/claude/docs/claude-code>
-- **Augment Code**: <https://www.augmentcode.com/>
-
-### Step 2: Install the Agents
+## Quick Start (30 seconds)
 
 ```bash
-# Clone this repository (or your fork)
-git clone {{GITHUB_REPO_URL}}
-cd {{PROJECT_NAME}}
+# Copy harness to your project
+cp -r .claude/ /your-project/.claude/
 
-# Install agents (choose one)
-./scripts/install-prompts.sh          # For Claude Code (user install)
-./scripts/install-prompts.sh --team   # For team sharing (in-project)
-./scripts/install-prompts.sh --augment # For Augment Code
+# Customize placeholders
+edit .claude/SETUP.md  # Replace {TICKET_PREFIX}, {PROJECT_NAME}
+
+# Start working
+/start-work TICKET-123
 ```
 
-### Step 3: Invoke Your First Agent
-
-```
-@bsa Create a spec for a simple "Hello World" API endpoint
-```
-
-**That's it!** The BSA agent will create a user story with acceptance criteria and testing strategy.
-
-**Next Steps**:
-
-- 📖 **Detailed Setup**: [Agent Setup Guide](docs/onboarding/AGENT-SETUP-GUIDE.md)
-- ✅ **Day 1 Checklist**: [Complete First Workflow](docs/onboarding/DAY-1-CHECKLIST.md)
-- 🎯 **Meta-Prompts**: [Copy-Paste Prompts for Common Tasks](docs/onboarding/META-PROMPTS-FOR-USERS.md)
-- 📚 **Agent Reference**: [AGENTS.md](AGENTS.md) - All 11 agent roles
+**That's it.** Claude now has your team's workflow patterns built in.
 
 ---
 
-## 🔧 Claude Code Harness
-
-This repository includes a **battle-tested Claude Code harness** adopted from production use. The harness implements a three-layer architecture that reduces agent cognitive load by ~40%:
-
-> **Philosophy**: The harness treats process as _service_, not _control_. Everything exists to help teams ship good product without burning cognitive cycles on already-solved problems.
+## The Three-Layer Architecture
 
 ```text
 ┌──────────────────────────────────────────────────────────────────────┐
 │                      Claude Code Harness                              │
 ├──────────────────────────────────────────────────────────────────────┤
-│                                                                       │
-│  LAYER 1: HOOKS (Automatic Guardrails)                               │
-│  ├─ Trigger: Events (SessionStart, PreToolUse, PostToolUse)          │
-│  ├─ Invocation: Automatic, no user action                            │
-│  ├─ Purpose: Reminders, blockers, auto-formatting                    │
-│  └─ Examples: Push blocker, commit format reminder                   │
-│                                                                       │
-│  LAYER 2: SLASH COMMANDS (User-Invoked Workflows)                    │
-│  ├─ Trigger: User types /command-name                                │
-│  ├─ Invocation: Explicit user request                                │
-│  ├─ Purpose: Multi-step workflows, deployments, validations          │
-│  └─ Examples: /start-work, /pre-pr, /remote-deploy                   │
-│                                                                       │
-│  LAYER 3: SKILLS (Model-Invoked Expertise)                           │
-│  ├─ Trigger: Claude detects relevant context                         │
-│  ├─ Invocation: Model decision, transparent to user                  │
-│  ├─ Purpose: Pattern enforcement, domain knowledge injection         │
-│  └─ Examples: pattern-discovery, rls-patterns, api-patterns          │
-│                                                                       │
+│  LAYER 1: HOOKS     │ Automatic guardrails (format checks, blockers) │
+│  LAYER 2: COMMANDS  │ User-invoked workflows (/start-work, /pre-pr)  │
+│  LAYER 3: SKILLS    │ Model-invoked expertise (pattern discovery)    │
 └──────────────────────────────────────────────────────────────────────┘
 ```
 
-### Why Three Layers?
-
-| Layer    | Best For                                        | User Awareness                            |
-| -------- | ----------------------------------------------- | ----------------------------------------- |
-| Hooks    | Safety rails that should always apply           | Low (runs silently or with brief message) |
-| Commands | Complex workflows user consciously initiates    | High (user explicitly invokes)            |
-| Skills   | Domain expertise that should apply contextually | Medium (Claude mentions when relevant)    |
-
-### 17 Model-Invoked Skills
-
-Skills are loaded progressively—metadata at startup, full content when relevant:
-
-| Skill                    | Trigger Context           | Purpose                                |
-| ------------------------ | ------------------------- | -------------------------------------- |
-| `pattern-discovery`      | Before writing code       | Search patterns before implementing    |
-| `safe-workflow`          | Commits, branches, PRs    | SAFe workflow patterns                 |
-| `rls-patterns`           | Database operations       | RLS context helpers, security          |
-| `frontend-patterns`      | UI component work         | Next.js/React/shadcn conventions       |
-| `api-patterns`           | API route creation        | Route structure and error handling     |
-| `testing-patterns`       | Writing tests             | Jest/Playwright patterns               |
-| `stripe-patterns`        | Payment integration       | Payment patterns, webhook safety       |
-| `security-audit`         | Security validation       | RLS validation, vulnerability scanning |
-| `migration-patterns`     | Database migrations       | Schema migration SOPs, rollback        |
-| `spec-creation`          | Writing specs             | Spec templates, acceptance criteria    |
-| `orchestration-patterns` | Multi-step agent work     | Agent loop, evidence-based delivery    |
-| `agent-coordination`     | Multi-agent workflows     | Assignment matrix, escalation patterns |
-| `release-patterns`       | PR creation, releases     | PR templates, CI validation            |
-| `deployment-sop`         | Deploying to environments | Deployment workflow, rollback          |
-| `linear-sop`             | Ticket management         | Linear best practices                  |
-| `confluence-docs`        | Documentation creation    | Doc templates, standards               |
-| `git-advanced`           | Complex git operations    | Rebase, bisect, conflict resolution    |
-
-### 23 Slash Commands
-
-Commands are organized by workflow phase:
-
-**Workflow Commands** (7):
-
-- `/start-work` - Begin new ticket with proper workflow
-- `/pre-pr` - Run complete validation before PR
-- `/end-work` - Complete work session cleanly
-- `/check-workflow` - Quick status check
-- `/update-docs` - Identify and update documentation
-- `/retro` - Conduct retrospective analysis
-- `/sync-linear` - Sync with Linear ticket
-
-**Local Operations** (3):
-
-- `/local-sync` - Full sync after git pull
-- `/local-deploy` - Deploy to local Docker
-- `/quick-fix` - Fast-track for small fixes
-
-**Remote Operations** (5):
-
-- `/remote-status` - Check Docker environment
-- `/remote-deploy` - Deploy to remote environment
-- `/remote-health` - Full health dashboard
-- `/remote-logs` - View container logs
-- `/remote-rollback` - Rollback deployment
-
-**Other** (3):
-
-- `/test-pr-docker` - Test PR with Docker build
-- `/audit-deps` - Dependency audit
-- `/search-pattern` - Search code patterns
-
-### Harness Documentation
-
-For complete harness documentation, see:
-
-- **Setup Guide**: [.claude/SETUP.md](.claude/SETUP.md)
-- **Harness README**: [.claude/README.md](.claude/README.md)
-- **Troubleshooting**: [.claude/TROUBLESHOOTING.md](.claude/TROUBLESHOOTING.md)
-
-**Whitepapers** (detailed architecture and philosophy):
-
-- [Claude Code Harness Modernization](docs/whitepapers/CLAUDE-CODE-HARNESS-MODERNIZATION-WOR-444.md) - Complete technical documentation
-- [Agent Perspective: Why This Harness Works](docs/whitepapers/CLAUDE-CODE-HARNESS-AGENT-PERSPECTIVE.md) - Philosophy and design principles
-- [Knowledge Transfer Meta-Prompt](docs/whitepapers/CLAUDE-CODE-HARNESS-KT-META-PROMPT.md) - Adoption guide for other projects
+> **Philosophy**: Process as _service_, not _control_.
+> Everything exists to reduce cognitive load on already-solved problems.
 
 ---
 
-## 🏗️ Repository Structure
+## Choose Your Path
+
+<details>
+<summary><strong>For Practitioners</strong> - I want to use this today</summary>
+
+### Getting Started
+
+1. Copy `.claude/` directory to your project
+2. Edit placeholders in `.claude/SETUP.md`
+3. Run `/start-work` on your first ticket
+
+### Key Commands
+
+| Command           | Purpose                           |
+| ----------------- | --------------------------------- |
+| `/start-work`     | Begin ticket with proper workflow |
+| `/pre-pr`         | Validate before pull request      |
+| `/end-work`       | Complete session cleanly          |
+| `/check-workflow` | Quick status check                |
+
+### Full Command Reference
+
+**Workflow** (7): `/start-work`, `/pre-pr`, `/end-work`, `/check-workflow`, `/update-docs`, `/retro`, `/sync-linear`
+
+**Local Operations** (3): `/local-sync`, `/local-deploy`, `/quick-fix`
+
+**Remote Operations** (5): `/remote-status`, `/remote-deploy`, `/remote-health`, `/remote-logs`, `/remote-rollback`
+
+[Complete Setup Guide](.claude/SETUP.md)
+
+</details>
+
+<details>
+<summary><strong>For Researchers</strong> - I want to understand the methodology</summary>
+
+### Research Foundation
+
+This harness implements patterns from 6 Anthropic engineering papers (see [below](#implementing-anthropics-research)).
+
+### Key Documents
+
+- [Executive Summary](whitepaper/section-1-executive-summary.md) - 5 min overview
+- [Case Studies](whitepaper/section-6-case-studies.md) - Real production examples
+- [Limitations](whitepaper/section-7-limitations-honest-assessment.md) - Honest assessment
+- [Background & Related Work](whitepaper/section-3-background-related-work.md) - Academic context
+
+### Meta-Circular Validation
+
+The methodology caught its own fabricated data before publication.
+See [Validation Summary](whitepaper/validation/VALIDATION-SUMMARY.md).
+
+[Complete Whitepaper](whitepaper/README.md) (12 sections)
+
+</details>
+
+<details>
+<summary><strong>For Leaders</strong> - I want ROI and risk assessment</summary>
+
+### Production Results
+
+| Metric           | Value              | Source     |
+| ---------------- | ------------------ | ---------- |
+| Issues Completed | 169                | Linear     |
+| Velocity Growth  | 14× (Cycle 3→8)    | Linear     |
+| Commits          | 2,193 (10.3/day)   | GitHub     |
+| PR Merge Rate    | 90.9% (159/175)    | GitHub     |
+| Documentation    | 136 docs, 36 specs | Repository |
+
+### Adoption Requirements
+
+- Claude Code CLI installed
+- Git repository
+- Team buy-in for structured workflows
+
+### Known Limitations
+
+- Single-team validation only
+- Claude Code specific (may need adaptation for other tools)
+
+[Implementation Guide](whitepaper/section-9-implementation-guide.md)
+
+</details>
+
+---
+
+## Implementing Anthropic's Research
+
+This harness directly implements patterns from Anthropic's engineering papers:
+
+| Paper                                                                                                       | What We Implement          |
+| ----------------------------------------------------------------------------------------------------------- | -------------------------- |
+| [Building Effective Agents](https://www.anthropic.com/engineering/building-effective-agents)                | 11-agent team structure    |
+| [Effective Harnesses](https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents)    | Three-layer architecture   |
+| [Agent Skills](https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills) | 17 model-invoked skills    |
+| [Skills Announcement](https://www.anthropic.com/news/skills)                                                | Skill trigger patterns     |
+| [Code Execution with MCP](https://www.anthropic.com/engineering/code-execution-with-mcp)                    | Tool restrictions per role |
+
+> "The best harness is one you forget exists." — [Agent Perspective](docs/whitepapers/CLAUDE-CODE-HARNESS-AGENT-PERSPECTIVE.md)
+
+---
+
+## SAFe Foundation
+
+<details>
+<summary><strong>For Agile Practitioners</strong> - Deep dive into SAFe integration</summary>
+
+This harness maps SAFe roles to AI agents:
+
+| SAFe Role                | Agent            | Responsibility                    |
+| ------------------------ | ---------------- | --------------------------------- |
+| Business Systems Analyst | BSA              | Requirements, acceptance criteria |
+| System Architect         | System Architect | Architecture decisions, ADRs      |
+| Product Owner            | POPM (human)     | Final approval on deliverables    |
+| Scrum Master             | TDM              | Coordination, blocker escalation  |
+| Release Train Engineer   | RTE              | CI/CD, release coordination       |
+
+### SAFe Concepts Implemented
+
+- **Epic → Feature → Story → Enabler** hierarchy in specs
+- **Sprint cycles** with velocity tracking
+- **Evidence-based delivery** with Linear integration
+- **Specs-driven workflow** - BSA plans, developers execute
+
+[Complete SAFe Integration](whitepaper/section-5-architecture-implementation.md)
+
+</details>
+
+---
+
+## The 11-Agent Team
+
+| Agent             | Role                    | When to Use               |
+| ----------------- | ----------------------- | ------------------------- |
+| BSA               | Requirements & specs    | Starting any feature      |
+| System Architect  | Architecture review     | Significant changes       |
+| FE Developer      | Frontend implementation | UI components             |
+| BE Developer      | Backend implementation  | API routes, server logic  |
+| Data Engineer     | Database & migrations   | Schema changes            |
+| QAS               | Quality assurance       | Test validation           |
+| Security Engineer | Security validation     | RLS, vulnerability checks |
+| Tech Writer       | Documentation           | Guides, technical content |
+| DPE               | Data provisioning       | Test data, seeds          |
+| RTE               | Release coordination    | CI/CD, deployments        |
+| TDM               | Coordination            | Blockers, escalation      |
+
+See [AGENTS.md](AGENTS.md) for complete reference with invocation examples.
+
+---
+
+## Domain Adaptation Guide
+
+The harness patterns work beyond software engineering:
+
+### Marketing Team Example
+
+| SWE Concept     | Marketing Adaptation  |
+| --------------- | --------------------- |
+| BSA (specs)     | Campaign Brief Writer |
+| Code Review     | Asset Review          |
+| `/pre-pr`       | `/pre-launch`         |
+| Pattern Library | Brand Guidelines      |
+
+### Research Team Example
+
+| SWE Concept   | Research Adaptation  |
+| ------------- | -------------------- |
+| User Stories  | Research Questions   |
+| Test Cases    | Validation Criteria  |
+| CI/CD         | Peer Review Pipeline |
+| Documentation | Literature Notes     |
+
+---
+
+## What Makes This Different
+
+### Round Table Philosophy
+
+Human and AI input have equal weight. No hierarchy, just expertise.
+
+### Stop-the-Line Authority
+
+Any agent can halt work for architectural or security concerns.
+
+### Pattern Discovery Protocol
+
+"Search First, Reuse Always, Create Only When Necessary"
+
+### Evidence-Based Delivery
+
+All work requires verifiable evidence. No "trust me, it works."
+
+---
+
+## Important Caveats
+
+**Version 2.0** - Production-tested but with known limitations:
+
+- **Production validated**: 5+ months, 169 issues, 2,193 commits
+- **Generalized**: Placeholders for project-specific values
+- **Single-team validation**: Multi-team scalability not yet proven
+- **Claude Code specific**: May require adaptation for other tools
+- **Domain examples**: Non-SWE adaptations are theoretical (documented, not validated)
+
+See [Limitations](whitepaper/section-7-limitations-honest-assessment.md) for honest assessment.
+
+---
+
+## Repository Structure
 
 ```text
-WTFB-SAFe-Agentic-Workflow/
-├── .claude/                 # Claude Code harness configuration
-│   ├── commands/            # 23 slash commands for workflow automation
-│   ├── skills/              # 17 model-invoked skills for domain expertise
-│   ├── agents/              # 11 SAFe agent profiles
-│   └── hooks-config.json    # Automatic guardrails and reminders
-├── whitepaper/              # Complete whitepaper (12 sections, ~270KB)
-│   ├── data/                # Supporting data and metrics (6 files)
-│   └── validation/          # Meta-circular validation evidence (19 files)
-├── docs/                    # Documentation
-│   ├── whitepapers/         # Harness architecture and philosophy
-│   ├── onboarding/          # Getting started guides
-│   └── ...                  # Additional documentation
-├── specs/                   # Implementation specifications
-├── patterns_library/        # Existing production patterns (11 patterns)
-├── agent_providers/         # Claude Code & Augment configurations
-├── project_workflow/        # SAFe workflow templates
-└── specs_templates/         # Specification templates
+.claude/                 # Claude Code harness configuration
+├── commands/            # 23 slash commands for workflow automation
+├── skills/              # 17 model-invoked skills for domain expertise
+├── agents/              # 11 SAFe agent profiles
+└── SETUP.md             # Installation and customization guide
+
+whitepaper/              # Complete whitepaper (12 sections)
+├── data/                # Supporting data and metrics
+└── validation/          # Meta-circular validation evidence
+
+docs/                    # Additional documentation
+├── whitepapers/         # Harness architecture and philosophy
+└── onboarding/          # Getting started guides
 ```
 
 ---
 
-## 🎓 Citation
+## Meta-Note: Self-Validation
+
+This methodology was **validated by itself**: 7 SAFe agents performed meta-circular validation of the whitepaper and caught critical fabricated data before publication.
+
+See [Validation Summary](whitepaper/validation/VALIDATION-SUMMARY.md) for the complete story.
+
+**The methodology caught its own problems.** That's the proof it works.
+
+---
+
+## Citation
 
 Download: [CITATION.bib](CITATION.bib) | [CITATION.cff](CITATION.cff)
 
@@ -419,20 +316,7 @@ https://github.com/ByBren-LLC/WTFB-SAFe-Agentic-Workflow
 
 ---
 
-## ⚠️ Important Caveats
-
-This is **version 1.0 of an emerging methodology**, not a proven standard:
-
-- **Production use**: 5 months tracked (June-October 2025), 2+ years methodology evolution
-- **Sample size**: 169 issues, 2,193 commits, single-developer validation
-- **Context**: Single-developer context limits multi-team scalability validation
-- **Not universal**: Only valuable for complex/high-risk work (see Section 7)
-
-**Honest limitations documented** in [Section 7](whitepaper/section-7-limitations-honest-assessment.md).
-
----
-
-## 🤝 Contributing
+## Contributing
 
 We welcome contributions:
 
@@ -441,53 +325,26 @@ We welcome contributions:
 - **Research**: Explore open questions from Section 10
 - **Improvements**: Suggest methodology enhancements
 
-See [CONTRIBUTING.md](project_workflow/CONTRIBUTING.md) for guidelines.
+See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 
 ---
 
-## 📜 License
+## License
 
 MIT License - See [LICENSE](LICENSE) for details.
 
 ---
 
-## 📬 Contact
+## Contact
 
 - **Website**: [WordsToFilmBy.com](https://WordsToFilmBy.com)
-- **Email**: <scott@wordstofilmby.com>
+- **Email**: scott@wordstofilmby.com
 - **Author**: J. Scott Graham (cheddarfox)
 - **Historical Context**: Evolved from [Auggie's Architect Handbook](https://github.com/cheddarfox/auggies-architect-handbook)
 
 ---
 
-## 🏛️ Meta-Note: Self-Validation
-
-This methodology was **validated by itself**: 7 SAFe agents performed meta-circular validation of the whitepaper and caught critical fabricated data before publication.
-
-See [whitepaper/validation/VALIDATION-SUMMARY.md](whitepaper/validation/VALIDATION-SUMMARY.md) for the complete story of how the methodology prevented academic fraud by validating its own documentation.
-
-**The methodology caught its own problems.** That's the proof it works.
-
----
-
-## 📚 Complete Whitepaper Sections
-
-1. [Executive Summary](whitepaper/section-1-executive-summary.md)
-2. [Introduction](whitepaper/section-2-introduction.md)
-3. [Background & Related Work](whitepaper/section-3-background-related-work.md)
-4. [Innovation: Subagent Communication](whitepaper/section-4-innovation-subagent-communication.md)
-5. [Architecture & Implementation](whitepaper/section-5-architecture-implementation.md)
-6. [Case Studies](whitepaper/section-6-case-studies.md)
-7. [Limitations: Honest Assessment](whitepaper/section-7-limitations-honest-assessment.md)
-8. [Agile Retrospective Advantage](whitepaper/section-8-agile-retro-advantage.md)
-9. [Implementation Guide](whitepaper/section-9-implementation-guide.md)
-10. [Future Work & Community](whitepaper/section-10-future-work-community.md)
-11. [Conclusion](whitepaper/section-11-conclusion.md)
-12. [Appendices](whitepaper/section-12-appendices.md)
-
----
-
-**Version**: 1.1 (December 2025)
+**Version**: 2.0 (December 2025)
 **Status**: Production-validated, academically honest, publication-ready
 
-**🎉 This repository contains the whitepaper, complete working template, AND a battle-tested Claude Code harness for implementing the methodology!**
+**This repository contains the whitepaper, complete working template, AND a battle-tested Claude Code harness for implementing the methodology!**
