@@ -1,11 +1,11 @@
 # User Journey Validation Report
 
-## WTFB-SAFe-Agentic-Workflow Repository
+## {PROJECT_NAME}-Agentic-Workflow Repository
 
 **Date**: 2025-10-08  
-**Ticket**: WOR-326  
+**Ticket**: {{TICKET_PREFIX}}-326  
 **Validator**: Augment Agent  
-**Repository**: https://github.com/ByBren-LLC/WTFB-SAFe-Agentic-Workflow
+**Repository**: {{GITHUB_REPO_URL}}
 
 ---
 
@@ -30,13 +30,13 @@
 
 **Location**: Lines 9-11 of README.md  
 **Visibility**: Excellent - immediately after badges, before first section  
-**URL**: https://gitingest.com/ByBren-LLC/WTFB-SAFe-Agentic-Workflow  
+**URL**: https://gitingest.com/{{GITHUB_ORG}}/{{GITHUB_REPO}}  
 **Format**: Blockquote with 🤖 icon for visual distinction
 
 **Content**:
 
 ```markdown
-> **🤖 LLM Context**: Get the entire repository as LLM-ready context → [GitIngest](https://gitingest.com/ByBren-LLC/WTFB-SAFe-Agentic-Workflow)
+> **🤖 LLM Context**: Get the entire repository as LLM-ready context → [GitIngest](https://gitingest.com/{{GITHUB_ORG}}/{{GITHUB_REPO}})
 >
 > Perfect for loading this methodology into Claude, ChatGPT, or any LLM to understand the complete SAFe multi-agent workflow.
 ```
@@ -250,7 +250,7 @@ All 12 whitepaper sections validated:
 
 ## Recommendations
 
-### ✅ COMPLETED (WOR-326)
+### ✅ COMPLETED ({{TICKET_PREFIX}}-326)
 
 1. **✅ Created `docs/onboarding/AGENT-SETUP-GUIDE.md`**
    - ✅ Explains Claude Code vs. Augment Code
@@ -296,7 +296,7 @@ All 12 whitepaper sections validated:
    - ✅ Template customization, workflow integration
    - ✅ Troubleshooting meta-prompt
 
-### Future Enhancements (Post-WOR-326)
+### Future Enhancements (Post-{{TICKET_PREFIX}}-326)
 
 8. **Create `docs/onboarding/TROUBLESHOOTING.md`**
    - Common setup issues (expanded from AGENT-SETUP-GUIDE.md)
@@ -352,4 +352,4 @@ All 12 whitepaper sections validated:
 4. Complete a full workflow (ticket → implementation → PR) on Day 1
 5. Access copy-paste meta-prompts for common tasks
 
-**WOR-326 Achievement**: Transformed user onboarding from "confusing" to "excellent" with 7 new resources totaling 1,605 lines of comprehensive documentation.
+**{{TICKET_PREFIX}}-326 Achievement**: Transformed user onboarding from "confusing" to "excellent" with 7 new resources totaling 1,605 lines of comprehensive documentation.

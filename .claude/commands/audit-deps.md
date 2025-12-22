@@ -2,6 +2,8 @@
 description: Run comprehensive dependency audit
 ---
 
+> **📋 TEMPLATE**: This command is a template. See "Customization Guide" below to adapt for your infrastructure.
+
 Execute dependency audit to identify optimization opportunities and security issues.
 
 ## Audit Workflow
@@ -156,7 +158,7 @@ Document findings in `docs/agent-outputs/technical-docs/dependency-audit-report-
 
 Create Linear tickets for each actionable item:
 
-- WOR-{number}: {description}
+- {TICKET_PREFIX}-{number}: {description}
 ```
 
 ### 7. Create Linear Tickets
@@ -192,3 +194,11 @@ Run audits:
 - ✅ Baseline established for next audit
 
 This provides systematic approach to dependency management and optimization.
+
+## Customization Guide
+
+To adapt this command for your infrastructure, replace these placeholders:
+
+| Placeholder       | Description               | Example               |
+| ----------------- | ------------------------- | --------------------- |
+| `{TICKET_PREFIX}` | Your Linear ticket prefix | `WOR`, `PROJ`, `TASK` |

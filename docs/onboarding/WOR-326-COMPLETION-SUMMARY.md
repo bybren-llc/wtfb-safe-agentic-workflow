@@ -1,10 +1,14 @@
+> **📚 EXAMPLE**: This document is preserved as a learning example from the WTFB project. It demonstrates the pattern for documenting project completion summaries. When adopting this workflow, create your own version tailored to your project.
+
+---
+
 # WOR-326 Completion Summary
 
 ## Add Missing Documentation & User Journey Validation
 
 **Date**: 2025-10-08  
 **Ticket**: WOR-326  
-**PR**: https://github.com/ByBren-LLC/WTFB-SAFe-Agentic-Workflow/pull/3  
+**PR**: https://github.com/ByBren-LLC/{PROJECT_NAME}-Agentic-Workflow/pull/3  
 **Status**: ✅ COMPLETE - Ready for Review & Merge
 
 ---
@@ -88,7 +92,7 @@ Add missing PLANNING-AGENT-META-PROMPT.md and publish Vibe Engineering section t
 **Content**:
 
 ```markdown
-> **🤖 LLM Context**: Get the entire repository as LLM-ready context → [GitIngest](https://gitingest.com/ByBren-LLC/WTFB-SAFe-Agentic-Workflow)
+> **🤖 LLM Context**: Get the entire repository as LLM-ready context → [GitIngest](https://gitingest.com/ByBren-LLC/{PROJECT_NAME}-Agentic-Workflow)
 >
 > Perfect for loading this methodology into Claude, ChatGPT, or any LLM to understand the complete SAFe multi-agent workflow.
 ```
@@ -304,7 +308,7 @@ Add missing PLANNING-AGENT-META-PROMPT.md and publish Vibe Engineering section t
 
 ## 🚀 Next Steps
 
-1. **Review PR #3**: https://github.com/ByBren-LLC/WTFB-SAFe-Agentic-Workflow/pull/3
+1. **Review PR #3**: https://github.com/ByBren-LLC/{PROJECT_NAME}-Agentic-Workflow/pull/3
 2. **Merge to main**: Use "Rebase and merge" strategy
 3. **Verify on GitHub**: Confirm all files visible
 4. **Close WOR-326**: Mark as complete in Linear
@@ -328,4 +332,4 @@ Add missing PLANNING-AGENT-META-PROMPT.md and publish Vibe Engineering section t
 
 **Status**: ✅ COMPLETE - Ready for Review & Merge
 
-**Impact**: Transformed WTFB-SAFe-Agentic-Workflow from "interesting methodology" to "production-ready OSS template" with comprehensive onboarding.
+**Impact**: Transformed {PROJECT_NAME}-Agentic-Workflow from "interesting methodology" to "production-ready OSS template" with comprehensive onboarding.

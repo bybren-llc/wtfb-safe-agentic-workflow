@@ -7,7 +7,7 @@ description: PR creation, CI/CD validation, and release coordination patterns. U
 
 ## Purpose
 
-Ensure consistent PR creation, CI/CD validation, and release coordination following WTFB's rebase-first workflow.
+Ensure consistent PR creation, CI/CD validation, and release coordination following rebase-first workflow.
 
 ## When This Skill Applies
 
@@ -25,7 +25,7 @@ Invoke this skill when:
 
 ```bash
 # FORBIDDEN: Missing ticket reference
-gh pr create --title "feat: add feature"  # Missing [WOR-XXX]
+gh pr create --title "feat: add feature"  # Missing [{TICKET_PREFIX}-XXX]
 
 # FORBIDDEN: Using squash/merge commits
 gh pr merge --squash  # Breaks linear history
@@ -42,7 +42,7 @@ git push origin feature  # When branch is behind dev
 
 ```bash
 # CORRECT: Ticket reference in title
-gh pr create --title "feat(scope): description [WOR-XXX]"
+gh pr create --title "feat(scope): description [{TICKET_PREFIX}-XXX]"
 
 # CORRECT: Rebase merge only
 gh pr merge --rebase --delete-branch
@@ -52,15 +52,15 @@ yarn ci:validate && git push --force-with-lease
 
 # CORRECT: Always rebase first
 git fetch origin && git rebase origin/dev
-git push --force-with-lease origin WOR-XXX-description
+git push --force-with-lease origin {TICKET_PREFIX}-XXX-description
 ```
 
 ## Pre-PR Checklist (MANDATORY)
 
 Before creating any PR:
 
-- [ ] Branch name: `WOR-{number}-{description}`
-- [ ] Commits follow: `type(scope): description [WOR-XXX]`
+- [ ] Branch name: `{TICKET_PREFIX}-{number}-{description}`
+- [ ] Commits follow: `type(scope): description [{TICKET_PREFIX}-XXX]`
 - [ ] Rebased on latest dev: `git fetch origin && git rebase origin/dev`
 - [ ] CI passes locally: `yarn ci:validate`
 - [ ] Linear history: No merge commits (`git log --oneline --graph -10`)
@@ -75,12 +75,12 @@ yarn ci:validate && echo "READY FOR PR" || echo "FIX ISSUES FIRST"
 ## PR Creation Template
 
 ````bash
-gh pr create --title "feat(scope): description [WOR-XXX]" --body "$(cat <<'EOF'
+gh pr create --title "feat(scope): description [{TICKET_PREFIX}-XXX]" --body "$(cat <<'EOF'
 ## Summary
 
-Implements [feature/fix] as specified in Linear ticket WOR-XXX.
+Implements [feature/fix] as specified in Linear ticket {TICKET_PREFIX}-XXX.
 
-**Linear Ticket**: https://linear.app/wtfb/issue/WOR-XXX
+**Linear Ticket**: https://linear.app/{LINEAR_WORKSPACE}/issue/{TICKET_PREFIX}-XXX
 
 ## Changes Made
 
@@ -125,7 +125,7 @@ Before merging any PR, invoke QAS for independent review:
 
 ```text
 Task tool: QAS subagent
-Prompt: "Review PR #XXX for WOR-YYY. Validate commit format, CI status, patterns."
+Prompt: "Review PR #XXX for {TICKET_PREFIX}-YYY. Validate commit format, CI status, patterns."
 ```
 
 ## Authoritative References

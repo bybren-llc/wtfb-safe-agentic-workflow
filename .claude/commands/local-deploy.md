@@ -16,11 +16,11 @@ Works on any machine with Docker Desktop or Docker Engine installed.
 
 ## Deployment Modes
 
-| Mode                      | Flag        | Container          | Use Case                                                             |
-| ------------------------- | ----------- | ------------------ | -------------------------------------------------------------------- |
-| **Development** (default) | (none)      | `wtfb-dev-app`     | Active development with hot-reload (STANDARD port 3000)              |
-| **Staging**               | `--staging` | `wtfb-staging-app` | Production-like, self-contained, survives git operations (port 3001) |
-| **Both**                  | `--both`    | Both containers    | Run dev and staging simultaneously (WOR-400/WOR-401)                 |
+| Mode                      | Flag        | Container          | Use Case                                                                     |
+| ------------------------- | ----------- | ------------------ | ---------------------------------------------------------------------------- |
+| **Development** (default) | (none)      | `wtfb-dev-app`     | Active development with hot-reload (STANDARD port 3000)                      |
+| **Staging**               | `--staging` | `wtfb-staging-app` | Production-like, self-contained, survives git operations (port 3001)         |
+| **Both**                  | `--both`    | Both containers    | Run dev and staging simultaneously ({TICKET_PREFIX}-400/{TICKET_PREFIX}-401) |
 
 **When to use each mode:**
 
@@ -57,14 +57,14 @@ Get current running status (check both container types):
 # Check for staging container
 docker ps --filter name=wtfb-staging-app --format '{{.Names}}\t{{.Status}}'
 
-# Check for dev container (WOR-400: updated container name)
+# Check for dev container ({TICKET_PREFIX}-400: updated container name)
 docker ps --filter name=wtfb-dev-app --format '{{.Names}}\t{{.Status}}'
 ```
 
 Get current commit SHA:
 
 ```bash
-# Try staging first, then dev (WOR-400: updated container names)
+# Try staging first, then dev ({TICKET_PREFIX}-400: updated container names)
 docker inspect wtfb-staging-app 2>/dev/null | grep 'org.opencontainers.image.revision' | cut -d'"' -f4 || \
 docker inspect wtfb-dev-app 2>/dev/null | grep 'org.opencontainers.image.revision' | cut -d'"' -f4
 ```
@@ -176,7 +176,7 @@ This:
 Check services started successfully:
 
 ```bash
-# For dev mode (STANDARD port 3000, WOR-401)
+# For dev mode (STANDARD port 3000, {TICKET_PREFIX}-401)
 docker ps --filter name=wtfb-dev --format 'table {{.Names}}\t{{.Status}}'
 
 # For staging mode (port 3001)
@@ -209,7 +209,7 @@ Confirm new commit SHA:
 # Staging
 docker inspect wtfb-staging-app | grep 'org.opencontainers.image.revision' | cut -d'"' -f4
 
-# Dev (WOR-400: updated container name)
+# Dev ({TICKET_PREFIX}-400: updated container name)
 docker inspect wtfb-dev-app | grep 'org.opencontainers.image.revision' | cut -d'"' -f4
 ```
 
@@ -218,10 +218,10 @@ docker inspect wtfb-dev-app | grep 'org.opencontainers.image.revision' | cut -d'
 Check logs for startup issues:
 
 ```bash
-# Staging (WOR-400: use container name)
+# Staging ({TICKET_PREFIX}-400: use container name)
 docker logs wtfb-staging-app --tail 50
 
-# Dev (WOR-400: use container name or script)
+# Dev ({TICKET_PREFIX}-400: use container name or script)
 docker logs wtfb-dev-app --tail 50
 # Or use script
 ./scripts/dev-docker.sh logs --tail 50
@@ -250,10 +250,10 @@ Mode: STAGING (self-contained)
 Pre-Deployment
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-Current:  e9722d4 - style(docs): apply markdown linting fixes [WOR-347]
+Current:  e9722d4 - style(docs): apply markdown linting fixes [{TICKET_PREFIX}-347]
 Status:   Up 7 hours (healthy)
 
-Target:   3a49b85 - feat(ci): add Slack notifications [WOR-350]
+Target:   3a49b85 - feat(ci): add Slack notifications [{TICKET_PREFIX}-350]
 Changes:  1 new commit
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -281,7 +281,7 @@ Deployment Progress
 Post-Deployment
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-Running:  3a49b85 - feat(ci): add Slack notifications [WOR-350]
+Running:  3a49b85 - feat(ci): add Slack notifications [{TICKET_PREFIX}-350]
 Status:   Healthy
 URL:      http://localhost:3000
 Duration: 2m 13s (or 4m 48s with rebuild)
@@ -313,7 +313,7 @@ Next steps:
 ./scripts/dev-docker.sh start         # Start dev containers
 ```
 
-## Running Both Modes Simultaneously (WOR-400/WOR-401)
+## Running Both Modes Simultaneously ({TICKET_PREFIX}-400/{TICKET_PREFIX}-401)
 
 **Port Allocation**:
 

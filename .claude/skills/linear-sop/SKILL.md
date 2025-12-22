@@ -25,11 +25,11 @@ Invoke this skill when:
 
 ```text
 # Get issue by identifier
-mcp__linear-mcp__get_issue({ id: "WOR-459" })
+mcp__linear-mcp__get_issue({ id: "{TICKET_PREFIX}-459" })
 
 # List issues with filters
 mcp__linear-mcp__list_issues({
-  team: "WTFB app team",
+  team: "{PROJECT_TEAM_NAME}",
   state: "In Progress",
   assignee: "me",
 })
@@ -40,7 +40,7 @@ mcp__linear-mcp__list_issues({
 ```text
 mcp__linear-mcp__create_issue({
   title: "feat(scope): description",
-  team: "WTFB app team",
+  team: "{PROJECT_TEAM_NAME}",
   description: "## Summary\n\n...",
   labels: ["feature", "sprint-1"],
   parentId: "parent-uuid",  // Optional - for sub-issues
@@ -51,7 +51,7 @@ mcp__linear-mcp__create_issue({
 
 ```text
 mcp__linear-mcp__update_issue({
-  id: "WOR-459",
+  id: "{TICKET_PREFIX}-459",
   state: "Done",
 })
 ```
@@ -60,7 +60,7 @@ mcp__linear-mcp__update_issue({
 
 ```text
 mcp__linear-mcp__create_comment({
-  issueId: "WOR-459",
+  issueId: "{TICKET_PREFIX}-459",
   body: "**Dev Evidence**\n\n...",
 })
 ```
@@ -82,9 +82,9 @@ Every issue requires evidence at each phase:
 ```markdown
 **Dev Evidence**
 
-**PR**: https://github.com/bybren-llc/wtfb-app/pull/XXX
+**PR**: https://github.com/{ORG_NAME}/{REPO_NAME}/pull/XXX
 **Commit**: [short-hash]
-**Branch**: WOR-XXX-description
+**Branch**: {TICKET_PREFIX}-XXX-description
 
 **Implementation:**
 
@@ -126,7 +126,7 @@ If N/A, reason: [e.g., "Dev tooling only - no user-facing changes"]
 ```markdown
 **Done Evidence**
 
-**PR Merged**: https://github.com/bybren-llc/wtfb-app/pull/XXX
+**PR Merged**: https://github.com/{ORG_NAME}/{REPO_NAME}/pull/XXX
 **Merge Commit**: [hash]
 
 **Final Checklist:**
@@ -180,13 +180,13 @@ Linear uses UUIDs internally. When working with APIs:
 
 ```typescript
 // Issue identifiers (human-readable)
-const issueId = "WOR-459";
+const issueId = "{TICKET_PREFIX}-459";
 
 // UUIDs (API operations)
 const uuid = "ef6a5fa0-2b46-417f-8266-dea2d187b10a";
 
 // Get UUID from identifier via MCP tool
-// mcp__linear-mcp__get_issue({ id: "WOR-459" })
+// mcp__linear-mcp__get_issue({ id: "{TICKET_PREFIX}-459" })
 // Returns issue object with .id property containing UUID
 ```
 
@@ -196,15 +196,15 @@ const uuid = "ef6a5fa0-2b46-417f-8266-dea2d187b10a";
 
 PRs are automatically linked when:
 
-- Branch name contains `WOR-XXX`
-- PR title contains `[WOR-XXX]`
+- Branch name contains `{TICKET_PREFIX}-XXX`
+- PR title contains `[{TICKET_PREFIX}-XXX]`
 
 ### Create Sub-Issue
 
 ```text
 mcp__linear-mcp__create_issue({
   title: "Sub-task description",
-  team: "WTFB app team",
+  team: "{PROJECT_TEAM_NAME}",
   parentId: "parent-issue-uuid",
 })
 ```
@@ -214,7 +214,7 @@ mcp__linear-mcp__create_issue({
 ```text
 mcp__linear-mcp__list_issues({
   label: "sprint-1",
-  team: "WTFB app team",
+  team: "{PROJECT_TEAM_NAME}",
 })
 ```
 

@@ -7,7 +7,7 @@ description: RLS validation, security audits, OWASP compliance, and vulnerabilit
 
 ## Purpose
 
-Guide security validation with RLS enforcement, OWASP compliance, and vulnerability detection following WTFB's security-first architecture.
+Guide security validation with RLS enforcement, OWASP compliance, and vulnerability detection following security-first architecture.
 
 ## When This Skill Applies
 
@@ -164,7 +164,7 @@ Before ANY production deployment:
 ## Security Audit Report Template
 
 ```markdown
-## Security Audit Report - WOR-XXX
+## Security Audit Report - {TICKET_PREFIX}-XXX
 
 ### Summary
 

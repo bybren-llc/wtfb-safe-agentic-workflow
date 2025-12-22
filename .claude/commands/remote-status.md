@@ -1,69 +1,79 @@
 ---
-description: Check if Pop OS Docker environment needs updating
+description: Check if remote Docker environment needs updating
 ---
 
-Compare the Docker image running on Pop OS with the latest image in the registry.
+# Remote Status Command
+
+Compare the Docker image running on your remote host with the latest image in the registry.
+
+> **📋 TEMPLATE**: This command is a template. See "Customization Guide" below to adapt for your infrastructure.
 
 ## Deployment Modes
 
-Pop OS supports two deployment modes (WOR-400/WOR-401):
+Most Docker setups support two deployment modes:
 
-| Mode            | Container Name     | Port | Use Case                                                           |
-| --------------- | ------------------ | ---- | ------------------------------------------------------------------ |
-| **Development** | `wtfb-dev-app`     | 3000 | Hot-reload, source-mounted, STANDARD ports for local tools         |
-| **Staging**     | `wtfb-staging-app` | 3001 | Production-like, self-contained, survives git operations (WOR-401) |
+| Mode            | Container Name      | Port   | Use Case                                    |
+| --------------- | ------------------- | ------ | ------------------------------------------- |
+| **Development** | `{PROJECT}-dev`     | `3000` | Hot-reload, source-mounted, local dev tools |
+| **Staging**     | `{PROJECT}-staging` | `3001` | Production-like, self-contained, stable     |
 
-**Dev mode uses STANDARD ports** so all local tools (Prisma CLI, IDE, tests) work by default.
-**Staging mode is recommended for Pop OS** - it's stable and won't break during `git pull`.
+**Dev mode uses standard ports** so local tools work by default.
+**Staging mode is recommended** - it's stable and won't break during `git pull`.
 
 ## Workflow
 
 ### 1. Get Running Container Info
 
-Check running container on Pop OS (check both modes):
+Check running container on remote host:
 
 ```bash
-# WOR-445: Dev-mode first (primary), staging fallback per Terminology Contract
-# Check dev container (primary - STANDARD port 3000)
-ssh -i ~/.ssh/id_ed25519_pop_os cheddarfox@pop-os "docker ps --filter name=wtfb-dev-app --format 'table {{.Names}}\t{{.Image}}\t{{.Status}}'"
+# ┌─────────────────────────────────────────────────────────────────────┐
+# │ CUSTOMIZE: Replace with your SSH and container details              │
+# └─────────────────────────────────────────────────────────────────────┘
 
-# Check staging container (fallback - port 3001)
-ssh -i ~/.ssh/id_ed25519_pop_os cheddarfox@pop-os "docker ps --filter name=wtfb-staging --format 'table {{.Names}}\t{{.Image}}\t{{.Status}}'"
+# Check dev container
+ssh -i {SSH_KEY_PATH} {REMOTE_USER}@{REMOTE_HOST} \
+  "docker ps --filter name={PROJECT}-dev --format 'table {{.Names}}\t{{.Image}}\t{{.Status}}'"
+
+# Check staging container
+ssh -i {SSH_KEY_PATH} {REMOTE_USER}@{REMOTE_HOST} \
+  "docker ps --filter name={PROJECT}-staging --format 'table {{.Names}}\t{{.Image}}\t{{.Status}}'"
 ```
 
 Extract commit SHA from running container:
 
 ```bash
-# WOR-445: Dev-first, staging fallback per Terminology Contract
-ssh -i ~/.ssh/id_ed25519_pop_os cheddarfox@pop-os "docker inspect wtfb-dev-app 2>/dev/null | grep 'org.opencontainers.image.revision' || docker inspect wtfb-staging-app 2>/dev/null | grep 'org.opencontainers.image.revision'"
+ssh -i {SSH_KEY_PATH} {REMOTE_USER}@{REMOTE_HOST} \
+  "docker inspect {CONTAINER_NAME} | grep 'org.opencontainers.image.revision'"
 ```
 
 Get image creation time:
 
 ```bash
-ssh -i ~/.ssh/id_ed25519_pop_os cheddarfox@pop-os "docker images ghcr.io/bybren-llc/wtfb-app/dev:latest --format '{{.CreatedAt}}'"
+ssh -i {SSH_KEY_PATH} {REMOTE_USER}@{REMOTE_HOST} \
+  "docker images {REGISTRY}:latest --format '{{.CreatedAt}}'"
 ```
 
 ### 2. Get Latest Registry Image Info
 
-Check latest commit on dev branch:
+Check latest commit on your main branch:
 
 ```bash
-git fetch origin dev
-git log origin/dev -1 --format='%H %s'
+git fetch origin {MAIN_BRANCH}
+git log origin/{MAIN_BRANCH} -1 --format='%H %s'
 ```
 
 Check latest GitHub Actions build status:
 
 ```bash
-gh run list --workflow=build-dev-image.yml --limit 3
+gh run list --workflow={BUILD_WORKFLOW} --limit 3
 ```
 
 ### 3. Compare and Report Status
 
 **If commit SHAs match**:
 
-- ✅ Pop OS is up-to-date
+- ✅ Remote host is up-to-date
 - Report current version info
 - Show uptime
 - No action needed
@@ -72,7 +82,7 @@ gh run list --workflow=build-dev-image.yml --limit 3
 
 - ⚠️ Update available
 - Show current vs latest commits
-- Check if GitHub Actions build is complete
+- Check if CI build is complete
 - If build in progress: show estimated completion
 - If build complete: provide deployment command
 
@@ -80,24 +90,24 @@ gh run list --workflow=build-dev-image.yml --limit 3
 
 Display comprehensive status:
 
-````text
+```text
 🐳 Docker Image Status Check
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Pop OS Dev Environment (Running)
+Remote Environment (Running)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-Container: wtfb-dev-app (STANDARD port 3000) or wtfb-staging-app (port 3001)
+Container: {CONTAINER_NAME}
 Status:    ✅ Up 7 hours (healthy)
-Image:     ghcr.io/bybren-llc/wtfb-app/dev:latest
-Commit:    e9722d4 - style(docs): apply markdown linting fixes [WOR-347]
-Created:   2025-10-11 08:20:15 EDT
+Image:     {REGISTRY}:latest
+Commit:    e9722d4 - style(docs): apply markdown linting fixes
+Created:   2025-10-11 08:20:15
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-GitHub Container Registry (Latest)
+Container Registry (Latest)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-Commit:    3a49b85 - feat(ci): add Slack notifications [WOR-350]
+Commit:    3a49b85 - feat(ci): add Slack notifications
 Build:     ✅ Complete (31 seconds ago)
 Status:    Ready to deploy
 
@@ -106,11 +116,11 @@ Result: ⚠️  UPDATE AVAILABLE
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 Changes since running version:
-• feat(ci): add Slack notifications for Docker image builds [WOR-350]
+• feat(ci): add Slack notifications for Docker image builds
 
 To deploy update:
 /remote-deploy
-```text
+```
 
 ### 5. Actionable Guidance
 
@@ -130,27 +140,42 @@ Based on status, provide appropriate next steps:
 **Update available + build in progress**:
 
 - "Build in progress (estimated X minutes remaining)"
-- Provide link to GitHub Actions run
-- Suggest checking Slack for completion notification
+- Provide link to CI run
+- Suggest checking notifications for completion
 
 **Build failed**:
 
 - "Latest build failed"
-- Link to GitHub Actions failure
+- Link to CI failure
 - Suggest checking logs
 
 ## Error Handling
 
 If SSH fails:
 
-- Check Tailscale connection
-- Verify SSH key exists: `~/.ssh/id_ed25519_pop_os`
+- Check VPN/network connection
+- Verify SSH key exists at `{SSH_KEY_PATH}`
 - Provide manual SSH command
 
 If container not found:
 
 - Check if services are running
 - Provide start command: `/remote-deploy`
+
+## Customization Guide
+
+To adapt this command for your infrastructure, replace these placeholders:
+
+| Placeholder        | Description                    | Example                     |
+| ------------------ | ------------------------------ | --------------------------- |
+| `{SSH_KEY_PATH}`   | Path to SSH private key        | `~/.ssh/id_ed25519_staging` |
+| `{REMOTE_USER}`    | Username on remote host        | `deploy`                    |
+| `{REMOTE_HOST}`    | Remote server hostname/IP      | `staging.example.com`       |
+| `{PROJECT}`        | Your project name              | `myapp`                     |
+| `{CONTAINER_NAME}` | Docker container name          | `myapp-staging`             |
+| `{REGISTRY}`       | Container registry URL         | `ghcr.io/myorg/myapp`       |
+| `{MAIN_BRANCH}`    | Your main branch name          | `main` or `dev`             |
+| `{BUILD_WORKFLOW}` | CI workflow that builds images | `build-image.yml`           |
 
 ## Success Criteria
 
@@ -159,4 +184,3 @@ If container not found:
 - ✅ Registry status checked
 - ✅ Clear status comparison
 - ✅ Actionable next steps provided
-````

@@ -1,13 +1,13 @@
 ---
 name: pattern-discovery
-description: WTFB pattern library discovery for pattern-first development. Use BEFORE implementing any new feature, creating components, writing API routes, or adding database operations. Ensures existing patterns are checked first before writing new code.
+description: Pattern library discovery for pattern-first development. Use BEFORE implementing any new feature, creating components, writing API routes, or adding database operations. Ensures existing patterns are checked first before writing new code.
 ---
 
 # Pattern Discovery Skill
 
 ## Purpose
 
-Enforce pattern-first development by checking the WTFB pattern library before implementing new functionality. This reduces code duplication, ensures consistency, and leverages battle-tested solutions.
+Enforce pattern-first development by checking the Pattern library before implementing new functionality. This reduces code duplication, ensures consistency, and leverages battle-tested solutions.
 
 ## When to Use
 

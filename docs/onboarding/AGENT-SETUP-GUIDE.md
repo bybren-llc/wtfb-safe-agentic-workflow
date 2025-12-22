@@ -1,6 +1,6 @@
 # Agent Setup Guide
 
-## Installing and Using the 11-Agent WTFB SAFe System
+## Installing and Using the 11-Agent SAFe multi-agent System
 
 **Time to Complete**: 30-45 minutes  
 **Prerequisites**: Claude Code or Augment Code installed  
@@ -12,7 +12,7 @@
 
 By the end of this guide, you'll know how to:
 
-1. Install the 11 WTFB SAFe agents
+1. Install the 11 SAFe multi-agent agents
 2. Invoke agents for different tasks
 3. Understand agent roles and when to use each
 4. Validate your setup is working correctly
@@ -23,7 +23,7 @@ By the end of this guide, you'll know how to:
 
 ### What Are Agents?
 
-The WTFB SAFe methodology uses **11 specialized AI agents** that act like team members. Each agent has:
+The SAFe multi-agent methodology uses **11 specialized AI agents** that act like team members. Each agent has:
 
 - **Specific role** (BSA, System Architect, Backend Dev, etc.)
 - **Tool restrictions** (only access tools needed for their role)
@@ -65,8 +65,8 @@ If not installed, visit: https://docs.anthropic.com/claude/docs/claude-code
 **Step 2: Clone the Repository**
 
 ```bash
-git clone https://github.com/ByBren-LLC/WTFB-SAFe-Agentic-Workflow
-cd WTFB-SAFe-Agentic-Workflow
+git clone {{GITHUB_REPO_URL}}
+cd {{PROJECT_NAME}}
 ```
 
 **Step 3: Install Agents**
@@ -115,8 +115,8 @@ If not installed, visit: https://www.augmentcode.com/
 **Step 2: Clone the Repository**
 
 ```bash
-git clone https://github.com/ByBren-LLC/WTFB-SAFe-Agentic-Workflow
-cd WTFB-SAFe-Agentic-Workflow
+git clone {{GITHUB_REPO_URL}}
+cd {{PROJECT_NAME}}
 ```
 
 **Step 3: Copy Augment Configurations**
@@ -242,9 +242,9 @@ Task({
 ```typescript
 Task({
   subagent_type: "bsa",
-  description: "Create spec for WOR-123",
+  description: "Create spec for {{TICKET_PREFIX}}-123",
   prompt:
-    "Create comprehensive spec for WOR-123 user profile feature. Include pattern discovery, acceptance criteria, and testing strategy. Reference existing patterns from docs/patterns/.",
+    "Create comprehensive spec for {{TICKET_PREFIX}}-123 user profile feature. Include pattern discovery, acceptance criteria, and testing strategy. Reference existing patterns from docs/patterns/.",
 });
 ```
 
@@ -297,7 +297,7 @@ Task({
 ### Workflow 3: TDM-Orchestrated (Complex)
 
 ```
-@tdm I need to implement WOR-123 (user profile feature).
+@tdm I need to implement {{TICKET_PREFIX}}-123 (user profile feature).
 
 Please:
 1. Read the Linear ticket
@@ -454,7 +454,7 @@ yarn ci:validate && echo "CI SUCCESS"
 
 ## Success!
 
-**Congratulations!** 🎉 You've successfully set up the WTFB SAFe 11-agent system.
+**Congratulations!** 🎉 You've successfully set up the SAFe multi-agent 11-agent system.
 
 **You now know how to**:
 
@@ -470,5 +470,5 @@ yarn ci:validate && echo "CI SUCCESS"
 
 **Questions?**
 
-- GitHub Discussions: https://github.com/ByBren-LLC/WTFB-SAFe-Agentic-Workflow/discussions
+- GitHub Discussions: {{GITHUB_REPO_URL}}/discussions
 - Email: scott@wordstofilmby.com

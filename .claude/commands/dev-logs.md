@@ -1,11 +1,13 @@
 ---
-description: View Pop OS dev container logs
+description: View {DEV_MACHINE} dev container logs
 argument-hint: [--follow] [--tail N]
 ---
 
+> **📋 TEMPLATE**: This command is a template. See "Customization Guide" below to adapt for your infrastructure.
+
 > **DEPRECATED**: This command is an alias to `/remote-logs`. Use `/remote-logs` directly.
 
-This command calls `/remote-logs` which is the canonical command for viewing Pop OS container logs.
+This command calls `/remote-logs` which is the canonical command for viewing {DEV_MACHINE} container logs.
 
 ## Usage
 
@@ -17,14 +19,23 @@ This command calls `/remote-logs` which is the canonical command for viewing Pop
 
 ## Why Deprecated?
 
-Per WOR-445, we canonicalized around `/remote-*` and `/local-*` naming:
+Per {TICKET_PREFIX}-445, we canonicalized around `/remote-*` and `/local-*` naming:
 
-- `/remote-*` = Pop OS operations (staging-first, then dev)
+- `/remote-*` = {DEV_MACHINE} operations (staging-first, then dev)
 - `/local-*` = Local machine operations
 
 ## Related Commands
 
-- `/remote-logs` - **Canonical** - View Pop OS container logs
-- `/remote-health` - Health dashboard for Pop OS
-- `/remote-status` - Check if Pop OS needs update
-- `/remote-deploy` - Deploy latest image to Pop OS
+- `/remote-logs` - **Canonical** - View {DEV_MACHINE} container logs
+- `/remote-health` - Health dashboard for {DEV_MACHINE}
+- `/remote-status` - Check if {DEV_MACHINE} needs update
+- `/remote-deploy` - Deploy latest image to {DEV_MACHINE}
+
+## Customization Guide
+
+To adapt this command for your infrastructure, replace these placeholders:
+
+| Placeholder       | Description                  | Example                           |
+| ----------------- | ---------------------------- | --------------------------------- |
+| `{TICKET_PREFIX}` | Your Linear ticket prefix    | `WOR`, `PROJ`, `TASK`             |
+| `{DEV_MACHINE}`   | Your remote dev machine name | `Pop OS`, `staging`, `dev-server` |

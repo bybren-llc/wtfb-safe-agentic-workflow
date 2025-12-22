@@ -1,10 +1,12 @@
 ---
-description: Check Pop OS dev environment health dashboard
+description: Check {DEV_MACHINE} dev environment health dashboard
 ---
+
+> **📋 TEMPLATE**: This command is a template. See "Customization Guide" below to adapt for your infrastructure.
 
 > **DEPRECATED**: This command is an alias to `/remote-health`. Use `/remote-health` directly.
 
-This command calls `/remote-health` which is the canonical command for Pop OS health checks.
+This command calls `/remote-health` which is the canonical command for {DEV_MACHINE} health checks.
 
 ## Usage
 
@@ -14,14 +16,23 @@ This command calls `/remote-health` which is the canonical command for Pop OS he
 
 ## Why Deprecated?
 
-Per WOR-445, we canonicalized around `/remote-*` and `/local-*` naming:
+Per {TICKET_PREFIX}-445, we canonicalized around `/remote-*` and `/local-*` naming:
 
-- `/remote-*` = Pop OS operations (staging-first, then dev)
+- `/remote-*` = {DEV_MACHINE} operations (staging-first, then dev)
 - `/local-*` = Local machine operations
 
 ## Related Commands
 
-- `/remote-health` - **Canonical** - Health dashboard for Pop OS
-- `/remote-status` - Check if Pop OS needs update
-- `/remote-deploy` - Deploy latest image to Pop OS
-- `/remote-logs` - View Pop OS container logs
+- `/remote-health` - **Canonical** - Health dashboard for {DEV_MACHINE}
+- `/remote-status` - Check if {DEV_MACHINE} needs update
+- `/remote-deploy` - Deploy latest image to {DEV_MACHINE}
+- `/remote-logs` - View {DEV_MACHINE} container logs
+
+## Customization Guide
+
+To adapt this command for your infrastructure, replace these placeholders:
+
+| Placeholder       | Description                  | Example                           |
+| ----------------- | ---------------------------- | --------------------------------- |
+| `{TICKET_PREFIX}` | Your Linear ticket prefix    | `WOR`, `PROJ`, `TASK`             |
+| `{DEV_MACHINE}`   | Your remote dev machine name | `Pop OS`, `staging`, `dev-server` |

@@ -1,13 +1,13 @@
 ---
 name: frontend-patterns
-description: WTFB frontend patterns for Next.js App Router, Clerk auth, shadcn/Radix UI, and PostHog analytics. Use when building UI components, creating pages, implementing auth flows, or adding analytics events. Ensures consistent UX patterns and accessibility standards.
+description: Frontend patterns for Next.js App Router, Clerk auth, shadcn/Radix UI, and PostHog analytics. Use when building UI components, creating pages, implementing auth flows, or adding analytics events. Ensures consistent UX patterns and accessibility standards.
 ---
 
 # Frontend Patterns Skill
 
 ## Purpose
 
-Ensure consistent frontend development using WTFB's established patterns for Next.js App Router, Clerk authentication, shadcn/ui components, and PostHog analytics.
+Ensure consistent frontend development using established patterns for Next.js App Router, Clerk authentication, shadcn/ui components, and PostHog analytics.
 
 ## When This Skill Applies
 

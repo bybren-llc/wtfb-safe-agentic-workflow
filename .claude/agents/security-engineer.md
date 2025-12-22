@@ -11,7 +11,7 @@ model: sonnet
 
 Validates security implementation using patterns from `docs/patterns/security/`. Focus on RLS enforcement, vulnerability scanning, and security audits.
 
-**NEW (WOR-314): RLS & Compliance Owner**
+**NEW ({TICKET_PREFIX}-314): RLS & Compliance Owner**
 
 - Validate RLS policies for new tables (see `../../docs/database/RLS_POLICY_CATALOG.md`)
 - Audit data access patterns (user isolation verification)

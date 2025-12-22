@@ -2,6 +2,8 @@
 description: Full local development sync after git pull
 ---
 
+> **📋 TEMPLATE**: This command is a template. See "Customization Guide" below to adapt for your infrastructure.
+
 Perform complete local development environment sync after pulling from dev branch.
 This ensures dependencies, database, and validation are all up-to-date.
 
@@ -57,8 +59,8 @@ git branch --merged dev | grep -v "^\*" | grep -v "dev" | grep -v "master"
 **Offer to delete merged feature branch:**
 
 ```bash
-# Example: WOR-381-rename-slash-commands-remote-prefix
-git branch -d WOR-381-rename-slash-commands-remote-prefix
+# Example: {TICKET_PREFIX}-381-rename-slash-commands-remote-prefix
+git branch -d {TICKET_PREFIX}-381-rename-slash-commands-remote-prefix
 ```
 
 **Prune remote tracking branches:**
@@ -195,7 +197,7 @@ Git Sync
 
 Branch:        dev
 Commits:       3 new commits pulled
-Latest:        fd85ba3 - feat(marketing): RenderTrust pages [WOR-379]
+Latest:        fd85ba3 - feat(marketing): RenderTrust pages [{TICKET_PREFIX}-379]
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Dependencies
@@ -221,7 +223,7 @@ Status:        ⏭️  Skipped (user opted out)
 Suggestion:    Run `yarn ci:validate` manually if needed
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Docker Services (WOR-401: STANDARD Ports)
+Docker Services ({TICKET_PREFIX}-401: STANDARD Ports)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 wtfb-dev-app:        ✅ Up 3 hours (healthy) → port 3000
@@ -333,13 +335,13 @@ Options:
 
 **When to Run**:
 
-- After receiving Slack notification in `#github-feed` (WOR-411)
+- After receiving Slack notification in `#github-feed` ({TICKET_PREFIX}-411)
 - After every `git pull origin dev`
 - When switching branches
 - After long periods away from project
 - When seeing unexpected errors
 
-**Slack Notifications (WOR-411)**:
+**Slack Notifications ({TICKET_PREFIX}-411)**:
 
 - Normal PRs: Basic merge notification
 - High-Risk PRs: `@channel` mention - sync immediately!
@@ -364,3 +366,11 @@ Options:
 - Fast path (no changes): ~5-10 seconds
 - With dependencies: ~30 seconds
 - With validation opt-in: ~60 seconds
+
+## Customization Guide
+
+To adapt this command for your infrastructure, replace these placeholders:
+
+| Placeholder       | Description               | Example               |
+| ----------------- | ------------------------- | --------------------- |
+| `{TICKET_PREFIX}` | Your Linear ticket prefix | `WOR`, `PROJ`, `TASK` |

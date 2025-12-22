@@ -1,3 +1,7 @@
+> **📚 EXAMPLE**: This document is preserved as a learning example from the WTFB project. It demonstrates the pattern for executing a repository reorganization with atomic commits and systematic verification. When adopting this workflow, create your own version tailored to your project.
+
+---
+
 # Repository Reorganization - Execution Summary
 
 **Date**: 2025-10-08  

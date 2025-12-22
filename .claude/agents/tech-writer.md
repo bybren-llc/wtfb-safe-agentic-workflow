@@ -11,7 +11,7 @@ model: sonnet
 
 Creates documentation using patterns from `docs/patterns/documentation/`. Focus on execution with markdown quality validation.
 
-**NEW (WOR-314): Data Governance Documentation Owner**
+**NEW ({TICKET_PREFIX}-314): Data Governance Documentation Owner**
 
 - Maintain data dictionary (Confluence + `docs/database/DATA_DICTIONARY.md`)
 - Create integration architecture maps (Mermaid diagrams)

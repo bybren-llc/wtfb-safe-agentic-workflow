@@ -11,7 +11,7 @@ model: sonnet
 
 The RTE manages the release process, creates pull requests, ensures CI/CD validation passes, and coordinates deployment. You are responsible for getting code from development to production safely.
 
-**NEW (WOR-314): Production Deployment Owner**
+**NEW ({TICKET_PREFIX}-314): Production Deployment Owner**
 
 - Execute PROD migration checklist (with Data Engineer, see `PROD_MIGRATION_CHECKLIST_TEMPLATE.md`)
 - Coordinate disaster recovery procedures (see `DISASTER_RECOVERY_PLAYBOOK.md`)
@@ -506,10 +506,10 @@ yarn ci:validate
 
 # 2. Rebase and push
 git fetch origin && git rebase origin/dev
-git push --force-with-lease origin WOR-123-feature
+git push --force-with-lease origin {TICKET_PREFIX}-123-feature
 
 # 3. Create PR
-gh pr create --title "feat(feature): implement feature [WOR-123]" --web
+gh pr create --title "feat(feature): implement feature [{TICKET_PREFIX}-123]" --web
 
 # 4. Monitor CI
 gh pr checks
@@ -524,14 +524,14 @@ gh pr merge --rebase --delete-branch
 # 1. Create hotfix branch from main
 git checkout main
 git pull origin main
-git checkout -b WOR-999-hotfix-critical-bug
+git checkout -b {TICKET_PREFIX}-999-hotfix-critical-bug
 
 # 2. Fix and validate
 # ... make changes ...
 yarn ci:validate
 
 # 3. PR to main (emergency)
-gh pr create --base main --title "fix(critical): resolve security issue [WOR-999]"
+gh pr create --base main --title "fix(critical): resolve security issue [{TICKET_PREFIX}-999]"
 
 # 4. After main merge, backport to dev
 git checkout dev
@@ -542,19 +542,19 @@ git push origin dev
 ### Pattern 3: Multi-Agent Coordination
 
 ```bash
-# Agent A (FE): WOR-123-ui-component (depends on WOR-124)
-# Agent B (BE): WOR-124-api-endpoint (must merge first)
+# Agent A (FE): {TICKET_PREFIX}-123-ui-component (depends on {TICKET_PREFIX}-124)
+# Agent B (BE): {TICKET_PREFIX}-124-api-endpoint (must merge first)
 
 # RTE coordinates:
-# 1. Merge WOR-124 first
+# 1. Merge {TICKET_PREFIX}-124 first
 gh pr merge 124 --rebase
 
-# 2. Rebase WOR-123 on updated dev
-git checkout WOR-123-ui-component
+# 2. Rebase {TICKET_PREFIX}-123 on updated dev
+git checkout {TICKET_PREFIX}-123-ui-component
 git fetch origin && git rebase origin/dev
 git push --force-with-lease
 
-# 3. Merge WOR-123
+# 3. Merge {TICKET_PREFIX}-123
 gh pr merge 123 --rebase
 ```
 

@@ -209,7 +209,7 @@ What might change or be improved.
 ## Knowledge Transfer (KT) Document Template
 
 ```markdown
-# KT: [Topic Name] - WOR-XXX
+# KT: [Topic Name] - {TICKET_PREFIX}-XXX
 
 ## Summary
 
@@ -245,7 +245,7 @@ How to verify everything works.
 
 ## Related Tickets
 
-- WOR-XXX: [Related work]
+- {TICKET_PREFIX}-XXX: [Related work]
 
 ## Future Work
 
@@ -254,13 +254,13 @@ What should be done next.
 
 ## Documentation Output Locations
 
-| Doc Type       | Location                             | Naming                     |
-| -------------- | ------------------------------------ | -------------------------- |
-| ADRs           | `docs/adr/`                          | `ADR-XXX-{description}.md` |
-| Runbooks       | `docs/runbooks/`                     | `{operation}-runbook.md`   |
-| Architecture   | `docs/architecture/`                 | `{system}-architecture.md` |
-| KT Docs        | `docs/`                              | `KT-WOR-XXX-{topic}.md`    |
-| Technical Docs | `docs/agent-outputs/technical-docs/` | `WOR-XXX-{description}.md` |
+| Doc Type       | Location                             | Naming                                 |
+| -------------- | ------------------------------------ | -------------------------------------- |
+| ADRs           | `docs/adr/`                          | `ADR-XXX-{description}.md`             |
+| Runbooks       | `docs/runbooks/`                     | `{operation}-runbook.md`               |
+| Architecture   | `docs/architecture/`                 | `{system}-architecture.md`             |
+| KT Docs        | `docs/`                              | `KT-{TICKET_PREFIX}-XXX-{topic}.md`    |
+| Technical Docs | `docs/agent-outputs/technical-docs/` | `{TICKET_PREFIX}-XXX-{description}.md` |
 
 ## Documentation Checklist
 

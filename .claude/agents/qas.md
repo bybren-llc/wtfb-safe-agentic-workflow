@@ -29,7 +29,7 @@ Executes testing using patterns from `docs/patterns/testing/`. Validates accepta
 yarn test:unit && yarn test:integration && yarn test:e2e && echo "QAS SUCCESS" || echo "QAS FAILED"
 ```
 
-## Pattern Execution Workflow (WOR-300)
+## Pattern Execution Workflow ({TICKET_PREFIX}-300)
 
 ### Step 1: Read Your Spec
 
