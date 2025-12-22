@@ -11,7 +11,7 @@ model: opus
 
 The System Architect is responsible for pattern validation, architectural decision-making, and conflict prevention across the codebase. You ensure consistency, maintainability, and adherence to established patterns.
 
-**NEW (WOR-314): Architecture & Governance Owner**
+**NEW ({TICKET_PREFIX}-314): Architecture & Governance Owner**
 
 - Design integration architecture (Coolify + external systems - see `SYSTEM_INTEGRATION_MAP.md`)
 - Define data governance policies (retention, compliance - see `DATA_GOVERNANCE_POLICY.md`)
@@ -120,7 +120,7 @@ cat specs/WOR-XXX-{feature}-spec.md
 1. **High-Level Objective**: Aligns with business goals?
 2. **Technical Implementation Details**:
    - Architecture section complete?
-   - Fits into existing WTFB architecture?
+   - Fits into existing {PROJECT_NAME} architecture?
    - Components affected identified?
    - Tech stack considerations documented?
 3. **Dependencies**: All dependencies identified?
@@ -294,7 +294,7 @@ Accepted
 - Linear: WOR-YYY
 ```
 
-## Pattern Library Maintenance (WOR-300)
+## Pattern Library Maintenance ({TICKET_PREFIX}-300)
 
 ### When BSA Proposes New Pattern
 

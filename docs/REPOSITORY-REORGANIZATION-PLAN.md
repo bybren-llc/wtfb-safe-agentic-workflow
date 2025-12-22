@@ -1,3 +1,7 @@
+> **📚 EXAMPLE**: This document is preserved as a learning example from the WTFB project. It demonstrates the pattern for planning a comprehensive repository reorganization with detailed implementation steps. When adopting this workflow, create your own version tailored to your project.
+
+---
+
 # Repository Reorganization Plan
 
 ## Cleaning Up Root Directory Clutter

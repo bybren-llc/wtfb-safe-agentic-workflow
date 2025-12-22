@@ -1,6 +1,6 @@
 # Social Media Setup Guide
 
-How to configure social sharing for the WTFB SAFe Multi-Agent Development repository.
+How to configure social sharing for the SAFe Multi-Agent Development repository.
 
 ## 🎯 Overview
 
@@ -38,7 +38,7 @@ MIT License.
 
 **How to Update**:
 
-1. Go to: https://github.com/ByBren-LLC/WTFB-SAFe-Agentic-Workflow
+1. Go to: {{GITHUB_REPO_URL}}
 2. Click ⚙️ **Settings** (requires admin access)
 3. Under "General" → "Description", paste the text
 4. Click **Save**
@@ -66,7 +66,7 @@ production-validated
 
 **How to Add**:
 
-1. Go to repository homepage: https://github.com/ByBren-LLC/WTFB-SAFe-Agentic-Workflow
+1. Go to repository homepage: {{GITHUB_REPO_URL}}
 2. Click ⚙️ (gear icon) next to "About"
 3. Add topics in the "Topics" field (comma-separated)
 4. Click **Save changes**
@@ -86,7 +86,7 @@ production-validated
 
 **Content to Include**:
 
-- **Project Name**: "WTFB SAFe Multi-Agent Development"
+- **Project Name**: "SAFe Multi-Agent Development"
 - **Tagline**: "Evidence-Based Multi-Agent Development with Claude Code"
 - **Key Visual**: 11 agent icons or workflow diagram
 - **Key Metric**: "169 Issues • 14× Velocity • 90.9% PR Merge Rate"
@@ -104,7 +104,7 @@ production-validated
 ```
 ┌──────────────────────────────────────────────────────────┐
 │                                                          │
-│   🤖 WTFB SAFe Multi-Agent Development                  │
+│   🤖 SAFe Multi-Agent Development                  │
 │                                                          │
 │   Evidence-Based Multi-Agent Development with Claude Code│
 │                                                          │
@@ -127,7 +127,7 @@ production-validated
 
 1. Create image (1200x630px)
 2. Save as PNG or JPEG (< 1 MB)
-3. Go to: https://github.com/ByBren-LLC/WTFB-SAFe-Agentic-Workflow/settings
+3. Go to: {{GITHUB_REPO_URL}}/settings
 4. Scroll to **Social preview**
 5. Click **Upload an image...**
 6. Select your image
@@ -148,7 +148,7 @@ Test how your repository will appear on different platforms:
 https://cards-dev.twitter.com/validator
 ```
 
-Enter: `https://github.com/ByBren-LLC/WTFB-SAFe-Agentic-Workflow`
+Enter: `{{GITHUB_REPO_URL}}`
 
 **LinkedIn Post Inspector**:
 
@@ -169,7 +169,7 @@ https://developers.facebook.com/tools/debug/
 **Generic Open Graph Checker**:
 
 ```
-https://www.opengraph.xyz/url/https%3A%2F%2Fgithub.com%2FByBren-LLC%2FWTFB-SAFe-Agentic-Workflow
+https://www.opengraph.xyz/url/https%3A%2F%2Fgithub.com%2FByBren-LLC%2F{PROJECT_NAME}-Agentic-Workflow
 ```
 
 ### Clear Cache
@@ -196,8 +196,8 @@ If you want MORE control over social sharing, create a GitHub Pages landing page
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <!-- Primary Meta Tags -->
-    <title>WTFB SAFe Multi-Agent Development</title>
-    <meta name="title" content="WTFB SAFe Multi-Agent Development" />
+    <title>SAFe Multi-Agent Development</title>
+    <meta name="title" content="SAFe Multi-Agent Development" />
     <meta
       name="description"
       content="Evidence-based multi-agent development methodology using Claude Code's Task tool. 11 specialized AI agents, SAFe framework, production-validated with real metrics."
@@ -207,49 +207,41 @@ If you want MORE control over social sharing, create a GitHub Pages landing page
     <meta property="og:type" content="website" />
     <meta
       property="og:url"
-      content="https://bybren-llc.github.io/WTFB-SAFe-Agentic-Workflow/"
+      content="https://{{GITHUB_ORG}}.github.io/{{GITHUB_REPO}}/"
     />
-    <meta property="og:title" content="WTFB SAFe Multi-Agent Development" />
+    <meta property="og:title" content="SAFe Multi-Agent Development" />
     <meta
       property="og:description"
       content="Evidence-based multi-agent development methodology using Claude Code's Task tool. 11 specialized AI agents, SAFe framework, production-validated."
     />
     <meta
       property="og:image"
-      content="https://bybren-llc.github.io/WTFB-SAFe-Agentic-Workflow/social-preview.png"
+      content="https://{{GITHUB_ORG}}.github.io/{{GITHUB_REPO}}/social-preview.png"
     />
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
     <meta
       property="twitter:url"
-      content="https://bybren-llc.github.io/WTFB-SAFe-Agentic-Workflow/"
+      content="https://{{GITHUB_ORG}}.github.io/{{GITHUB_REPO}}/"
     />
-    <meta
-      property="twitter:title"
-      content="WTFB SAFe Multi-Agent Development"
-    />
+    <meta property="twitter:title" content="SAFe Multi-Agent Development" />
     <meta
       property="twitter:description"
       content="Evidence-based multi-agent development methodology using Claude Code's Task tool. 11 specialized AI agents, SAFe framework, production-validated."
     />
     <meta
       property="twitter:image"
-      content="https://bybren-llc.github.io/WTFB-SAFe-Agentic-Workflow/social-preview.png"
+      content="https://{{GITHUB_ORG}}.github.io/{{GITHUB_REPO}}/social-preview.png"
     />
 
     <!-- Redirect to GitHub repo -->
-    <meta
-      http-equiv="refresh"
-      content="0; url=https://github.com/ByBren-LLC/WTFB-SAFe-Agentic-Workflow"
-    />
+    <meta http-equiv="refresh" content="0; url={{GITHUB_REPO_URL}}" />
   </head>
   <body>
     <p>
       Redirecting to
-      <a href="https://github.com/ByBren-LLC/WTFB-SAFe-Agentic-Workflow"
-        >WTFB SAFe Multi-Agent Development</a
-      >...
+      <a href="{{GITHUB_REPO_URL}}">SAFe Multi-Agent Development</a>...
     </p>
   </body>
 </html>
@@ -262,7 +254,7 @@ If you want MORE control over social sharing, create a GitHub Pages landing page
 3. Branch: `main` → `/docs`
 4. Click **Save**
 5. Wait for deployment (2-3 minutes)
-6. Your landing page: `https://bybren-llc.github.io/WTFB-SAFe-Agentic-Workflow/`
+6. Your landing page: `https://{{GITHUB_ORG}}.github.io/{{GITHUB_REPO}}/`
 
 **Then share the GitHub Pages URL instead of the repo URL** for full Open Graph control.
 
@@ -284,7 +276,7 @@ If you want MORE control over social sharing, create a GitHub Pages landing page
 🎯 90.9% PR merge rate
 
 Whitepaper + complete working template:
-https://github.com/ByBren-LLC/WTFB-SAFe-Agentic-Workflow
+{{GITHUB_REPO_URL}}
 
 #AI #Claude #AgenticAI #SoftwareDevelopment
 ```
@@ -292,7 +284,7 @@ https://github.com/ByBren-LLC/WTFB-SAFe-Agentic-Workflow
 **LinkedIn**:
 
 ```
-🚀 Introducing WTFB SAFe Multi-Agent Development
+🚀 Introducing SAFe Multi-Agent Development
 
 After 5 months of production validation (169 issues, 2,193 commits),
 I'm sharing our methodology for using Claude Code's Task tool with
@@ -312,7 +304,7 @@ The repository includes:
 
 MIT License - Free to use and adapt for your team.
 
-https://github.com/ByBren-LLC/WTFB-SAFe-Agentic-Workflow
+{{GITHUB_REPO_URL}}
 
 What's your experience with multi-agent development?
 Let's discuss in the comments.
@@ -338,7 +330,7 @@ Key insights:
 
 All metrics are verifiable (Linear API, GitHub API).
 
-Repository: https://github.com/ByBren-LLC/WTFB-SAFe-Agentic-Workflow
+Repository: {{GITHUB_REPO_URL}}
 
 Happy to answer questions about the methodology or implementation.
 ```
@@ -348,7 +340,7 @@ Happy to answer questions about the methodology or implementation.
 ```
 Title: Evidence-Based Multi-Agent Development with Claude Code (5 months production data)
 
-URL: https://github.com/ByBren-LLC/WTFB-SAFe-Agentic-Workflow
+URL: {{GITHUB_REPO_URL}}
 ```
 
 ---
@@ -360,7 +352,7 @@ Set your repository's website field to your primary documentation or landing pag
 **Options**:
 
 - `https://wordstofilmby.com` (your main site)
-- `https://bybren-llc.github.io/WTFB-SAFe-Agentic-Workflow/` (if you create GitHub Pages)
+- `https://{{GITHUB_ORG}}.github.io/{{GITHUB_REPO}}/` (if you create GitHub Pages)
 - A dedicated landing page on your domain
 
 **How to Set**:
@@ -378,7 +370,7 @@ Track how your repository is being shared:
 
 ### GitHub Insights
 
-Go to: https://github.com/ByBren-LLC/WTFB-SAFe-Agentic-Workflow/graphs/traffic
+Go to: {{GITHUB_REPO_URL}}/graphs/traffic
 
 - **Views**: Total repository views
 - **Unique visitors**: Individual visitors

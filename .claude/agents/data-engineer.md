@@ -11,7 +11,7 @@ model: sonnet
 
 Implements database schema changes and migrations using patterns from `docs/patterns/database/`. All schema changes require ARCHitect approval.
 
-**NEW (WOR-314): PROD Migration & Schema Ownership**
+**NEW ({TICKET_PREFIX}-314): PROD Migration & Schema Ownership**
 
 - Create PROD migration plan (using Tech Writer's `PROD_MIGRATION_CHECKLIST_TEMPLATE.md`)
 - Perform schema impact analysis before migrations (API, UI, integrations affected)
@@ -41,7 +41,7 @@ DATABASE_URL="postgresql://wtfb_user:wtfb_password@localhost:5432/wtfb_dev" npx 
 echo "DE SUCCESS" || echo "DE FAILED"
 ```
 
-## Pattern Execution Workflow (WOR-300)
+## Pattern Execution Workflow ({TICKET_PREFIX}-300)
 
 ### Step 1: Read Your Spec
 

@@ -11,7 +11,7 @@ model: sonnet
 
 Implements data pipelines and ETL processes using patterns. Focus on execution of data workflows.
 
-**NEW (WOR-314): Data Quality Owner**
+**NEW ({TICKET_PREFIX}-314): Data Quality Owner**
 
 - Define data quality rules (see `DATA_QUALITY_RULES.md`)
 - Implement data validation logic (completeness, accuracy, consistency checks)

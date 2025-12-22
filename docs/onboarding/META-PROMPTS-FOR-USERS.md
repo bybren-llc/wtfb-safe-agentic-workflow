@@ -1,8 +1,8 @@
-# Meta-Prompts for WTFB SAFe Multi-Agent Development
+# Meta-Prompts for SAFe Multi-Agent Development
 
 **Purpose**: Copy-paste prompts to help you get started with the 11-agent team structure.
 
-**Repository**: https://github.com/ByBren-LLC/WTFB-SAFe-Agentic-Workflow
+**Repository**: {{GITHUB_REPO_URL}}
 
 ---
 
@@ -18,12 +18,12 @@
 
 ## 1. Initial Setup Meta-Prompt
 
-**When to use**: First time setting up the WTFB SAFe methodology in your project.
+**When to use**: First time setting up the SAFe multi-agent methodology in your project.
 
 **Copy-paste this to your AI assistant**:
 
 ```
-I want to set up the WTFB SAFe Multi-Agent Development methodology in my project. I've cloned the repository from https://github.com/ByBren-LLC/WTFB-SAFe-Agentic-Workflow.
+I want to set up the SAFe Multi-Agent Development methodology in my project. I've cloned the repository from {{GITHUB_REPO_URL}}.
 
 Please help me with the following:
 
@@ -62,7 +62,7 @@ Please provide step-by-step instructions for getting started.
 **Copy-paste this to your AI assistant**:
 
 ```
-I'm working on a task and need to know which WTFB SAFe agent to invoke. Here's my task:
+I'm working on a task and need to know which SAFe multi-agent agent to invoke. Here's my task:
 
 **Task Description**: [DESCRIBE YOUR TASK]
 
@@ -72,7 +72,7 @@ I'm working on a task and need to know which WTFB SAFe agent to invoke. Here's m
 
 **Areas Involved**: [Frontend / Backend / Database / API / Testing / Documentation / Security]
 
-Based on the WTFB SAFe methodology with 11 agent roles:
+Based on the SAFe multi-agent methodology with 11 agent roles:
 1. TDM (Technical Delivery Manager)
 2. BSA (Business Systems Analyst)
 3. System Architect
@@ -105,7 +105,7 @@ Reference: See AGENTS.md in the repository for agent role descriptions.
 **Copy-paste this to your AI assistant**:
 
 ```
-I want to create my first Linear ticket using the WTFB SAFe methodology. I'm ready to invoke the BSA (Business Systems Analyst) agent.
+I want to create my first Linear ticket using the SAFe multi-agent methodology. I'm ready to invoke the BSA (Business Systems Analyst) agent.
 
 **Feature Request**: [DESCRIBE YOUR FEATURE]
 
@@ -155,7 +155,7 @@ Reference the BSA agent prompt at `.claude/agents/bsa.md` for the complete workf
 **Copy-paste this to your AI assistant**:
 
 ```
-I've cloned the WTFB SAFe Agentic Workflow repository and need to customize it for my project. I see several template placeholders that need to be replaced.
+I've cloned the SAFe multi-agent Agentic Workflow repository and need to customize it for my project. I see several template placeholders that need to be replaced.
 
 **My Project Details**:
 - Project Name: [YOUR_PROJECT_NAME]
@@ -207,7 +207,7 @@ Please provide a systematic approach to customizing this template repository.
 **Copy-paste this to your AI assistant**:
 
 ```
-I want to integrate the WTFB SAFe multi-agent workflow with my existing development tools.
+I want to integrate the SAFe multi-agent multi-agent workflow with my existing development tools.
 
 **My Current Setup**:
 - Issue Tracking: [Linear / Jira / GitHub Issues]
@@ -266,10 +266,10 @@ Reference: See CI-CD-Pipeline-Guide.md and CONTRIBUTING.md for workflow details.
 **Copy-paste this to your AI assistant**:
 
 ```
-I've just set up the WTFB SAFe Multi-Agent Development methodology. Please help me validate my setup by walking through this Day 1 checklist:
+I've just set up the SAFe Multi-Agent Development methodology. Please help me validate my setup by walking through this Day 1 checklist:
 
 **Setup Validation**:
-- [ ] Repository cloned: `git clone https://github.com/ByBren-LLC/WTFB-SAFe-Agentic-Workflow`
+- [ ] Repository cloned: `git clone {{GITHUB_REPO_URL}}`
 - [ ] Agent provider installed: [Claude Code / Augment Code]
 - [ ] Agent prompts copied to correct location
 - [ ] Environment variables configured
@@ -321,7 +321,7 @@ Please guide me through each step and help me troubleshoot any issues.
 **Copy-paste this to your AI assistant**:
 
 ```
-I'm having trouble with the WTFB SAFe Multi-Agent Development setup. Here's my issue:
+I'm having trouble with the SAFe Multi-Agent Development setup. Here's my issue:
 
 **Problem Description**: [DESCRIBE WHAT'S NOT WORKING]
 
@@ -383,7 +383,7 @@ Reference: Check AGENTS.md, CONTRIBUTING.md, and CI-CD-Pipeline-Guide.md for con
 - **AGENTS.md**: Quick reference for all 11 agent roles
 - **CONTRIBUTING.md**: Complete workflow guide
 - **whitepaper/section-9-implementation-guide.md**: Detailed implementation steps
-- **GitIngest Link**: https://gitingest.com/ByBren-LLC/WTFB-SAFe-Agentic-Workflow
+- **GitIngest Link**: https://gitingest.com/{{GITHUB_ORG}}/{{GITHUB_REPO}}
 
 ---
 

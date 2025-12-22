@@ -1,9 +1,11 @@
 ---
-description: Rollback Pop OS dev environment to previous Docker image
+description: Rollback remote dev environment to previous Docker image
 argument-hint: [commit-sha]
 ---
 
-Rollback the Pop OS dev environment to a previous Docker image version.
+Rollback the remote development environment to a previous Docker image version.
+
+> **📋 TEMPLATE**: This command is a template. Replace placeholders with your infrastructure values before use. See the **Customization Guide** at the bottom.
 
 ## Workflow
 
@@ -12,30 +14,32 @@ Rollback the Pop OS dev environment to a previous Docker image version.
 Get current problematic version:
 
 ```bash
-# WOR-400: Check staging or dev container
-ssh -i ~/.ssh/id_ed25519_pop_os cheddarfox@pop-os "docker inspect wtfb-staging-app 2>/dev/null | grep 'org.opencontainers.image.revision' | cut -d'\"' -f4 || docker inspect wtfb-dev-app | grep 'org.opencontainers.image.revision' | cut -d'\"' -f4"
+# ┌─────────────────────────────────────────────────────────┐
+# │ CUSTOMIZE: Replace with your SSH and container settings │
+# └─────────────────────────────────────────────────────────┘
+ssh -i {SSH_KEY_PATH} {REMOTE_USER}@{REMOTE_HOST} "docker inspect {APP_CONTAINER_STAGING} 2>/dev/null | grep 'org.opencontainers.image.revision' | cut -d'\"' -f4 || docker inspect {APP_CONTAINER_DEV} | grep 'org.opencontainers.image.revision' | cut -d'\"' -f4"
 ```
 
 Check current status:
 
 ```bash
-curl -s http://pop-os:3000/api/health 2>/dev/null || echo "Health check failed"
+curl -s http://{REMOTE_HOST}:{DEV_PORT}/api/health 2>/dev/null || echo "Health check failed"
 ```
 
 Document the issue for Linear ticket creation later.
 
 ### 2. List Available Rollback Targets
 
-Show recent images on Pop OS:
+Show recent images on remote host:
 
 ```bash
-ssh -i ~/.ssh/id_ed25519_pop_os cheddarfox@pop-os "docker images ghcr.io/bybren-llc/wtfb-app/dev --format 'table {{.Tag}}\t{{.ID}}\t{{.CreatedAt}}'"
+ssh -i {SSH_KEY_PATH} {REMOTE_USER}@{REMOTE_HOST} "docker images {REGISTRY}/{IMAGE_NAME} --format 'table {{.Tag}}\t{{.ID}}\t{{.CreatedAt}}'"
 ```
 
 Cross-reference with git commits to show messages:
 
 ```bash
-git log origin/dev -10 --oneline
+git log origin/{MAIN_BRANCH} -10 --oneline
 ```
 
 ### 3. Select Rollback Target
@@ -58,7 +62,7 @@ Default behavior: Select image before current (most common rollback scenario)
 Pull the specific version from registry:
 
 ```bash
-ssh -i ~/.ssh/id_ed25519_pop_os cheddarfox@pop-os "docker pull ghcr.io/bybren-llc/wtfb-app/dev:dev-{target-sha}"
+ssh -i {SSH_KEY_PATH} {REMOTE_USER}@{REMOTE_HOST} "docker pull {REGISTRY}/{IMAGE_NAME}:{TAG_PREFIX}-{target-sha}"
 ```
 
 If image not in registry (old version pruned), use local cached image.
@@ -68,20 +72,20 @@ If image not in registry (old version pruned), use local cached image.
 Create backup of current config:
 
 ```bash
-ssh -i ~/.ssh/id_ed25519_pop_os cheddarfox@pop-os "cd ~/Projects/wtfb-team && cp docker-compose.dev.yml docker-compose.dev.yml.backup.$(date +%Y%m%d_%H%M%S)"
+ssh -i {SSH_KEY_PATH} {REMOTE_USER}@{REMOTE_HOST} "cd {PROJECT_PATH} && cp {COMPOSE_FILE} {COMPOSE_FILE}.backup.$(date +%Y%m%d_%H%M%S)"
 ```
 
-Update docker-compose.dev.yml to use specific image tag:
+Update docker-compose file to use specific image tag:
 
 ```bash
-# From: image: ghcr.io/bybren-llc/wtfb-app/dev:latest
-# To:   image: ghcr.io/bybren-llc/wtfb-app/dev:dev-{target-sha}
+# From: image: {REGISTRY}/{IMAGE_NAME}:latest
+# To:   image: {REGISTRY}/{IMAGE_NAME}:{TAG_PREFIX}-{target-sha}
 ```
 
 Use SSH + sed for inline replacement:
 
 ```bash
-ssh -i ~/.ssh/id_ed25519_pop_os cheddarfox@pop-os "cd ~/Projects/wtfb-team && sed -i 's|ghcr.io/bybren-llc/wtfb-app/dev:latest|ghcr.io/bybren-llc/wtfb-app/dev:dev-{target-sha}|g' docker-compose.dev.yml"
+ssh -i {SSH_KEY_PATH} {REMOTE_USER}@{REMOTE_HOST} "cd {PROJECT_PATH} && sed -i 's|{REGISTRY}/{IMAGE_NAME}:latest|{REGISTRY}/{IMAGE_NAME}:{TAG_PREFIX}-{target-sha}|g' {COMPOSE_FILE}"
 ```
 
 ### 6. Restart Services
@@ -89,13 +93,13 @@ ssh -i ~/.ssh/id_ed25519_pop_os cheddarfox@pop-os "cd ~/Projects/wtfb-team && se
 Restart with rollback image:
 
 ```bash
-ssh -i ~/.ssh/id_ed25519_pop_os cheddarfox@pop-os "cd ~/Projects/wtfb-team && ./scripts/dev-docker.sh restart"
+ssh -i {SSH_KEY_PATH} {REMOTE_USER}@{REMOTE_HOST} "cd {PROJECT_PATH} && {DOCKER_SCRIPT} restart"
 ```
 
 Monitor startup:
 
 ```bash
-ssh -i ~/.ssh/id_ed25519_pop_os cheddarfox@pop-os "cd ~/Projects/wtfb-team && ./scripts/dev-docker.sh logs --tail 50"
+ssh -i {SSH_KEY_PATH} {REMOTE_USER}@{REMOTE_HOST} "cd {PROJECT_PATH} && {DOCKER_SCRIPT} logs --tail 50"
 ```
 
 ### 7. Verify Rollback Success
@@ -103,20 +107,19 @@ ssh -i ~/.ssh/id_ed25519_pop_os cheddarfox@pop-os "cd ~/Projects/wtfb-team && ./
 Check services started:
 
 ```bash
-ssh -i ~/.ssh/id_ed25519_pop_os cheddarfox@pop-os "docker ps --filter name=wtfb"
+ssh -i {SSH_KEY_PATH} {REMOTE_USER}@{REMOTE_HOST} "docker ps --filter name={CONTAINER_PREFIX}"
 ```
 
 Verify health endpoint:
 
 ```bash
-curl -s http://pop-os:3000/api/health | jq
+curl -s http://{REMOTE_HOST}:{DEV_PORT}/api/health | jq
 ```
 
 Confirm correct commit SHA:
 
 ```bash
-# WOR-400: Check staging or dev container
-ssh -i ~/.ssh/id_ed25519_pop_os cheddarfox@pop-os "docker inspect wtfb-staging-app 2>/dev/null | grep 'org.opencontainers.image.revision' | cut -d'\"' -f4 || docker inspect wtfb-dev-app | grep 'org.opencontainers.image.revision' | cut -d'\"' -f4"
+ssh -i {SSH_KEY_PATH} {REMOTE_USER}@{REMOTE_HOST} "docker inspect {APP_CONTAINER_STAGING} 2>/dev/null | grep 'org.opencontainers.image.revision' | cut -d'\"' -f4 || docker inspect {APP_CONTAINER_DEV} | grep 'org.opencontainers.image.revision' | cut -d'\"' -f4"
 ```
 
 ### 8. Post-Rollback Actions
@@ -139,14 +142,14 @@ ssh -i ~/.ssh/id_ed25519_pop_os cheddarfox@pop-os "docker inspect wtfb-staging-a
 
 Provide comprehensive rollback summary:
 
-````text
-⏮️  Pop OS Dev Environment Rollback
+```text
+⏮️  Remote Dev Environment Rollback
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Problem Detected
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-Version:  3a49b85 - feat(ci): add Slack notifications [WOR-350]
+Version:  3a49b85 - feat(ci): add Slack notifications [{TICKET_PREFIX}-350]
 Issue:    Health check failing / Services crashing
 Time:     Deployed 5 minutes ago
 
@@ -154,7 +157,7 @@ Time:     Deployed 5 minutes ago
 Rollback Target
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-Selected: e9722d4 - style(docs): apply markdown linting fixes [WOR-347]
+Selected: e9722d4 - style(docs): apply markdown linting fixes [{TICKET_PREFIX}-347]
 Reason:   Last known stable version
 Age:      7 hours ago
 
@@ -162,9 +165,9 @@ Age:      7 hours ago
 Rollback Progress
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-[14:30:00] Backup config... ✅ docker-compose.dev.yml.backup.20251011_143000
-[14:30:05] Pull rollback image... ✅ dev-e9722d4 (45s)
-[14:30:50] Update config... ✅ Set to dev-e9722d4
+[14:30:00] Backup config... ✅ {COMPOSE_FILE}.backup.20251011_143000
+[14:30:05] Pull rollback image... ✅ {TAG_PREFIX}-e9722d4 (45s)
+[14:30:50] Update config... ✅ Set to {TAG_PREFIX}-e9722d4
 [14:30:55] Restart services... ✅ Complete (28s)
 [14:31:23] Health check... ✅ Passed
 
@@ -172,9 +175,9 @@ Rollback Progress
 Post-Rollback Status
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-Running:  e9722d4 - style(docs): apply markdown linting fixes [WOR-347]
+Running:  e9722d4 - style(docs): apply markdown linting fixes [{TICKET_PREFIX}-347]
 Status:   ✅ Healthy
-URL:      http://pop-os:3000
+URL:      http://{REMOTE_HOST}:{DEV_PORT}
 Duration: 1m 23s
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -189,19 +192,19 @@ Next steps:
 
 To return to latest (when fixed):
   /remote-deploy
-```text
+```
 
 ### 10. Restore to Latest (When Fixed)
 
 When issue is resolved and new build is ready, restore to latest:
 
 ```bash
-# Restore docker-compose.dev.yml to use :latest tag
-ssh -i ~/.ssh/id_ed25519_pop_os cheddarfox@pop-os "cd ~/Projects/wtfb-team && sed -i 's|ghcr.io/bybren-llc/wtfb-app/dev:dev-[a-f0-9]*|ghcr.io/bybren-llc/wtfb-app/dev:latest|g' docker-compose.dev.yml"
+# Restore compose file to use :latest tag
+ssh -i {SSH_KEY_PATH} {REMOTE_USER}@{REMOTE_HOST} "cd {PROJECT_PATH} && sed -i 's|{REGISTRY}/{IMAGE_NAME}:{TAG_PREFIX}-[a-f0-9]*|{REGISTRY}/{IMAGE_NAME}:latest|g' {COMPOSE_FILE}"
 
 # Then deploy normally
 /remote-deploy
-```text
+```
 
 ## Error Handling
 
@@ -211,7 +214,7 @@ If rollback target image not found:
 
 - Try older version
 - Pull from registry manually
-- Check available tags: `docker images | grep wtfb-app`
+- Check available tags: `docker images | grep {IMAGE_NAME}`
 
 ### Services Still Failing
 
@@ -251,4 +254,56 @@ Document issue in Linear to prevent recurrence:
 - What version caused it
 - How to test for this issue before deployment
 - Consider adding pre-deployment checks
-````
+
+---
+
+## Customization Guide
+
+| Placeholder               | Description                      | Example                     |
+| ------------------------- | -------------------------------- | --------------------------- |
+| `{SSH_KEY_PATH}`          | Path to SSH private key          | `~/.ssh/id_ed25519_staging` |
+| `{REMOTE_USER}`           | Username on remote host          | `deploy`                    |
+| `{REMOTE_HOST}`           | Remote server hostname/IP        | `staging.example.com`       |
+| `{PROJECT_PATH}`          | Project directory on remote      | `~/app`                     |
+| `{REGISTRY}`              | Container registry URL           | `ghcr.io/myorg/myapp`       |
+| `{IMAGE_NAME}`            | Docker image name                | `myapp`                     |
+| `{TAG_PREFIX}`            | Image tag prefix                 | `dev`, `staging`, `prod`    |
+| `{COMPOSE_FILE}`          | Docker compose filename          | `docker-compose.dev.yml`    |
+| `{DOCKER_SCRIPT}`         | Your deployment script           | `./scripts/dev-docker.sh`   |
+| `{CONTAINER_PREFIX}`      | Container name prefix for filter | `myapp`                     |
+| `{APP_CONTAINER_DEV}`     | Dev app container name           | `myapp-dev`                 |
+| `{APP_CONTAINER_STAGING}` | Staging app container name       | `myapp-staging`             |
+| `{DEV_PORT}`              | Port your dev app runs on        | `3000`                      |
+| `{MAIN_BRANCH}`           | Main git branch name             | `main`                      |
+| `{TICKET_PREFIX}`         | Linear/Jira ticket prefix        | `WOR`, `PROJ`, `FEAT`       |
+
+### Example Configuration
+
+For a project called "MyApp" with a staging server at `staging.myapp.com`:
+
+```bash
+# SSH Settings
+SSH_KEY_PATH=~/.ssh/id_ed25519
+REMOTE_USER=deploy
+REMOTE_HOST=staging.myapp.com
+
+# Registry Settings
+REGISTRY=ghcr.io/myorg/myapp
+IMAGE_NAME=myapp
+TAG_PREFIX=dev
+
+# Project Settings
+PROJECT_PATH=~/app
+COMPOSE_FILE=docker-compose.dev.yml
+DOCKER_SCRIPT=./scripts/dev-docker.sh
+CONTAINER_PREFIX=myapp
+
+# Container Names
+APP_CONTAINER_DEV=myapp-dev
+APP_CONTAINER_STAGING=myapp-staging
+
+# Other
+DEV_PORT=3000
+MAIN_BRANCH=main
+TICKET_PREFIX=PROJ
+```

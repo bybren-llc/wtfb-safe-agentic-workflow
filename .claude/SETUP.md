@@ -2,7 +2,7 @@
 
 ## Quick Start (15 Minutes)
 
-This guide helps you install the WTFB Claude Code harness in a new project.
+This guide helps you install the SAFe Claude Code harness in a new project.
 
 ---
 
@@ -17,7 +17,7 @@ This guide helps you install the WTFB Claude Code harness in a new project.
 ## Step 1: Copy the Harness Structure
 
 ```bash
-# From the WTFB repository root, copy to your project:
+# From the source repository root, copy to your project:
 
 # Copy slash commands (24 commands)
 cp -r .claude/commands/ /path/to/your-project/.claude/commands/
@@ -101,7 +101,7 @@ Search and replace in all copied files:
 | Find         | Replace With                       |
 | ------------ | ---------------------------------- |
 | `WOR-`       | Your ticket prefix (e.g., `PROJ-`) |
-| `WTFB`       | Your project name                  |
+| `{PROJECT_NAME}` | Your project name                  |
 | `dev` branch | Your main development branch       |
 
 ### Update Linear Workspace
@@ -215,14 +215,14 @@ After setup, your `.claude/` directory should look like:
 
 ## Quick Command Reference
 
-| Command               | Purpose                       |
-| --------------------- | ----------------------------- |
-| `/start-work WOR-123` | Begin work on a ticket        |
-| `/check-workflow`     | Check current workflow status |
-| `/pre-pr`             | Run validation before PR      |
-| `/end-work`           | Complete work session         |
-| `/local-sync`         | Sync after git pull           |
-| `/remote-status`      | Check remote Docker status    |
+| Command                           | Purpose                       |
+| --------------------------------- | ----------------------------- |
+| `/start-work {TICKET_PREFIX}-123` | Begin work on a ticket        |
+| `/check-workflow`                 | Check current workflow status |
+| `/pre-pr`                         | Run validation before PR      |
+| `/end-work`                       | Complete work session         |
+| `/local-sync`                     | Sync after git pull           |
+| `/remote-status`                  | Check remote Docker status    |
 
 ---
 

@@ -1,7 +1,9 @@
 ---
 description: Fast-track workflow for small bug fixes
-argument-hint: [WOR-number]
+argument-hint: [{TICKET_PREFIX}-number]
 ---
+
+> **📋 TEMPLATE**: This command is a template. See "Customization Guide" below to adapt for your infrastructure.
 
 Execute streamlined workflow for small, urgent bug fixes that need fast turnaround.
 
@@ -29,7 +31,7 @@ If WOR number provided ($1):
 
 - Fetch ticket: `mcp__linear-mcp__get_issue $1`
 - Verify it's a bug fix
-- Create branch: `git checkout -b WOR-$1-fix-{description}`
+- Create branch: `git checkout -b {TICKET_PREFIX}-$1-fix-{description}`
 
 If no argument:
 
@@ -47,7 +49,7 @@ Guide user:
 
 ```bash
 git add .
-git commit -m "fix(scope): resolve {issue} [WOR-XXX]"
+git commit -m "fix(scope): resolve {issue} [{TICKET_PREFIX}-XXX]"
 ```
 
 ### 3. Fast Validation
@@ -78,7 +80,7 @@ Create PR with minimal template:
 ```markdown
 ## 🐛 Quick Fix
 
-**Linear**: [WOR-XXX](link)
+**Linear**: [{TICKET_PREFIX}-XXX](link)
 **Type**: Bug fix
 **Urgency**: High
 
@@ -142,3 +144,11 @@ Follow up:
 - [ ] Close Linear ticket
 
 This workflow balances speed with safety for urgent fixes.
+
+## Customization Guide
+
+To adapt this command for your infrastructure, replace these placeholders:
+
+| Placeholder       | Description               | Example               |
+| ----------------- | ------------------------- | --------------------- |
+| `{TICKET_PREFIX}` | Your Linear ticket prefix | `WOR`, `PROJ`, `TASK` |

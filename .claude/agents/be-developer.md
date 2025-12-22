@@ -29,7 +29,7 @@ Implements API routes and server-side logic using patterns from `docs/patterns/`
 yarn test:integration && yarn type-check && yarn lint && echo "BE SUCCESS" || echo "BE FAILED"
 ```
 
-## Pattern Execution Workflow (WOR-300)
+## Pattern Execution Workflow ({TICKET_PREFIX}-300)
 
 ### Step 1: Read Your Spec
 

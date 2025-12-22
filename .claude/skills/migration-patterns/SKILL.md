@@ -7,7 +7,7 @@ description: Database migration creation with mandatory RLS policies and ARCHite
 
 ## Purpose
 
-Guide database migration creation with mandatory RLS policies, following WTFB's security-first architecture and approval workflow.
+Guide database migration creation with mandatory RLS policies, following security-first architecture and approval workflow.
 
 ## When This Skill Applies
 

@@ -29,7 +29,7 @@ Implements UI components using patterns from `docs/patterns/`. Focus on executio
 yarn lint && yarn type-check && yarn build && echo "FE SUCCESS" || echo "FE FAILED"
 ```
 
-## Pattern Execution Workflow (WOR-300)
+## Pattern Execution Workflow ({TICKET_PREFIX}-300)
 
 ### Step 1: Read Your Spec
 

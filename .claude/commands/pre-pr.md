@@ -2,6 +2,8 @@
 description: Run complete validation workflow before creating PR
 ---
 
+> **📋 TEMPLATE**: This command is a template. See "Customization Guide" below to adapt for your infrastructure.
+
 You are preparing to create a Pull Request. Execute the MANDATORY @CONTRIBUTING.md validation workflow:
 
 ## Validation Checklist
@@ -66,7 +68,7 @@ Check all commits follow SAFe format:
 git log origin/dev..HEAD --oneline
 ```
 
-**Required format**: `type(scope): description [WOR-XXX]`
+**Required format**: `type(scope): description [{TICKET_PREFIX}-XXX]`
 
 **BLOCKER**: All commits must reference Linear ticket.
 
@@ -109,3 +111,11 @@ gh pr create --title "..." --body "..."
 ```
 
 Report final status and any remaining blockers.
+
+## Customization Guide
+
+To adapt this command for your infrastructure, replace these placeholders:
+
+| Placeholder       | Description               | Example               |
+| ----------------- | ------------------------- | --------------------- |
+| `{TICKET_PREFIX}` | Your Linear ticket prefix | `WOR`, `PROJ`, `TASK` |

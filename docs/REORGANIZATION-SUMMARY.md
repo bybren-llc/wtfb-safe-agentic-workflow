@@ -1,3 +1,7 @@
+> **📚 EXAMPLE**: This document is preserved as a learning example from the WTFB project. It demonstrates the pattern for creating an executive summary for a repository reorganization plan. When adopting this workflow, create your own version tailored to your project.
+
+---
+
 # Repository Reorganization - Executive Summary
 
 **Date**: 2025-10-08  
@@ -88,7 +92,7 @@ The repository root directory has become cluttered with **17 files** (14 .md fil
 ### Manual Steps Required
 
 1. **Review Plan**: Read `docs/REPOSITORY-REORGANIZATION-PLAN.md`
-2. **Create Linear Ticket**: e.g., WOR-327
+2. **Create Linear Ticket**: e.g., {TICKET_PREFIX}-XXX
 3. **Run Script**: `./scripts/reorganize-docs.sh`
 4. **Verify Changes**: Follow verification checklist
 5. **Test Agents**: Ensure all agent prompts still work
@@ -293,4 +297,4 @@ Follow the detailed steps in `docs/REPOSITORY-REORGANIZATION-PLAN.md`.
 
 **Status**: READY FOR IMPLEMENTATION
 
-**Recommendation**: Create Linear ticket (e.g., WOR-327) and execute reorganization as part of ongoing documentation improvements.
+**Recommendation**: Create Linear ticket (e.g., {TICKET_PREFIX}-XXX) and execute reorganization as part of ongoing documentation improvements.

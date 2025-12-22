@@ -1,6 +1,6 @@
-# Day 1 Checklist: WTFB SAFe Multi-Agent Development
+# Day 1 Checklist: SAFe Multi-Agent Development
 
-**Purpose**: Your first day with the WTFB SAFe methodology - complete this checklist to validate your setup.
+**Purpose**: Your first day with the SAFe multi-agent methodology - complete this checklist to validate your setup.
 
 **Time Estimate**: 2-3 hours
 
@@ -19,8 +19,8 @@
 
 ```bash
 # Clone the template repository
-git clone https://github.com/ByBren-LLC/WTFB-SAFe-Agentic-Workflow
-cd WTFB-SAFe-Agentic-Workflow
+git clone {{GITHUB_REPO_URL}}
+cd {{PROJECT_NAME}}
 
 # Explore the structure
 ls -la
@@ -40,10 +40,10 @@ cat README.md
 
 **Option A: Use GitIngest** (Recommended)
 
-1. Visit: https://gitingest.com/ByBren-LLC/WTFB-SAFe-Agentic-Workflow
+1. Visit: https://gitingest.com/{{GITHUB_ORG}}/{{GITHUB_REPO}}
 2. Copy the generated context
 3. Paste into your AI assistant (Claude, ChatGPT, etc.)
-4. Ask: "Explain the WTFB SAFe methodology in 3 paragraphs"
+4. Ask: "Explain the SAFe multi-agent methodology in 3 paragraphs"
 
 **Option B: Read Documentation**
 
@@ -226,7 +226,7 @@ EOF
 **Invoke BSA Agent**:
 
 ```
-I want to create a test Linear ticket to validate my WTFB SAFe setup.
+I want to create a test Linear ticket to validate my SAFe multi-agent setup.
 
 Feature: Add a "Hello World" endpoint to validate the agent workflow.
 
@@ -261,7 +261,7 @@ Use the BSA agent workflow from .claude/agents/bsa.md
 
 1. Go to Linear: https://linear.app
 2. Create new issue
-3. Title: `PROJ-1: Add Hello World endpoint for agent workflow validation`
+3. Title: `{{TICKET_PREFIX}}-1: Add Hello World endpoint for agent workflow validation`
 4. Description: Paste BSA output
 5. Add acceptance criteria
 6. Add testing strategy
@@ -269,7 +269,7 @@ Use the BSA agent workflow from .claude/agents/bsa.md
 **Validation**:
 
 - [ ] Linear ticket created
-- [ ] Ticket has proper format (PROJ-1)
+- [ ] Ticket has proper format ({{TICKET_PREFIX}}-1)
 - [ ] All BSA output included
 - [ ] Ticket is in "Backlog" or "Ready" state
 
@@ -280,7 +280,7 @@ Use the BSA agent workflow from .claude/agents/bsa.md
 **Invoke Backend Developer Agent**:
 
 ```
-I'm implementing Linear ticket PROJ-1: Add Hello World endpoint.
+I'm implementing Linear ticket {{TICKET_PREFIX}}-1: Add Hello World endpoint.
 
 User Story:
 [PASTE USER STORY FROM BSA]
@@ -318,17 +318,17 @@ Use the BE Developer agent workflow from .claude/agents/be-developer.md
 **Create Feature Branch**:
 
 ```bash
-git checkout -b PROJ-1-hello-world-endpoint
+git checkout -b {{TICKET_PREFIX}}-1-hello-world-endpoint
 git add .
-git commit -m "feat(api): add Hello World endpoint [PROJ-1]
+git commit -m "feat(api): add Hello World endpoint [{{TICKET_PREFIX}}-1]
 
 - Add GET /api/hello endpoint
 - Return JSON with message and timestamp
 - Add unit and integration tests
 - Update API documentation
 
-Closes PROJ-1"
-git push origin PROJ-1-hello-world-endpoint
+Closes {{TICKET_PREFIX}}-1"
+git push origin {{TICKET_PREFIX}}-1-hello-world-endpoint
 ```
 
 **Create PR**:
@@ -336,8 +336,8 @@ git push origin PROJ-1-hello-world-endpoint
 ```bash
 # Using GitHub CLI
 gh pr create \
-  --title "feat(api): add Hello World endpoint [PROJ-1]" \
-  --body "Implements PROJ-1
+  --title "feat(api): add Hello World endpoint [{{TICKET_PREFIX}}-1]" \
+  --body "Implements {{TICKET_PREFIX}}-1
 
 ## Changes
 - Add GET /api/hello endpoint
@@ -350,7 +350,7 @@ gh pr create \
 - Manual testing completed
 
 ## Linear Ticket
-https://linear.app/your-team/issue/PROJ-1"
+https://linear.app/your-team/issue/{{TICKET_PREFIX}}-1"
 ```
 
 **Validation**:
@@ -470,7 +470,7 @@ https://linear.app/your-team/issue/PROJ-1"
 
 ## Success!
 
-**Congratulations!** 🎉 You've completed Day 1 of the WTFB SAFe Multi-Agent Development methodology.
+**Congratulations!** 🎉 You've completed Day 1 of the SAFe Multi-Agent Development methodology.
 
 **You now know how to**:
 
@@ -486,6 +486,6 @@ https://linear.app/your-team/issue/PROJ-1"
 
 **Questions?**
 
-- GitHub Discussions: https://github.com/ByBren-LLC/WTFB-SAFe-Agentic-Workflow/discussions
+- GitHub Discussions: {{GITHUB_REPO_URL}}/discussions
 - Email: scott@wordstofilmby.com
 - Documentation: See `docs/onboarding/` for more guides

@@ -3,6 +3,8 @@ description: Test PR with Docker image build workflow
 argument-hint: [PR-number]
 ---
 
+> **📋 TEMPLATE**: This command is a template. See "Customization Guide" below to adapt for your infrastructure.
+
 Test the Docker registry PR workflow by adding the `build-docker-image` label to a PR and verifying the build.
 
 ## Workflow
@@ -40,7 +42,7 @@ Explain to user:
 - GitHub Actions will build Docker image (~5-10 min)
 - Image will be tagged as `pr-{number}`
 - Build status visible in PR checks
-- Can monitor at: `https://github.com/ByBren-LLC/WTFB-app/actions`
+- Can monitor at: `https://{GITHUB_ORG}/{PROJECT_NAME}/actions`
 
 Provide link to PR:
 
@@ -61,13 +63,13 @@ Once build completes, guide user through verification:
 # Verify image exists
 docker images | grep wtfb-app
 
-# WOR-400: Use WTFB_IMAGE_TAG environment variable instead of editing compose file
+# {TICKET_PREFIX}-400: Use {PROJECT}_IMAGE_TAG environment variable instead of editing compose file
 # Set the tag before running docker compose:
-export WTFB_IMAGE_TAG=pr-{PR-number}
+export {PROJECT}_IMAGE_TAG=pr-{PR-number}
 
 # Or update docker-compose.staging.yml image tag temporarily:
-# Change: image: ghcr.io/bybren-llc/wtfb-app/dev:${WTFB_IMAGE_TAG:-latest}
-# To:     image: ghcr.io/bybren-llc/wtfb-app/dev:pr-{PR-number}
+# Change: image: {REGISTRY}/{PROJECT_NAME}/dev:${{PROJECT}_IMAGE_TAG:-latest}
+# To:     image: {REGISTRY}/{PROJECT_NAME}/dev:pr-{PR-number}
 
 # Restart with PR image
 ./scripts/dev-docker.sh restart
@@ -110,3 +112,11 @@ Report each step's status:
 - Expected next steps
 
 This validates the entire PR Docker workflow before relying on it for future PRs.
+
+## Customization Guide
+
+To adapt this command for your infrastructure, replace these placeholders:
+
+| Placeholder       | Description               | Example               |
+| ----------------- | ------------------------- | --------------------- |
+| `{TICKET_PREFIX}` | Your Linear ticket prefix | `WOR`, `PROJ`, `TASK` |

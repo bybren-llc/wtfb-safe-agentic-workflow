@@ -93,7 +93,7 @@ Invoke this skill when:
 ```text
 # After implementation complete, before merge:
 Task tool: QAS subagent
-Prompt: "Review PR #XXX for WOR-YYY. Validate:
+Prompt: "Review PR #XXX for {TICKET_PREFIX}-YYY. Validate:
   - Commit message format (ticket in subject line)
   - Code patterns (RLS, naming, structure)
   - CI status (all checks passing)
@@ -103,7 +103,7 @@ Prompt: "Review PR #XXX for WOR-YYY. Validate:
 
 ### QAS Output Location
 
-All QAS reports go to: `docs/agent-outputs/qa-validations/WOR-{number}-qa-validation.md`
+All QAS reports go to: `docs/agent-outputs/qa-validations/{TICKET_PREFIX}-{number}-qa-validation.md`
 
 ## Escalation Patterns
 
@@ -129,7 +129,7 @@ All QAS reports go to: `docs/agent-outputs/qa-validations/WOR-{number}-qa-valida
 
 **Context**:
 
-- Ticket: WOR-XXX
+- Ticket: {TICKET_PREFIX}-XXX
 - Session ID: [if available]
 - Time blocked: X hours
 
@@ -184,7 +184,7 @@ At session boundaries:
 ```text
 # Complete workflow for feature implementation:
 
-1. /start-work WOR-XXX
+1. /start-work {TICKET_PREFIX}-XXX
    └─ Syncs to dev, creates branch, sets context
 
 2. /pattern-discovery
