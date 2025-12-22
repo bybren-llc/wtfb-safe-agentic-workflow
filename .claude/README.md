@@ -15,7 +15,7 @@ This directory contains the SAFe Claude Code harness: hooks, slash commands, and
 │  └─ Auto-format on edit          └─ /pre-pr                           │
 │                                                                       │
 │  SKILLS (Model-Invoked) ✅ Available                                  │
-│  ├─ wtfb-workflow      (SAFe commit/PR patterns)                      │
+│  ├─ safe-workflow      (SAFe commit/PR patterns)                      │
 │  ├─ pattern-discovery  (search docs/patterns first)                   │
 │  ├─ rls-patterns       (database security helpers)                    │
 │  └─ frontend-patterns  (Clerk, shadcn, Next.js App Router)            │
@@ -96,10 +96,10 @@ These commands are thin wrappers pointing to canonical `/remote-*` commands. **U
 
 {DEV_MACHINE} supports two deployment modes. **Use canonical terminology:**
 
-| Mode        | Container Name     | Port | Use Case                     |
-| ----------- | ------------------ | ---- | ---------------------------- |
-| **Dev**     | `wtfb-dev-app`     | 3000 | Daily development (STANDARD) |
-| **Staging** | `wtfb-staging-app` | 3001 | Release validation/UAT       |
+| Mode        | Container Name               | Port | Use Case                     |
+| ----------- | ---------------------------- | ---- | ---------------------------- |
+| **Dev**     | `{PROJECT_NAME}-dev-app`     | 3000 | Daily development (STANDARD) |
+| **Staging** | `{PROJECT_NAME}-staging-app` | 3001 | Release validation/UAT       |
 
 **Important:**
 
@@ -157,7 +157,7 @@ Configuration is in `hooks-config.json`.
 
 | Trigger               | Behavior                                                                      |
 | --------------------- | ----------------------------------------------------------------------------- |
-| On prompt submit      | Reminds about `WOR-{number}` branch naming convention                         |
+| On prompt submit      | Reminds about `{TICKET_PREFIX}-{number}` branch naming convention             |
 | Before `git commit`   | Reminds about SAFe commit format                                              |
 | Before `git push`     | ❌ **BLOCKS** if on dev/master; ❌ **BLOCKS** if uncommitted; warns if behind |
 | Before `gh pr create` | Reminds to run `/pre-pr` validation first                                     |
@@ -194,7 +194,7 @@ Skills are model-invoked expertise packs that Claude loads automatically when re
 
 | Skill               | Status | Purpose                                        |
 | ------------------- | ------ | ---------------------------------------------- |
-| `wtfb-workflow`     | ✅     | SAFe commit format, branch naming, PR workflow |
+| `safe-workflow`     | ✅     | SAFe commit format, branch naming, PR workflow |
 | `pattern-discovery` | ✅     | Search docs/patterns before creating new code  |
 | `rls-patterns`      | ✅     | RLS context helpers, forbid direct Prisma      |
 | `frontend-patterns` | ✅     | Clerk auth, shadcn/Radix, Next.js App Router   |
