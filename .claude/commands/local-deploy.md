@@ -16,11 +16,11 @@ Works on any machine with Docker Desktop or Docker Engine installed.
 
 ## Deployment Modes
 
-| Mode                      | Flag        | Container          | Use Case                                                                     |
-| ------------------------- | ----------- | ------------------ | ---------------------------------------------------------------------------- |
-| **Development** (default) | (none)      | `wtfb-dev-app`     | Active development with hot-reload (STANDARD port 3000)                      |
-| **Staging**               | `--staging` | `wtfb-staging-app` | Production-like, self-contained, survives git operations (port 3001)         |
-| **Both**                  | `--both`    | Both containers    | Run dev and staging simultaneously ({TICKET_PREFIX}-400/{TICKET_PREFIX}-401) |
+| Mode                      | Flag        | Container                    | Use Case                                                                     |
+| ------------------------- | ----------- | ---------------------------- | ---------------------------------------------------------------------------- |
+| **Development** (default) | (none)      | `{PROJECT_NAME}-dev-app`     | Active development with hot-reload (STANDARD port 3000)                      |
+| **Staging**               | `--staging` | `{PROJECT_NAME}-staging-app` | Production-like, self-contained, survives git operations (port 3001)         |
+| **Both**                  | `--both`    | Both containers              | Run dev and staging simultaneously ({TICKET_PREFIX}-400/{TICKET_PREFIX}-401) |
 
 **When to use each mode:**
 
@@ -55,18 +55,18 @@ Get current running status (check both container types):
 
 ```bash
 # Check for staging container
-docker ps --filter name=wtfb-staging-app --format '{{.Names}}\t{{.Status}}'
+docker ps --filter name={PROJECT_NAME}-staging-app --format '{{.Names}}\t{{.Status}}'
 
 # Check for dev container ({TICKET_PREFIX}-400: updated container name)
-docker ps --filter name=wtfb-dev-app --format '{{.Names}}\t{{.Status}}'
+docker ps --filter name={PROJECT_NAME}-dev-app --format '{{.Names}}\t{{.Status}}'
 ```
 
 Get current commit SHA:
 
 ```bash
 # Try staging first, then dev ({TICKET_PREFIX}-400: updated container names)
-docker inspect wtfb-staging-app 2>/dev/null | grep 'org.opencontainers.image.revision' | cut -d'"' -f4 || \
-docker inspect wtfb-dev-app 2>/dev/null | grep 'org.opencontainers.image.revision' | cut -d'"' -f4
+docker inspect {PROJECT_NAME}-staging-app 2>/dev/null | grep 'org.opencontainers.image.revision' | cut -d'"' -f4 || \
+docker inspect {PROJECT_NAME}-dev-app 2>/dev/null | grep 'org.opencontainers.image.revision' | cut -d'"' -f4
 ```
 
 Get latest commit from dev branch:
@@ -177,10 +177,10 @@ Check services started successfully:
 
 ```bash
 # For dev mode (STANDARD port 3000, {TICKET_PREFIX}-401)
-docker ps --filter name=wtfb-dev --format 'table {{.Names}}\t{{.Status}}'
+docker ps --filter name={PROJECT_NAME}-dev --format 'table {{.Names}}\t{{.Status}}'
 
 # For staging mode (port 3001)
-docker ps --filter name=wtfb-staging --format 'table {{.Names}}\t{{.Status}}'
+docker ps --filter name={PROJECT_NAME}-staging --format 'table {{.Names}}\t{{.Status}}'
 ```
 
 Verify health endpoint:
@@ -207,10 +207,10 @@ Confirm new commit SHA:
 
 ```bash
 # Staging
-docker inspect wtfb-staging-app | grep 'org.opencontainers.image.revision' | cut -d'"' -f4
+docker inspect {PROJECT_NAME}-staging-app | grep 'org.opencontainers.image.revision' | cut -d'"' -f4
 
 # Dev ({TICKET_PREFIX}-400: updated container name)
-docker inspect wtfb-dev-app | grep 'org.opencontainers.image.revision' | cut -d'"' -f4
+docker inspect {PROJECT_NAME}-dev-app | grep 'org.opencontainers.image.revision' | cut -d'"' -f4
 ```
 
 ### 6. Post-Deployment Monitoring
@@ -219,10 +219,10 @@ Check logs for startup issues:
 
 ```bash
 # Staging ({TICKET_PREFIX}-400: use container name)
-docker logs wtfb-staging-app --tail 50
+docker logs {PROJECT_NAME}-staging-app --tail 50
 
 # Dev ({TICKET_PREFIX}-400: use container name or script)
-docker logs wtfb-dev-app --tail 50
+docker logs {PROJECT_NAME}-dev-app --tail 50
 # Or use script
 ./scripts/dev-docker.sh logs --tail 50
 ```
@@ -333,7 +333,7 @@ Next steps:
 **Verify both running**:
 
 ```bash
-docker ps --filter name=wtfb --format 'table {{.Names}}\t{{.Status}}\t{{.Ports}}'
+docker ps --filter name={PROJECT_NAME} --format 'table {{.Names}}\t{{.Status}}\t{{.Ports}}'
 ```
 
 **Expected**: 6 containers (3 dev + 3 staging)

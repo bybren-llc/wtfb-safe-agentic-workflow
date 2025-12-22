@@ -51,7 +51,7 @@ Skills are loaded progressively—metadata at startup, full content when context
 
 | Skill                    | Trigger                | Purpose                                     |
 | ------------------------ | ---------------------- | ------------------------------------------- |
-| `wtfb-workflow`          | Commits, branches, PRs | SAFe format, rebase-first workflow          |
+| `safe-workflow`          | Commits, branches, PRs | SAFe format, rebase-first workflow          |
 | `pattern-discovery`      | Before writing code    | Pattern-first development (MANDATORY)       |
 | `rls-patterns`           | Database operations    | RLS context helpers (withUserContext, etc.) |
 | `frontend-patterns`      | UI work                | Clerk, shadcn, Next.js patterns             |

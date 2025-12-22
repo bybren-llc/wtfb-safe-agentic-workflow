@@ -214,7 +214,7 @@ At session boundaries:
 
 ## Authoritative References
 
-- **wtfb-safe-agentic-workflow**: Core agentic principles
+- **{PROJECT_NAME}**: Core agentic principles
 - **AGENT_WORKFLOW_SOP.md**: Full agent workflow documentation
 - **CONTRIBUTING.md**: Workflow requirements
 - **linear-sop skill**: Evidence templates for Linear

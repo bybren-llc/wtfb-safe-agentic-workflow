@@ -1,0 +1,83 @@
+# Docker Build Workflow
+# Template for SAFe Agentic Workflow projects
+#
+# Triggers on:
+# - Push to main/dev branches
+# - PR with 'build-docker-image' label
+#
+# Customize placeholders:
+# - {{REGISTRY}}: Your container registry (e.g., "ghcr.io")
+# - {{IMAGE_NAME}}: Your image name (e.g., "myorg/myapp")
+
+name: Docker Build
+
+on:
+  push:
+    branches: [main, dev]
+  pull_request:
+    types: [labeled]
+
+env:
+  REGISTRY: "{{REGISTRY}}"
+  IMAGE_NAME: "{{IMAGE_NAME}}"
+
+jobs:
+  build:
+    name: Build Docker Image
+    runs-on: ubuntu-latest
+
+    # Only run on push OR if PR has the build-docker-image label
+    if: |
+      github.event_name == 'push' ||
+      (github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'build-docker-image'))
+
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          tags: |
+            # For PRs: pr-{number}
+            type=ref,event=pr,prefix=pr-
+            # For branches: branch name
+            type=ref,event=branch
+            # For main: latest
+            type=raw,value=latest,enable=${{ github.ref == 'refs/heads/main' }}
+            # Git SHA (short)
+            type=sha,prefix=sha-
+
+      - name: Build and push
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Image digest
+        run: |
+          echo "Image pushed successfully!"
+          echo "Tags: ${{ steps.meta.outputs.tags }}"
+          echo ""
+          echo "To pull this image:"
+          echo "  docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}"

@@ -61,7 +61,7 @@ Once build completes, guide user through verification:
 ./scripts/dev-docker.sh pull-pr {PR-number}
 
 # Verify image exists
-docker images | grep wtfb-app
+docker images | grep {PROJECT_NAME}
 
 # {TICKET_PREFIX}-400: Use {PROJECT}_IMAGE_TAG environment variable instead of editing compose file
 # Set the tag before running docker compose:

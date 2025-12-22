@@ -37,7 +37,7 @@ Implements database schema changes and migrations using patterns from `docs/patt
 ```bash
 # Verify migration created and tested locally
 ls prisma/migrations/ | tail -1
-DATABASE_URL="postgresql://wtfb_user:wtfb_password@localhost:5432/wtfb_dev" npx prisma migrate dev --name migration_name
+DATABASE_URL="postgresql://{PROJECT}_user:{PROJECT}_password@localhost:5432/{PROJECT}_dev" npx prisma migrate dev --name migration_name
 echo "DE SUCCESS" || echo "DE FAILED"
 ```
 
@@ -91,7 +91,7 @@ ALTER TABLE "user_preferences" ENABLE ROW LEVEL SECURITY;
 ALTER TABLE "user_preferences" FORCE ROW LEVEL SECURITY;
 
 CREATE POLICY user_preferences_isolation ON "user_preferences"
-    FOR ALL TO wtfb_user
+    FOR ALL TO {PROJECT}_user
     USING (user_id = current_setting('app.current_user_id', true));
 ```
 
@@ -125,7 +125,7 @@ export async function createWithRelations(userId: string, data: any) {
 npx prisma migrate dev --name add_user_preferences_with_rls
 
 # Verify RLS enabled
-docker exec -it wtfb-postgres psql -U wtfb_user -d wtfb_dev \
+docker exec -it {PROJECT_NAME}-postgres-1 psql -U {PROJECT}_user -d {PROJECT}_dev \
   -c "SELECT tablename, rowsecurity FROM pg_tables WHERE tablename = '{table}';"
 
 # Should show: rowsecurity = t (true)

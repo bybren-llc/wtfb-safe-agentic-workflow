@@ -176,7 +176,7 @@ If user chooses No or skips:
 Verify Docker services are running:
 
 ```bash
-docker ps --filter name=wtfb --format 'table {{.Names}}\t{{.Status}}\t{{.State}}'
+docker ps --filter name={PROJECT_NAME} --format 'table {{.Names}}\t{{.Status}}\t{{.State}}'
 ```
 
 If services not running:
@@ -226,9 +226,9 @@ Suggestion:    Run `yarn ci:validate` manually if needed
 Docker Services ({TICKET_PREFIX}-401: STANDARD Ports)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-wtfb-dev-app:        ✅ Up 3 hours (healthy) → port 3000
-wtfb-dev-postgres:   ✅ Up 3 hours (healthy) → port 5432
-wtfb-dev-redis:      ✅ Up 3 hours (healthy) → port 6379
+{PROJECT_NAME}-dev-app:        ✅ Up 3 hours (healthy) → port 3000
+{PROJECT_NAME}-dev-postgres:   ✅ Up 3 hours (healthy) → port 5432
+{PROJECT_NAME}-dev-redis:      ✅ Up 3 hours (healthy) → port 6379
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Summary

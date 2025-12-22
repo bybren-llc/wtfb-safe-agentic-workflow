@@ -115,7 +115,7 @@ Location: .claude/commands/*.md
 - [ ] `/check-workflow` - Workflow status check
 - [ ] `/sync-linear` - Linear synchronization
 - [ ] `/quick-fix` - Fast-track bug fixes
-- [ ] `/wtfb-workflow` - SAFe workflow guidance
+- [ ] `/safe-workflow` - SAFe workflow guidance (NOTE: now a skill, not a command)
 - [ ] `/retro` - Retrospective analysis
 
 **Local Development Commands** (Generalize for any project):
@@ -153,7 +153,7 @@ Location: .claude/skills/*.md
 
 | Skill                    | Trigger Context           | Generalization                                        |
 | ------------------------ | ------------------------- | ----------------------------------------------------- |
-| `wtfb-workflow`          | Commits, branches, PRs    | Rename to `safe-workflow`, parameterize ticket prefix |
+| `safe-workflow`          | Commits, branches, PRs    | Rename to `safe-workflow`, parameterize ticket prefix |
 | `pattern-discovery`      | Before writing code       | Keep as-is, update pattern library path               |
 | `rls-patterns`           | Database operations       | Keep as-is, or generalize to `db-patterns`            |
 | `frontend-patterns`      | UI component work         | Keep as-is, update framework references               |
