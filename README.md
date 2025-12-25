@@ -123,7 +123,9 @@ See [Validation Summary](whitepaper/validation/VALIDATION-SUMMARY.md).
 <details>
 <summary><strong>For Leaders</strong> - I want ROI and risk assessment</summary>
 
-### Production Results
+### Production Results (v1.0 Harness)
+
+> **Note**: These metrics are from the **v1.0 harness** deployed on the WTFB-app project (5+ months production use). This repository is now at **v2.1** (vNext Workflow Contract), which refines governance based on lessons learned.
 
 | Metric           | Value              | Source     |
 | ---------------- | ------------------ | ---------- |
