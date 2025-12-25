@@ -2,8 +2,8 @@
 
 **Purpose**: Define standard workflows for agent invocation and coordination
 
-**Version**: 1.1 (Added System Architect Review Method)
-**Last Updated**: 2025-10-06
+**Version**: 1.4 (vNext Workflow Contract - WOR-497/499)
+**Last Updated**: 2025-12-23
 
 ---
 
@@ -390,17 +390,174 @@ What type of work?
 
 ---
 
+## vNext Workflow Contract (WOR-497)
+
+### Exit States
+
+Each agent role has explicit exit states that define handoff points:
+
+```
+┌─────────────────┬───────────────────────────────────────────┐
+│ Role            │ Exit State                                │
+├─────────────────┼───────────────────────────────────────────┤
+│ BE-Developer    │ "Ready for QAS"                           │
+│ FE-Developer    │ "Ready for QAS"                           │
+│ Data-Engineer   │ "Ready for QAS"                           │
+│ QAS             │ "Approved for RTE"                        │
+│ RTE             │ "Ready for HITL Review"                   │
+│ System Architect│ "Stage 1 Approved - Ready for ARCHitect"  │
+│ HITL            │ MERGED                                    │
+└─────────────────┴───────────────────────────────────────────┘
+```
+
+### Stop-the-Line Gate
+
+**MANDATORY**: Before any implementation work begins:
+
+1. **Check for AC/DoD**: Does the Linear ticket have acceptance criteria?
+2. **If NO AC/DoD**: STOP immediately - do not proceed
+3. **Escalate to BSA**: Request acceptance criteria definition
+4. **Wait for AC/DoD**: Only proceed after criteria are defined
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                  STOP-THE-LINE GATE                         │
+│                                                             │
+│  AC/DoD exists?  ──YES──▶  Proceed to implementation        │
+│        │                                                    │
+│        NO                                                   │
+│        │                                                    │
+│        ▼                                                    │
+│  STOP - Escalate to BSA for acceptance criteria             │
+└─────────────────────────────────────────────────────────────┘
+```
+
+### QAS Gate Owner Role
+
+QAS is a **GATE**, not just a report producer. Work does not proceed without QAS approval.
+
+**QAS Ownership**:
+
+- Independent verification of ALL implementation work
+- Iteration authority (can bounce back repeatedly until satisfied)
+- Final evidence posted to Linear (system of record)
+- Exit State: `"Approved for RTE"`
+
+**Linear MCP Tools (MANDATORY for QAS)**:
+
+- `mcp__linear-mcp__create_comment` - Post evidence/verdict
+- `mcp__linear-mcp__update_issue` - Update ticket status
+- `mcp__linear-mcp__list_comments` - Review prior evidence
+
+### RTE PR Shepherd Role
+
+RTE is the **PR shepherd**, not the gatekeeper. RTE does NOT merge.
+
+**RTE Ownership**:
+
+- PR creation (from spec/template)
+- CI/CD monitoring
+- Evidence assembly
+- PR metadata edits
+- Exit State: `"Ready for HITL Review"`
+
+**RTE Must NOT**:
+
+- Merge PRs (HITL is final merge authority)
+- Implement product code
+- Approve own work (QAS gate required)
+
+### 3-Stage PR Review
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                    3-STAGE PR REVIEW                        │
+├─────────────────────────────────────────────────────────────┤
+│ Stage 1: System Architect                                   │
+│          └─ Pattern validation, technical review            │
+│          └─ Exit: "Stage 1 Approved - Ready for ARCHitect"  │
+├─────────────────────────────────────────────────────────────┤
+│ Stage 2: ARCHitect-in-CLI                                   │
+│          └─ Architectural alignment                         │
+│          └─ Cross-cutting concerns                          │
+├─────────────────────────────────────────────────────────────┤
+│ Stage 3: HITL (Human-in-the-Loop)                           │
+│          └─ Final merge authority                           │
+│          └─ Exit: MERGED                                    │
+└─────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## Role Collapsing Guidelines (WOR-499)
+
+### Collapsible Roles
+
+**RTE (Release Train Engineer)**: COLLAPSIBLE
+
+- PR creation and CI shepherding can be done by implementer
+- Use when: Simple PRs, single-agent work, fast iteration needed
+- Collapsed into: BE-Developer, FE-Developer, or Data-Engineer
+
+### Non-Collapsible Roles (Independence Gates)
+
+**QAS (Quality Assurance Specialist)**: NOT COLLAPSIBLE
+
+- Independence gate - cannot be collapsed into implementer
+- Spawn subagent for verification even in collapsed workflows
+- Rationale: Self-review bias, quality enforcement
+
+**Security Engineer**: NOT COLLAPSIBLE
+
+- Security audit requires independence
+- Cannot be performed by implementer
+- Rationale: Security blindness, conflict of interest
+
+### Collapsed Workflow Example
+
+```
+Standard Workflow:
+BE-Developer → QAS → RTE → HITL
+
+Collapsed Workflow (RTE collapsed):
+BE-Developer → QAS → [BE handles PR] → HITL
+
+Note: QAS gate is ALWAYS present, never collapsed
+```
+
+---
+
 ## Related Documentation
 
 - `TDM_AGENT_ASSIGNMENT_MATRIX.md` - Specialist assignment guide
 - `ARCHITECT_IN_CLI_ROLE.md` - ARCHitect-in-CLI responsibilities
-- `WORKFLOW_CHANGES_v1.3.md` - Workflow evolution
+- `AGENT_CONFIGURATION_SOP.md` - Tool restrictions, model selection
+- `WORKFLOW_COMPARISON.md` - TDM role clarification
+- `WORKFLOW_MIGRATION_GUIDE.md` - vNext transition guide
 - `PRE_PR_VALIDATION_CHECKLIST.md` - Quality gates before PR
 - `WORKFLOW_QUALITY_CHECKLIST.md` - Self-validation checklist
 
 ---
 
 ## Version History
+
+### v1.4 (2025-12-23)
+
+- **Added**: vNext Workflow Contract (WOR-497)
+- **Added**: Role Collapsing Guidelines (WOR-499)
+- **Added**: Exit States for all agent roles
+- **Added**: Stop-the-Line Gate (mandatory AC/DoD check)
+- **Added**: QAS Gate Owner role with iteration authority
+- **Added**: RTE PR Shepherd role (no code, no merge)
+- **Added**: 3-Stage PR Review process
+- **Updated**: Related Documentation links
+- **Rationale**: Major upgrade establishing clear ownership boundaries and mandatory gates
+
+### v1.3 (2025-12-15)
+
+- **Changed**: TDM role from orchestrator to reactive blocker resolution
+- **Added**: ARCHitect-in-CLI as primary orchestrator
+- **Impact**: Clearer role boundaries
 
 ### v1.1 (2025-10-06)
 
@@ -416,4 +573,4 @@ What type of work?
 
 ---
 
-**Reference**: WOR-321 Migration Automation Workflow Report
+**Reference**: WOR-497/499 vNext Workflow Contract

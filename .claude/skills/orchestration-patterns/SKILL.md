@@ -33,7 +33,8 @@ Invoke this skill when:
 │                                                         │
 │  2. PATTERN DISCOVERY                                   │
 │     └─ Search codebase, docs, previous sessions         │
-│     └─ Invoke: /pattern-discovery                       │
+│     └─ Use: pattern-discovery skill (auto-invoked)      │
+│     └─ Or: /search-pattern for explicit code search     │
 │                                                         │
 │  3. ITERATIVE EXECUTION LOOP:                           │
 │     ┌─────────────────────────────────────────────┐     │
@@ -83,17 +84,17 @@ Invoke this skill when:
 
 ### Why QAS Gate Matters
 
-1. **Separation of Concerns**: QAS only reads (no write access)
+1. **Separation of Concerns**: QAS validates but doesn't write product code
 2. **Independent Verification**: Catches what implementer missed
 3. **Bias Prevention**: Fresh eyes on commit messages, patterns
-4. **Evidence Generation**: QA report becomes audit trail
+4. **Evidence in Linear**: QAS posts final evidence + verdict to Linear (system of record)
 
 ### QAS Invocation Pattern
 
 ```text
 # After implementation complete, before merge:
 Task tool: QAS subagent
-Prompt: "Review PR #XXX for {TICKET_PREFIX}-YYY. Validate:
+Prompt: "Review PR #XXX for WOR-YYY. Validate:
   - Commit message format (ticket in subject line)
   - Code patterns (RLS, naming, structure)
   - CI status (all checks passing)
@@ -103,7 +104,7 @@ Prompt: "Review PR #XXX for {TICKET_PREFIX}-YYY. Validate:
 
 ### QAS Output Location
 
-All QAS reports go to: `docs/agent-outputs/qa-validations/{TICKET_PREFIX}-{number}-qa-validation.md`
+All QAS reports go to: `docs/agent-outputs/qa-validations/WOR-{number}-qa-validation.md`
 
 ## Escalation Patterns
 
@@ -129,7 +130,7 @@ All QAS reports go to: `docs/agent-outputs/qa-validations/{TICKET_PREFIX}-{numbe
 
 **Context**:
 
-- Ticket: {TICKET_PREFIX}-XXX
+- Ticket: WOR-XXX
 - Session ID: [if available]
 - Time blocked: X hours
 
@@ -184,10 +185,10 @@ At session boundaries:
 ```text
 # Complete workflow for feature implementation:
 
-1. /start-work {TICKET_PREFIX}-XXX
+1. /start-work WOR-XXX
    └─ Syncs to dev, creates branch, sets context
 
-2. /pattern-discovery
+2. Pattern discovery (skill auto-invokes or use /search-pattern)
    └─ Finds relevant patterns before implementation
 
 3. [Implementation with agent loop]
@@ -214,7 +215,7 @@ At session boundaries:
 
 ## Authoritative References
 
-- **{PROJECT_NAME}**: Core agentic principles
+- **wtfb-safe-agentic-workflow**: Core agentic principles
 - **AGENT_WORKFLOW_SOP.md**: Full agent workflow documentation
 - **CONTRIBUTING.md**: Workflow requirements
 - **linear-sop skill**: Evidence templates for Linear

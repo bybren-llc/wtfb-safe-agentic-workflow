@@ -1,12 +1,12 @@
 # Claude Code Configuration
 
-This directory contains the SAFe Claude Code harness: hooks, slash commands, and (coming soon) skills for workflow automation.
+This directory contains the WTFB Claude Code harness: hooks, slash commands, and (coming soon) skills for workflow automation.
 
 ## Harness Architecture
 
 ```text
 ┌──────────────────────────────────────────────────────────────────────┐
-│                      SAFe Claude Code Harness                         │
+│                      WTFB Claude Code Harness                         │
 ├──────────────────────────────────────────────────────────────────────┤
 │                                                                       │
 │  HOOKS (Guardrails)              SLASH COMMANDS (User-Invoked)        │
@@ -15,7 +15,7 @@ This directory contains the SAFe Claude Code harness: hooks, slash commands, and
 │  └─ Auto-format on edit          └─ /pre-pr                           │
 │                                                                       │
 │  SKILLS (Model-Invoked) ✅ Available                                  │
-│  ├─ safe-workflow      (SAFe commit/PR patterns)                      │
+│  ├─ wtfb-workflow      (SAFe commit/PR patterns)                      │
 │  ├─ pattern-discovery  (search docs/patterns first)                   │
 │  ├─ rls-patterns       (database security helpers)                    │
 │  └─ frontend-patterns  (Clerk, shadcn, Next.js App Router)            │
@@ -34,9 +34,62 @@ This directory contains the SAFe Claude Code harness: hooks, slash commands, and
 This harness is designed to help every teammate (human + AI) uphold:
 
 - **SAFe Pillars**: Alignment, Built-in Quality, Program Execution, Transparency
-- **SAFe Round Table**: humans + AI agents are peers; Stop-the-Line authority is encouraged
+- **WTFB Round Table**: humans + AI agents are peers; Stop-the-Line authority is encouraged
 
 Canonical reference: `.cursor/rules/06-team-culture.mdc`
+
+## Role Execution Modes (WOR-499)
+
+### Collapsed vs Separated Roles
+
+The vNext workflow defines role separation (Implementation → QAS → RTE → HITL), but roles can be **collapsed** for efficiency when appropriate.
+
+**Key principle**: Subagents are for efficiency _and_ independence; only coordination roles may be collapsed.
+
+### Role Classification
+
+| Role                      | Type                    | Collapsible?    | Notes                                |
+| ------------------------- | ----------------------- | --------------- | ------------------------------------ |
+| Implementation (BE/FE/DE) | Execution               | N/A (base role) | -                                    |
+| RTE                       | Coordination/Automation | ✅ Yes          | PR creation, CI shepherding          |
+| QAS                       | Independence Gate       | ❌ No\*         | \*See Self-QA exception below        |
+| SecEng                    | Independence Gate       | ❌ No\*         | Security audit requires independence |
+| HITL                      | Final Authority         | ❌ Never        | Scott merges                         |
+
+### Collapsed Roles (In-Flow with HITL)
+
+The main Claude instance can collapse **coordination roles** (RTE) when:
+
+- Working in-flow with HITL (sequential, no parallelism benefit)
+- PR creation is the natural next step after implementation
+- Already have full context from implementation
+
+**Hat Convention** for traceability:
+
+- "Operating as **Implementation** → exit state `Ready for QAS`"
+- "Operating as **RTE (collapsed)** → PR creation + CI shepherding → exit state `Ready for HITL Review`"
+
+### Independence Roles (Never Silently Collapsed)
+
+**QAS** and **SecEng** are independence gates, not efficiency roles:
+
+- **Default = spawn subagent** for independent verification
+- If collapsed: Must be explicitly labeled **"Self-QA (non-independent)"**
+- Self-QA only allowed when:
+  - Change is docs-only / harness-only / low-risk, **AND**
+  - Exception recorded in Linear (reason + evidence)
+- Still requires next independent gate (HITL) before merge
+
+### Invariants (Always Apply)
+
+Regardless of role collapsing, these invariants are **never relaxed**:
+
+- ✅ Stop-the-Line gate (AC/DoD must exist before implementation)
+- ✅ Validation loop (tests pass, lint clean)
+- ✅ Evidence in Linear (system of record)
+- ✅ HITL merge authority
+
+See: `docs/workflow/ARCHITECT_IN_CLI_ROLE.md` for orchestrator authority.
 
 ## Slash Commands
 
@@ -60,9 +113,9 @@ Canonical reference: `.cursor/rules/06-team-culture.mdc`
 | `/local-deploy` | Deploy to local Docker environment  | `/local-deploy` |
 | `/quick-fix`    | Fast-track workflow for small fixes | `/quick-fix`    |
 
-### Remote Operations ({DEV_MACHINE})
+### Remote Operations (Pop OS)
 
-These are the **canonical commands** for {DEV_MACHINE} machine operations.
+These are the **canonical commands** for Pop OS machine operations.
 
 | Command            | Purpose                              | Usage              |
 | ------------------ | ------------------------------------ | ------------------ |
@@ -76,13 +129,13 @@ These are the **canonical commands** for {DEV_MACHINE} machine operations.
 
 These commands are thin wrappers pointing to canonical `/remote-*` commands. **Use the canonical versions.**
 
-| Command                | Alias For          | Note                               |
-| ---------------------- | ------------------ | ---------------------------------- |
-| `/check-docker-status` | `/remote-status`   | Deprecated per {TICKET_PREFIX}-445 |
-| `/deploy-dev`          | `/remote-deploy`   | Deprecated per {TICKET_PREFIX}-445 |
-| `/dev-health`          | `/remote-health`   | Deprecated per {TICKET_PREFIX}-445 |
-| `/dev-logs`            | `/remote-logs`     | Deprecated per {TICKET_PREFIX}-445 |
-| `/rollback-dev`        | `/remote-rollback` | Deprecated per {TICKET_PREFIX}-445 |
+| Command                | Alias For          | Note                   |
+| ---------------------- | ------------------ | ---------------------- |
+| `/check-docker-status` | `/remote-status`   | Deprecated per WOR-445 |
+| `/deploy-dev`          | `/remote-deploy`   | Deprecated per WOR-445 |
+| `/dev-health`          | `/remote-health`   | Deprecated per WOR-445 |
+| `/dev-logs`            | `/remote-logs`     | Deprecated per WOR-445 |
+| `/rollback-dev`        | `/remote-rollback` | Deprecated per WOR-445 |
 
 ### Other Commands
 
@@ -92,20 +145,20 @@ These commands are thin wrappers pointing to canonical `/remote-*` commands. **U
 | `/audit-deps`     | Run comprehensive dependency audit | `/audit-deps`         |
 | `/search-pattern` | Search for code patterns           | `/search-pattern`     |
 
-## Dual-Mode Deployment ({TICKET_PREFIX}-445 Terminology Contract)
+## Dual-Mode Deployment (WOR-445 Terminology Contract)
 
-{DEV_MACHINE} supports two deployment modes. **Use canonical terminology:**
+Pop OS supports two deployment modes. **Use canonical terminology:**
 
-| Mode        | Container Name               | Port | Use Case                     |
-| ----------- | ---------------------------- | ---- | ---------------------------- |
-| **Dev**     | `{PROJECT_NAME}-dev-app`     | 3000 | Daily development (STANDARD) |
-| **Staging** | `{PROJECT_NAME}-staging-app` | 3001 | Release validation/UAT       |
+| Mode        | Container Name     | Port | Use Case                     |
+| ----------- | ------------------ | ---- | ---------------------------- |
+| **Dev**     | `wtfb-dev-app`     | 3000 | Daily development (STANDARD) |
+| **Staging** | `wtfb-staging-app` | 3001 | Release validation/UAT       |
 
 **Important:**
 
 - "dev branch" = Git branch (source code)
-- "dev-mode container" = Docker deployment on {DEV_MACHINE} (port 3000)
-- "staging-mode container" = Docker deployment on {DEV_MACHINE} (port 3001)
+- "dev-mode container" = Docker deployment on Pop OS (port 3000)
+- "staging-mode container" = Docker deployment on Pop OS (port 3001)
 
 Both containers run images built from the `dev` branch. The difference is configuration (ports, volume mounts).
 
@@ -118,7 +171,7 @@ See: `docs/agent-outputs/workflow-analysis/HARNESS_AND_SKILLS_AUDIT_2025-12-18.m
 /start-work 347
 
 # 2. Make changes, commit work...
-# git add . && git commit -m "feat(scope): description [{TICKET_PREFIX}-347]"
+# git add . && git commit -m "feat(scope): description [WOR-347]"
 
 # 3. Check status periodically
 /check-workflow
@@ -130,9 +183,9 @@ See: `docs/agent-outputs/workflow-analysis/HARNESS_AND_SKILLS_AUDIT_2025-12-18.m
 /pre-pr
 
 # 6. Create PR (if validation passes)
-# git push --force-with-lease origin {TICKET_PREFIX}-347-branch
+# git push --force-with-lease origin WOR-347-branch
 # # Use the PR template as your PR body baseline:
-# # gh pr create --title "feat(scope): description [{TICKET_PREFIX}-347]" --body "$(cat .github/pull_request_template.md)"
+# # gh pr create --title "feat(scope): description [WOR-347]" --body "$(cat .github/pull_request_template.md)"
 # gh pr create ...
 
 # 7. End session cleanly
@@ -157,7 +210,7 @@ Configuration is in `hooks-config.json`.
 
 | Trigger               | Behavior                                                                      |
 | --------------------- | ----------------------------------------------------------------------------- |
-| On prompt submit      | Reminds about `{TICKET_PREFIX}-{number}` branch naming convention             |
+| On prompt submit      | Reminds about `WOR-{number}` branch naming convention                         |
 | Before `git commit`   | Reminds about SAFe commit format                                              |
 | Before `git push`     | ❌ **BLOCKS** if on dev/master; ❌ **BLOCKS** if uncommitted; warns if behind |
 | Before `gh pr create` | Reminds to run `/pre-pr` validation first                                     |
@@ -169,14 +222,14 @@ Configuration is in `hooks-config.json`.
 | After `ci:validate` | Reports pass/fail result                              |
 | After file edit     | Auto-formats with Prettier/ESLint; reminds about docs |
 
-### Legacy Scripts (Not Yet Wired)
+### Wired Hook Scripts
 
-Scripts in `.claude/hooks/` are planned for future wiring but not currently active:
+Scripts in `.claude/hooks/` that are actively wired via `hooks-config.json`:
 
-- `post-commit-linear-update.sh`
-- `post-push-docker-check.sh`
-- `pre-bash-rls-validation.sh`
-- `session-start-pattern-check.sh`
+| Script                         | Trigger            | Purpose                                                  |
+| ------------------------------ | ------------------ | -------------------------------------------------------- |
+| `post-commit-linear-update.sh` | After `git commit` | Outputs suggested Linear comment with commit hash (HITL) |
+| `post-push-docker-check.sh`    | After `git push`   | Checks if Pop OS Docker needs image update               |
 
 ### Installing Hooks
 
@@ -194,7 +247,7 @@ Skills are model-invoked expertise packs that Claude loads automatically when re
 
 | Skill               | Status | Purpose                                        |
 | ------------------- | ------ | ---------------------------------------------- |
-| `safe-workflow`     | ✅     | SAFe commit format, branch naming, PR workflow |
+| `wtfb-workflow`     | ✅     | SAFe commit format, branch naming, PR workflow |
 | `pattern-discovery` | ✅     | Search docs/patterns before creating new code  |
 | `rls-patterns`      | ✅     | RLS context helpers, forbid direct Prisma      |
 | `frontend-patterns` | ✅     | Clerk auth, shadcn/Radix, Next.js App Router   |
@@ -293,5 +346,5 @@ These configurations are part of the project and should be:
 
 ---
 
-**Last Updated**: 2025-12-19
-**Maintained by**: {PROJECT_NAME} Development Team + ARCHitect-in-the-IDE (Auggie)
+**Last Updated**: 2025-12-23
+**Maintained by**: WTFB Development Team + ARCHitect-in-the-IDE (Auggie)

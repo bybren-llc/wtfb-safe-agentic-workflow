@@ -2,8 +2,8 @@
 
 **Purpose**: Define the role, responsibilities, and workflow patterns for ARCHitect-in-CLI (Main Claude Code Instance)
 
-**Version**: 1.1 (Added System Architect Review Gates)
-**Last Updated**: 2025-10-06
+**Version**: 1.4 (vNext Workflow Contract - WOR-497/499)
+**Last Updated**: 2025-12-23
 
 ---
 
@@ -403,16 +403,98 @@ PR created ← Only after approval
 
 ---
 
+## Role Collapsing Authority (WOR-499)
+
+ARCHitect-in-CLI has authority to collapse certain roles for efficiency while maintaining mandatory independence gates.
+
+### Collapsible Roles
+
+**RTE (Release Train Engineer)**: COLLAPSIBLE
+
+ARCHitect-in-CLI can collapse RTE into the implementer role when:
+
+- Simple PRs with straightforward CI/CD
+- Single-agent work with clear scope
+- Fast iteration needed
+- No complex release coordination
+
+**Collapsed RTE Workflow**:
+
+```
+BE-Developer → QAS (Gate) → [BE handles PR] → HITL
+                  │
+                  └─ QAS always present
+```
+
+### Non-Collapsible Roles (Independence Gates)
+
+**QAS (Quality Assurance Specialist)**: NOT COLLAPSIBLE
+
+- Independence gate - cannot be collapsed into implementer
+- **ALWAYS spawn QAS subagent** for verification, even in collapsed workflows
+- Rationale: Self-review bias, quality enforcement
+
+**Security Engineer**: NOT COLLAPSIBLE
+
+- Security audit requires independence from implementation
+- Cannot be performed by implementer
+- Rationale: Security blindness, conflict of interest
+
+### Decision Tree for Role Collapsing
+
+```
+Should RTE be collapsed?
+├─ Simple PR, single-agent work?
+│   ├─ YES → Can collapse RTE into implementer
+│   └─ NO → Use dedicated RTE
+├─ Complex release coordination?
+│   ├─ YES → Use dedicated RTE
+│   └─ NO → Can collapse RTE
+└─ ALWAYS: QAS and SecEng remain independent
+```
+
+### Exit States in Collapsed Workflows
+
+Even with collapsed roles, exit states must be respected:
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│ Standard:  Implementer → QAS → RTE → HITL                   │
+│ Collapsed: Implementer → QAS → [Implementer handles PR] → HITL │
+│                          │                                   │
+│                          └─ QAS exit: "Approved for RTE"     │
+│                             still required before PR         │
+└─────────────────────────────────────────────────────────────┘
+```
+
+---
+
 ## Related Documentation
 
 - `TDM_AGENT_ASSIGNMENT_MATRIX.md` - Specialist assignment guide
 - `AGENT_WORKFLOW_SOP.md` - Detailed workflow processes
+- `AGENT_CONFIGURATION_SOP.md` - Tool restrictions, model selection
+- `WORKFLOW_COMPARISON.md` - TDM role clarification
 - `PRE_PR_VALIDATION_CHECKLIST.md` - Quality gates before PR
 - `WORKFLOW_QUALITY_CHECKLIST.md` - Self-validation checklist
 
 ---
 
 ## Version History
+
+### v1.4 (2025-12-23)
+
+- **Added**: Role Collapsing Authority section (WOR-499)
+- **Added**: Collapsible roles (RTE) vs Independence Gates (QAS, SecEng)
+- **Added**: Decision tree for role collapsing
+- **Added**: Exit states in collapsed workflows
+- **Rationale**: vNext contract establishing clear orchestration boundaries
+
+### v1.3 (2025-12-15)
+
+- **Changed**: TDM role from orchestrator to reactive blocker resolution
+- **Added**: ARCHitect-in-CLI as primary orchestrator
+- **Impact**: Clearer role boundaries
 
 ### v1.1 (2025-10-06)
 
@@ -429,4 +511,4 @@ PR created ← Only after approval
 
 ---
 
-**Reference**: WOR-321 Migration Automation Workflow Report
+**Reference**: WOR-497/499 vNext Workflow Contract
