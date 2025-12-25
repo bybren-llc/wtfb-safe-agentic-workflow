@@ -10,14 +10,13 @@
 
 **Workflow SOPs:**
 
-- [Agent Workflow SOP v1.3](./docs/sop/AGENT_WORKFLOW_SOP.md) - TDM reactive role, orchestration patterns
+- [Agent Workflow SOP v1.4](./docs/sop/AGENT_WORKFLOW_SOP.md) - vNext contract, Exit States, Role Collapsing (WOR-497/499)
 - [Agent Configuration SOP](./docs/sop/AGENT_CONFIGURATION_SOP.md) - Tool restrictions, model selection
 - [ARCHitect-in-CLI Role](./docs/workflow/ARCHITECT_IN_CLI_ROLE.md) - Primary orchestrator definition
 
-**Deployment SOPs:**
+**CI/CD Documentation:**
 
-- [Semantic Release SOP](./docs/ci-cd/Semantic-Release-Deployment-SOP.md) - PROD releases via master branch
-- [Staging UAT SOP](./docs/sop/STAGING-UAT-RELEASE-SOP.md) - Pre-production validation gate
+- [CI/CD Pipeline Guide](./docs/ci-cd/CI-CD-Pipeline-Guide.md) - Pipeline implementation guide
 
 **Database SOPs:**
 
@@ -31,19 +30,19 @@
 
 ## When to Use Which Agent
 
-| Agent Role                           | Use Case                                                                                          | Success Criteria                                        | Primary Tools                       |
-| ------------------------------------ | ------------------------------------------------------------------------------------------------- | ------------------------------------------------------- | ----------------------------------- |
-| **TDM** (Technical Delivery Manager) | Reactive blocker resolution, Linear updates, evidence tracking (NOT orchestration - see v1.3 SOP) | Blockers resolved, evidence attached, Linear updated    | Linear, Confluence                  |
-| **BSA** (Business Systems Analyst)   | Requirements decomposition, acceptance criteria, testing strategy                                 | Clear user stories, testable ACs, QA plan defined       | Linear, Confluence, Markdown        |
-| **System Architect**                 | Pattern validation, Stage 1 PR review, migration approval, architectural decisions                | ADR created, PR technical review complete, no conflicts | Read, Grep, ADR templates           |
-| **FE Developer**                     | UI components, client-side logic, user interactions                                               | Lint and build passes                                   | Read, Write, Edit, Bash             |
-| **BE Developer**                     | API routes, server logic, RLS enforcement                                                         | Integration tests pass                                  | Read, Write, Edit, Bash             |
-| **DE** (Data Engineer)               | Schema changes, migrations, database architecture                                                 | Migration applied, RLS maintained                       | Prisma, SQL, migration tools        |
-| **TW** (Technical Writer)            | Documentation, guides, technical content                                                          | Markdown lint passes                                    | Read, Write, Edit, Grep, Glob, Bash |
-| **DPE** (Data Provisioning Engineer) | Test data, database access, data validation                                                       | Test data available, DB accessible                      | SQL, Prisma Studio, scripts         |
-| **QAS** (Quality Assurance)          | Execute BSA testing strategy, validate acceptance criteria                                        | All ACs verified, test report complete                  | Playwright, Jest, test tools        |
-| **SecEng** (Security Engineer)       | Security validation, RLS checks, vulnerability assessment                                         | Security audit passed, RLS enforced                     | RLS scripts, security tools         |
-| **RTE** (Release Train Engineer)     | PR creation, CI/CD validation, PROD deployment via Semantic Release, release coordination         | CI validates passes, PR merged, staging validated       | Git, GitHub CLI, CI tools           |
+| Agent Role                           | Use Case                                                                                          | Success Criteria                                            | Primary Tools                       |
+| ------------------------------------ | ------------------------------------------------------------------------------------------------- | ----------------------------------------------------------- | ----------------------------------- |
+| **TDM** (Technical Delivery Manager) | Reactive blocker resolution, Linear updates, evidence tracking (NOT orchestration - see v1.3 SOP) | Blockers resolved, evidence attached, Linear updated        | Linear, Confluence                  |
+| **BSA** (Business Systems Analyst)   | Requirements decomposition, acceptance criteria, testing strategy                                 | Clear user stories, testable ACs, QA plan defined           | Linear, Confluence, Markdown        |
+| **System Architect**                 | Pattern validation, Stage 1 PR review, migration approval, architectural decisions                | ADR created, PR technical review complete, no conflicts     | Read, Grep, ADR templates           |
+| **FE Developer**                     | UI components, client-side logic, user interactions                                               | Lint and build passes                                       | Read, Write, Edit, Bash             |
+| **BE Developer**                     | API routes, server logic, RLS enforcement                                                         | Integration tests pass                                      | Read, Write, Edit, Bash             |
+| **DE** (Data Engineer)               | Schema changes, migrations, database architecture                                                 | Migration applied, RLS maintained                           | Prisma, SQL, migration tools        |
+| **TW** (Technical Writer)            | Documentation, guides, technical content                                                          | Markdown lint passes                                        | Read, Write, Edit, Grep, Glob, Bash |
+| **DPE** (Data Provisioning Engineer) | Test data, database access, data validation                                                       | Test data available, DB accessible                          | SQL, Prisma Studio, scripts         |
+| **QAS** (Quality Assurance)          | **GATE OWNER**: Execute testing, validate ACs, iteration authority, evidence to Linear            | All ACs verified, evidence posted, Exit: "Approved for RTE" | Playwright, Jest, Linear MCP        |
+| **SecEng** (Security Engineer)       | Security validation, RLS checks, vulnerability assessment (Independence Gate - not collapsible)   | Security audit passed, RLS enforced                         | RLS scripts, security tools         |
+| **RTE** (Release Train Engineer)     | **PR SHEPHERD**: PR creation, CI/CD monitoring (NO code, NO merge) - Exit: "Ready for HITL"       | PR created, CI green, Exit: "Ready for HITL Review"         | Git, GitHub CLI, CI tools           |
 
 ## Auto-Loaded Skills
 
@@ -220,6 +219,48 @@ grep -r "linear_ticket_number" ~/.claude/todos/
 # Discover implementation patterns
 grep -r "withUserContext|withAdminContext" ~/.claude/todos/
 ```
+
+## Exit States (vNext Contract)
+
+Each agent has explicit exit states that define handoff points:
+
+```
+┌─────────────────┬───────────────────────────────────────────┐
+│ Role            │ Exit State                                │
+├─────────────────┼───────────────────────────────────────────┤
+│ BE-Developer    │ "Ready for QAS"                           │
+│ FE-Developer    │ "Ready for QAS"                           │
+│ Data-Engineer   │ "Ready for QAS"                           │
+│ QAS             │ "Approved for RTE"                        │
+│ RTE             │ "Ready for HITL Review"                   │
+│ System Architect│ "Stage 1 Approved - Ready for ARCHitect"  │
+│ HITL            │ MERGED                                    │
+└─────────────────┴───────────────────────────────────────────┘
+```
+
+### Gate Quick Reference
+
+```
+┌─────────────────┬─────────────────┬─────────────────────────┐
+│ Gate            │ Owner           │ Blocking?               │
+├─────────────────┼─────────────────┼─────────────────────────┤
+│ Stop-the-Line   │ Implementer     │ YES - no AC = no work   │
+│ QAS Gate        │ QAS             │ YES - no approval = stop│
+│ Stage 1 Review  │ System Architect│ YES - pattern check     │
+│ Stage 2 Review  │ ARCHitect-CLI   │ YES - architecture check│
+│ HITL Merge      │ Scott           │ YES - final authority   │
+└─────────────────┴─────────────────┴─────────────────────────┘
+```
+
+### Role Collapsing (WOR-499)
+
+- **RTE**: Collapsible (PR creation, CI shepherding can be done by implementer)
+- **QAS**: NOT collapsible (independence gate - spawn subagent for verification)
+- **SecEng**: NOT collapsible (security audit requires independence)
+
+See [Agent Workflow SOP v1.4](./docs/sop/AGENT_WORKFLOW_SOP.md) for details.
+
+---
 
 ## Quick Reference
 

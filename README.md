@@ -3,7 +3,7 @@
 **A Production-Tested Three-Layer Architecture for Coordinated AI Teams**
 
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![Version](https://img.shields.io/badge/version-2.0-green.svg)](whitepaper/README.md)
+[![Version](https://img.shields.io/badge/version-2.1-green.svg)](whitepaper/README.md)
 [![Production Validated](https://img.shields.io/badge/5+%20months-production%20validated-brightgreen.svg)](whitepaper/data/REAL-PRODUCTION-DATA-SYNTHESIS.md)
 [![Skills](https://img.shields.io/badge/skills-17%20model--invoked-purple.svg)](.claude/skills/)
 [![Commands](https://img.shields.io/badge/commands-23%20workflows-orange.svg)](.claude/commands/)
@@ -258,6 +258,149 @@ All work requires verifiable evidence. No "trust me, it works."
 
 ---
 
+## vNext Workflow Contract (v1.4)
+
+> **Note from the Author**: It became apparent early on that some of the autonomy and alignment we'd lost in our original harness was not going to work. This re-introduces strong solo and larger orchestration hats with selection criteria. Gates for QAS cover all scenarios.
+
+### Complete Agent Flow
+
+```
+┌─────────────────────────────────────────────────────────────────────────────────────────┐
+│                        SAFe AGENTIC WORKFLOW - vNext                                     │
+└─────────────────────────────────────────────────────────────────────────────────────────┘
+
+                                    ┌──────────────┐
+                                    │  USER/POPM   │
+                                    │  Creates     │
+                                    │  Linear      │
+                                    │  Ticket      │
+                                    └──────┬───────┘
+                                           │
+                                           ▼
+                              ┌────────────────────────┐
+                              │         BSA            │
+                              │  • Defines AC/DoD      │
+                              │  • Pattern discovery   │
+                              │  • Creates spec        │
+                              └────────────┬───────────┘
+                                           │
+                        ┌──────────────────┴──────────────────┐
+                        │       STOP-THE-LINE GATE            │
+                        │  AC/DoD exists? YES → Proceed       │
+                        │                 NO  → STOP          │
+                        └──────────────────┬──────────────────┘
+                                           │
+                    ┌──────────────────────┼──────────────────────┐
+                    ▼                      ▼                      ▼
+          ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
+          │  BE-DEVELOPER   │    │  FE-DEVELOPER   │    │  DATA-ENGINEER  │
+          │  Exit: "Ready   │    │  Exit: "Ready   │    │  Exit: "Ready   │
+          │   for QAS"      │    │   for QAS"      │    │   for QAS"      │
+          └────────┬────────┘    └────────┬────────┘    └────────┬────────┘
+                   └──────────────────────┼──────────────────────┘
+                                          ▼
+                        ┌─────────────────────────────────┐
+                        │        QAS (GATE OWNER)         │
+                        │  • Iteration authority          │
+                        │  • Bounce back repeatedly       │
+                        │  • Final evidence to Linear     │
+                        │  Exit: "Approved for RTE"       │
+                        └────────────┬────────────────────┘
+                                     ▼
+                        ┌─────────────────────────────────┐
+                        │        RTE (PR SHEPHERD)        │
+                        │  • PR creation (from spec)      │
+                        │  • CI/CD monitoring             │
+                        │  • NO code, NO merge            │
+                        │  Exit: "Ready for HITL Review"  │
+                        └────────────┬────────────────────┘
+                                     ▼
+                    ┌─────────────────────────────────────────────┐
+                    │           3-STAGE PR REVIEW                 │
+                    │  Stage 1: System Architect (pattern)        │
+                    │  Stage 2: ARCHitect-in-CLI (architecture)   │
+                    │  Stage 3: HITL (Scott) → MERGE              │
+                    └─────────────────────────────────────────────┘
+```
+
+### Exit States
+
+```
+┌─────────────────┬───────────────────────────────────────────┐
+│ Role            │ Exit State                                │
+├─────────────────┼───────────────────────────────────────────┤
+│ BE-Developer    │ "Ready for QAS"                           │
+│ FE-Developer    │ "Ready for QAS"                           │
+│ Data-Engineer   │ "Ready for QAS"                           │
+│ QAS             │ "Approved for RTE"                        │
+│ RTE             │ "Ready for HITL Review"                   │
+│ System Architect│ "Stage 1 Approved - Ready for ARCHitect"  │
+│ HITL            │ MERGED                                    │
+└─────────────────┴───────────────────────────────────────────┘
+```
+
+### Gate Quick Reference
+
+```
+┌─────────────────┬─────────────────┬─────────────────────────┐
+│ Gate            │ Owner           │ Blocking?               │
+├─────────────────┼─────────────────┼─────────────────────────┤
+│ Stop-the-Line   │ Implementer     │ YES - no AC = no work   │
+│ QAS Gate        │ QAS             │ YES - no approval = stop│
+│ Stage 1 Review  │ System Architect│ YES - pattern check     │
+│ Stage 2 Review  │ ARCHitect-CLI   │ YES - architecture check│
+│ HITL Merge      │ Scott           │ YES - final authority   │
+└─────────────────┴─────────────────┴─────────────────────────┘
+```
+
+### Role Collapsing (WOR-499)
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                  ROLE COLLAPSING AUTHORITY                  │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  COLLAPSIBLE:                                               │
+│  ┌─────────────────────────────────────────────────────┐   │
+│  │ RTE (Release Train Engineer)                         │   │
+│  │ • PR creation can be done by implementer             │   │
+│  │ • Use when: Simple PRs, single-agent work            │   │
+│  └─────────────────────────────────────────────────────┘   │
+│                                                             │
+│  NOT COLLAPSIBLE (Independence Gates):                      │
+│  ┌─────────────────────────────────────────────────────┐   │
+│  │ QAS (Quality Assurance Specialist)                   │   │
+│  │ • ALWAYS spawn subagent - never self-review          │   │
+│  │ • Rationale: Self-review bias, quality enforcement   │   │
+│  ├─────────────────────────────────────────────────────┤   │
+│  │ Security Engineer                                    │   │
+│  │ • ALWAYS spawn subagent - never self-audit           │   │
+│  │ • Rationale: Security blindness, conflict of interest│   │
+│  └─────────────────────────────────────────────────────┘   │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
+
+### Collapsed Workflow Example
+
+```
+Standard Workflow:
+Implementer → QAS → RTE → HITL
+                     │
+                     └─ RTE handles PR creation
+
+Collapsed Workflow (RTE collapsed):
+Implementer → QAS → [Implementer handles PR] → HITL
+               │
+               └─ QAS gate ALWAYS present, never collapsed
+
+Note: Quality gates are immutable. QAS and SecEng cannot be collapsed.
+```
+
+See [Agent Workflow SOP v1.4](docs/sop/AGENT_WORKFLOW_SOP.md) for complete details.
+
+---
+
 ## Important Caveats
 
 **Version 2.0** - Production-tested but with known limitations:
@@ -344,7 +487,7 @@ MIT License - See [LICENSE](LICENSE) for details.
 
 ---
 
-**Version**: 2.0 (December 2025)
+**Version**: 2.1 (December 2025) - vNext Workflow Contract (WOR-497/499)
 **Status**: Production-validated, academically honest, publication-ready
 
 **This repository contains the whitepaper, complete working template, AND a battle-tested Claude Code harness for implementing the methodology!**

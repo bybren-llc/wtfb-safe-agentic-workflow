@@ -2,8 +2,8 @@
 
 **Purpose**: Guide for assigning work to specialized agents in the SAFe ART team
 
-**Version**: 1.1 (Added System Architect Review Gates)
-**Last Updated**: 2025-10-06
+**Version**: 1.4 (vNext Workflow Contract - WOR-497/499)
+**Last Updated**: 2025-12-23
 
 ---
 
@@ -53,16 +53,20 @@
 
 ### Quality & Coordination Agents (Sonnet Model)
 
-#### Quality Assurance Specialist (QAS)
+#### Quality Assurance Specialist (QAS) - GATE OWNER
 
-- **Primary Responsibilities**: Execute testing strategy, validate acceptance criteria
-- **Tools**: Read, Bash, Playwright, Jest
-- **When to Assign**: Test execution, acceptance criteria validation
-- **Success Validation**: All tests passing, evidence collected
+- **Primary Responsibilities**: Execute testing strategy, validate acceptance criteria, **GATE authority**
+- **Role Type**: **Independence Gate** - NOT collapsible (WOR-499)
+- **Tools**: Read, Bash, Playwright, Jest, **Linear MCP** (`mcp__linear-mcp__create_comment`, `mcp__linear-mcp__update_issue`)
+- **When to Assign**: Test execution, acceptance criteria validation, **blocking quality gate**
+- **Exit State**: `"Approved for RTE"`
+- **Iteration Authority**: Can bounce work back repeatedly until satisfied
+- **Success Validation**: All tests passing, evidence posted to Linear
 
-#### Security Engineer
+#### Security Engineer - INDEPENDENCE GATE
 
 - **Primary Responsibilities**: Security validation, RLS enforcement, vulnerability assessment
+- **Role Type**: **Independence Gate** - NOT collapsible (WOR-499)
 - **Tools**: Read, Bash, RLS validation scripts
 - **When to Assign**: Security reviews, RLS validation, vulnerability scans
 - **Success Validation**: Security audit passed, RLS enforced
@@ -74,11 +78,15 @@
 - **When to Assign**: Cross-team coordination, blocker resolution
 - **Success Validation**: Linear updated, blockers resolved
 
-#### Release Train Engineer (RTE)
+#### Release Train Engineer (RTE) - PR SHEPHERD
 
 - **Primary Responsibilities**: PR creation, CI/CD validation, release coordination
+- **Role Type**: **Collapsible** - can be collapsed into implementer (WOR-499)
+- **Prerequisite**: QAS approval (`"Approved for RTE"`)
 - **Tools**: Git, GitHub CLI, CI tools
 - **When to Assign**: PR creation, release coordination, CI/CD setup
+- **Exit State**: `"Ready for HITL Review"`
+- **Must NOT**: Merge PRs (HITL is final authority), implement product code
 - **Success Validation**: `yarn ci:validate` passes, PR created
 
 ---
@@ -208,12 +216,42 @@ If any complexity trigger matched:
 
 ---
 
-## Common Assignment Patterns
-
-### Pattern 1: Simple Feature Implementation
+## Exit States (vNext Contract)
 
 ```
-BSA (Spec) → BE Developer (Implementation) → QAS (Testing) → RTE (PR)
+┌─────────────────┬───────────────────────────────────────────┐
+│ Role            │ Exit State                                │
+├─────────────────┼───────────────────────────────────────────┤
+│ BE-Developer    │ "Ready for QAS"                           │
+│ FE-Developer    │ "Ready for QAS"                           │
+│ Data-Engineer   │ "Ready for QAS"                           │
+│ QAS             │ "Approved for RTE"                        │
+│ RTE             │ "Ready for HITL Review"                   │
+│ System Architect│ "Stage 1 Approved - Ready for ARCHitect"  │
+│ HITL            │ MERGED                                    │
+└─────────────────┴───────────────────────────────────────────┘
+```
+
+---
+
+## Common Assignment Patterns
+
+### Pattern 1: Simple Feature Implementation (with Exit States)
+
+```
+BSA (Spec)
+    │
+    ▼
+BE Developer → Exit: "Ready for QAS"
+    │
+    ▼
+QAS (Gate) → Exit: "Approved for RTE"
+    │
+    ▼
+RTE → Exit: "Ready for HITL Review"
+    │
+    ▼
+HITL → MERGED
 ```
 
 ### Pattern 2: Database Migration
@@ -234,6 +272,26 @@ Investigation → Data Engineer (Scripts) → System Architect (Review) → RTE 
 
 ```
 BSA (Spec) → FE Developer (Component) → QAS (E2E Tests) → RTE (PR)
+```
+
+### Pattern 5: Collapsed RTE Workflow (WOR-499)
+
+```
+BSA (Spec)
+    │
+    ▼
+BE Developer → Exit: "Ready for QAS"
+    │
+    ▼
+QAS (Gate) → Exit: "Approved for RTE"
+    │
+    ▼
+[BE handles PR creation - RTE collapsed]
+    │
+    ▼
+HITL → MERGED
+
+Note: QAS gate is ALWAYS present, never collapsed
 ```
 
 ---
@@ -304,6 +362,23 @@ BSA (Spec) → FE Developer (Component) → QAS (E2E Tests) → RTE (PR)
 
 ## Version History
 
+### v1.4 (2025-12-23)
+
+- **Added**: vNext Workflow Contract (WOR-497)
+- **Added**: Role Collapsing Guidelines (WOR-499)
+- **Added**: Exit States for all agent roles
+- **Updated**: QAS to GATE OWNER role with Linear MCP tools
+- **Updated**: RTE to PR SHEPHERD role (no merge)
+- **Updated**: Security Engineer as INDEPENDENCE GATE
+- **Added**: Pattern 5 - Collapsed RTE Workflow
+- **Rationale**: Major upgrade establishing clear ownership boundaries and mandatory gates
+
+### v1.3 (2025-12-15)
+
+- **Changed**: TDM role from orchestrator to reactive blocker resolution
+- **Added**: ARCHitect-in-CLI as primary orchestrator
+- **Impact**: Clearer role boundaries
+
 ### v1.1 (2025-10-06)
 
 - **Added**: System Architect Review Triggers (MANDATORY)
@@ -322,7 +397,9 @@ BSA (Spec) → FE Developer (Component) → QAS (E2E Tests) → RTE (PR)
 
 - `ARCHITECT_IN_CLI_ROLE.md` - When to invoke System Architect
 - `AGENT_WORKFLOW_SOP.md` - Detailed workflow processes
+- `AGENT_CONFIGURATION_SOP.md` - Tool restrictions, model selection
+- `WORKFLOW_COMPARISON.md` - TDM role clarification
 - `PRE_PR_VALIDATION_CHECKLIST.md` - Quality gates before PR
 - `WORKFLOW_QUALITY_CHECKLIST.md` - ARCHitect-in-CLI self-validation
 
-**Reference**: WOR-321 Migration Automation Workflow Report (gap analysis)
+**Reference**: WOR-497/499 vNext Workflow Contract

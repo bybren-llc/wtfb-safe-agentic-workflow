@@ -22,17 +22,31 @@ Search codebase for patterns using optimized tools. Useful for refactoring, find
 
 ### 2. Execute Search
 
-**With file type**:
+Use the Grep tool with these parameters:
 
-```bash
-Grep with type filter
-```
+**With file type filter** (recommended for large codebases):
 
-**Without file type**:
+| Parameter     | Value                     | Example                 |
+| ------------- | ------------------------- | ----------------------- |
+| `pattern`     | The regex pattern to find | `"withUserContext"`     |
+| `type`        | File type to search       | `"ts"`, `"tsx"`, `"md"` |
+| `output_mode` | `"files_with_matches"`    | Shows matching files    |
 
-```bash
-Grep across all files
-```
+**Without file type** (searches all files):
+
+| Parameter     | Value                     | Example              |
+| ------------- | ------------------------- | -------------------- |
+| `pattern`     | The regex pattern to find | `"prisma\."`         |
+| `output_mode` | `"content"`               | Shows matching lines |
+| `head_limit`  | Limit results (optional)  | `50`                 |
+
+**With context** (show surrounding lines):
+
+| Parameter     | Value                      | Example                     |
+| ------------- | -------------------------- | --------------------------- |
+| `pattern`     | The regex pattern          | `"withUserContext"`         |
+| `-C`          | Context lines before/after | `3`                         |
+| `output_mode` | `"content"`                | Required for context output |
 
 ### 3. Analyze Results
 
@@ -122,23 +136,28 @@ Identifies: Test coverage
 
 ### Multiline Search
 
-For patterns spanning lines:
+For patterns spanning multiple lines (e.g., finding function bodies):
 
-```bash
-Use Grep with multiline: true
-```
+| Parameter   | Value                                   | Purpose                   |
+| ----------- | --------------------------------------- | ------------------------- |
+| `pattern`   | `"async function.*\\{[\\s\\S]*?return"` | Cross-line pattern        |
+| `multiline` | `true`                                  | Enable multiline matching |
+| `type`      | `"ts"`                                  | Optional file type filter |
 
-Example: Find all functions with specific pattern
+Example: Find async functions that return Prisma results
 
 ### Context Search
 
-Show surrounding lines:
+Show surrounding lines for understanding usage context:
 
-```bash
-Grep with -A, -B, or -C flags
-```
+| Parameter     | Purpose                  | When to Use                     |
+| ------------- | ------------------------ | ------------------------------- |
+| `-A 3`        | 3 lines after match      | See what happens after          |
+| `-B 3`        | 3 lines before match     | See imports, function signature |
+| `-C 5`        | 5 lines before and after | Full context around match       |
+| `output_mode` | Must be `"content"`      | Required for context output     |
 
-Example: See function signature with implementation
+Example: See function signature with implementation context
 
 ### Regex Patterns
 

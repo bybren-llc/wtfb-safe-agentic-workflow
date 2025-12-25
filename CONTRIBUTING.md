@@ -280,6 +280,46 @@ The automated pipeline will check:
 - **NEVER use "Squash and merge"** or "Create merge commit"
 - **Auto-merge available** with `auto-merge` label (if all checks pass)
 
+## Agent Exit States (vNext Contract)
+
+Each agent role has explicit exit states that define handoff points in the workflow:
+
+```
+┌─────────────────┬───────────────────────────────────────────┐
+│ Role            │ Exit State                                │
+├─────────────────┼───────────────────────────────────────────┤
+│ BE-Developer    │ "Ready for QAS"                           │
+│ FE-Developer    │ "Ready for QAS"                           │
+│ Data-Engineer   │ "Ready for QAS"                           │
+│ QAS             │ "Approved for RTE"                        │
+│ RTE             │ "Ready for HITL Review"                   │
+│ System Architect│ "Stage 1 Approved - Ready for ARCHitect"  │
+│ HITL            │ MERGED                                    │
+└─────────────────┴───────────────────────────────────────────┘
+```
+
+### Gate Quick Reference
+
+```
+┌─────────────────┬─────────────────┬─────────────────────────┐
+│ Gate            │ Owner           │ Blocking?               │
+├─────────────────┼─────────────────┼─────────────────────────┤
+│ Stop-the-Line   │ Implementer     │ YES - no AC = no work   │
+│ QAS Gate        │ QAS             │ YES - no approval = stop│
+│ Stage 1 Review  │ System Architect│ YES - pattern check     │
+│ Stage 2 Review  │ ARCHitect-CLI   │ YES - architecture check│
+│ HITL Merge      │ POPM/Scott      │ YES - final authority   │
+└─────────────────┴─────────────────┴─────────────────────────┘
+```
+
+### Role Collapsing (WOR-499)
+
+- **RTE**: Collapsible (PR creation can be done by implementer)
+- **QAS**: NOT collapsible (independence gate - spawn subagent)
+- **SecEng**: NOT collapsible (security audit requires independence)
+
+See [Agent Workflow SOP v1.4](./docs/sop/AGENT_WORKFLOW_SOP.md) for complete details.
+
 ## Pull Request Process
 
 ### PR Template Requirements
@@ -588,6 +628,6 @@ git commit -m "fix: resolve CI validation issues [{{TICKET_PREFIX}}-XXX]"
 
 **This document is maintained by the {{PROJECT_NAME}} development team and reflects our current CI/CD pipeline implementation.**
 
-**Last Updated**: 2025-08-17
-**Version**: 2.0 (CI/CD Pipeline Implementation)
+**Last Updated**: 2025-12-23
+**Version**: 2.1 (vNext Workflow Contract - WOR-497/499)
 **Maintained by**: {{PROJECT_NAME}} Development Team + ARCHitect-in-the-IDE (Auggie)
