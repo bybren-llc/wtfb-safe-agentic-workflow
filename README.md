@@ -398,9 +398,141 @@ Note: Quality gates are immutable. QAS and SecEng cannot be collapsed.
 ```
 
 <details>
-<summary><strong>Detailed Workflow Diagrams</strong> - Click to expand</summary>
+<summary><strong>Part 1: Core Workflow Architecture</strong> - Complete flow diagrams</summary>
 
-### Exit State Progression
+### 1.1 Complete Agent Flow (Detailed)
+
+```
+┌─────────────────────────────────────────────────────────────────────────────────────────┐
+│                        SAFe AGENTIC WORKFLOW - vNext                                    │
+└─────────────────────────────────────────────────────────────────────────────────────────┘
+
+                                    ┌──────────────┐
+                                    │  USER/POPM   │
+                                    │  Creates     │
+                                    │  Linear      │
+                                    │  Ticket      │
+                                    └──────┬───────┘
+                                           │
+                                           ▼
+                              ┌────────────────────────┐
+                              │         BSA            │
+                              │  • Defines AC/DoD      │
+                              │  • Pattern discovery   │
+                              │  • Creates spec        │
+                              └────────────┬───────────┘
+                                           │
+                        ┌──────────────────┴──────────────────┐
+                        │       STOP-THE-LINE GATE            │
+                        │  ┌────────────────────────────────┐ │
+                        │  │ AC/DoD exists?                 │ │
+                        │  │  • YES → Proceed               │ │
+                        │  │  • NO  → STOP, route to BSA    │ │
+                        │  └────────────────────────────────┘ │
+                        └──────────────────┬──────────────────┘
+                                           │
+                    ┌──────────────────────┼──────────────────────┐
+                    │                      │                      │
+                    ▼                      ▼                      ▼
+          ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
+          │  BE-DEVELOPER   │    │  FE-DEVELOPER   │    │  DATA-ENGINEER  │
+          │                 │    │                 │    │                 │
+          │  Owns:          │    │  Owns:          │    │  Owns:          │
+          │  • API routes   │    │  • UI components│    │  • Schema/DB    │
+          │  • Server logic │    │  • Client logic │    │  • Migrations   │
+          │  • SAFe commits │    │  • SAFe commits │    │  • SAFe commits │
+          │                 │    │                 │    │                 │
+          │  Must NOT:      │    │  Must NOT:      │    │  Must NOT:      │
+          │  • Create PRs   │    │  • Create PRs   │    │  • Create PRs   │
+          │  • Merge        │    │  • Merge        │    │  • Merge        │
+          │                 │    │                 │    │  • Skip ARCHitect│
+          └────────┬────────┘    └────────┬────────┘    └────────┬────────┘
+                   │                      │                      │
+                   │    Exit: "Ready for QAS"                    │
+                   └──────────────────────┼──────────────────────┘
+                                          │
+                                          ▼
+                        ┌─────────────────────────────────┐
+                        │              QAS                │
+                        │         (GATE OWNER)            │
+                        │                                 │
+                        │  Powers:                        │
+                        │  • Iteration authority          │
+                        │  • Bounce back repeatedly       │
+                        │  • Route to specialists         │
+                        │  • Final evidence to Linear     │
+                        │                                 │
+                        │  Tools (Linear MCP):            │
+                        │  • mcp__linear-mcp__            │
+                        │      create_comment             │
+                        │  • mcp__linear-mcp__            │
+                        │      update_issue               │
+                        │  • mcp__linear-mcp__            │
+                        │      list_comments              │
+                        └────────────┬────────────────────┘
+                                     │
+                    ┌────────────────┴────────────────┐
+                    │                                 │
+                    ▼                                 ▼
+          ┌─────────────────┐               ┌─────────────────┐
+          │    BLOCKED      │               │    APPROVED     │
+          │                 │               │                 │
+          │  Routes to:     │               │  Exit State:    │
+          │  • Implementer  │               │  "Approved      │
+          │  • Tech Writer  │               │   for RTE"      │
+          │  • Sys Architect│               │                 │
+          └────────┬────────┘               └────────┬────────┘
+                   │                                  │
+                   │ (Loop until fixed)               │
+                   └──────────────────────────────────┤
+                                                      │
+                                                      ▼
+                              ┌─────────────────────────────────┐
+                              │              RTE                │
+                              │        (PR SHEPHERD)            │
+                              │                                 │
+                              │  Owns:                          │
+                              │  • PR creation (from spec)      │
+                              │  • CI/CD monitoring             │
+                              │  • Evidence assembly            │
+                              │  • PR metadata edits            │
+                              │                                 │
+                              │  Must NOT:                      │
+                              │  • Write product code           │
+                              │  • Merge PRs                    │
+                              │  • Approve own work             │
+                              └────────────┬────────────────────┘
+                                           │
+                                           ▼
+                    ┌─────────────────────────────────────────────┐
+                    │           3-STAGE PR REVIEW                 │
+                    │                                             │
+                    │  ┌─────────────────────────────────────┐    │
+                    │  │ STAGE 1: System Architect           │    │
+                    │  │  • Pattern compliance               │    │
+                    │  │  • RLS enforcement                  │    │
+                    │  │  • Technical validation             │    │
+                    │  │  → Exit: "Stage 1 Approved"         │    │
+                    │  └─────────────────┬───────────────────┘    │
+                    │                    ▼                        │
+                    │  ┌─────────────────────────────────────┐    │
+                    │  │ STAGE 2: ARCHitect-in-CLI           │    │
+                    │  │  • Comprehensive review             │    │
+                    │  │  • Architecture validation          │    │
+                    │  │  • Security verification            │    │
+                    │  │  → Exit: "Stage 2 Approved"         │    │
+                    │  └─────────────────┬───────────────────┘    │
+                    │                    ▼                        │
+                    │  ┌─────────────────────────────────────┐    │
+                    │  │ STAGE 3: HITL (Scott)               │    │
+                    │  │  • Final human review               │    │
+                    │  │  • Merge authority                  │    │
+                    │  │  → Action: MERGE                    │    │
+                    │  └─────────────────────────────────────┘    │
+                    └─────────────────────────────────────────────┘
+```
+
+### 1.2 Exit States Flow (with Handoff Statements)
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
@@ -421,9 +553,26 @@ Note: Quality gates are immutable. QAS and SecEng cannot be collapsed.
   ║  "Ready     ║  ────▶  ║ "Approved   ║ ────▶ ║ "Ready for  ║ ──▶ ║   MERGED    ║
   ║  for QAS"   ║         ║  for RTE"   ║       ║ HITL Review"║     ║             ║
   ╚═════════════╝         ╚═════════════╝       ╚═════════════╝     ╚═════════════╝
+         │                       │                     │
+         │                       │                     │
+         ▼                       ▼                     ▼
+  ┌─────────────┐         ┌─────────────┐       ┌─────────────┐
+  │ Handoff     │         │ Handoff     │       │ Handoff     │
+  │ Statement:  │         │ Statement:  │       │ Statement:  │
+  │             │         │             │       │             │
+  │ "BE/FE/DE   │         │ "QAS valid- │       │ "PR #XXX    │
+  │ impl done   │         │ ation done  │       │ ready for   │
+  │ for WOR-X.  │         │ for WOR-X.  │       │ HITL review.│
+  │ All valid-  │         │ All PASSED. │       │ CI green,   │
+  │ ation pass. │         │ Approved    │       │ reviews     │
+  │ AC/DoD      │         │ for RTE."   │       │ complete."  │
+  │ confirmed.  │         │             │       │             │
+  │ Ready for   │         │             │       │             │
+  │ QAS."       │         │             │       │             │
+  └─────────────┘         └─────────────┘       └─────────────┘
 ```
 
-### Stop-the-Line Gate Detail
+### 1.3 Stop-the-Line Gate (Mandatory)
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
@@ -460,7 +609,13 @@ Note: Quality gates are immutable. QAS and SecEng cannot be collapsed.
           │                 │                 ║                 ║
           │                 │                 ║  • Route back   ║
           │                 │                 ║    to BSA/POPM  ║
+          │                 │                 ║                 ║
+          │                 │                 ║  • You are NOT  ║
+          │                 │                 ║    responsible  ║
+          │                 │                 ║    for inventing║
+          │                 │                 ║    AC/DoD       ║
           └─────────────────┘                 ╚═════════════════╝
+
 
   ┌───────────────────────────────────────────────────────────────────────────┐
   │  POLICY: Implementation agents (BE/FE/DE) must verify AC/DoD exists      │
@@ -468,7 +623,7 @@ Note: Quality gates are immutable. QAS and SecEng cannot be collapsed.
   └───────────────────────────────────────────────────────────────────────────┘
 ```
 
-### QAS Iteration Authority
+### 1.4 QAS Iteration Loop
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
@@ -529,6 +684,7 @@ Note: Quality gates are immutable. QAS and SecEng cannot be collapsed.
                                               └────────┬────────┘
                                                        │
                                                        │ (Fix and return)
+                                                       │
                                                        ▼
                                               ┌─────────────────┐
                                               │  REPEAT UNTIL   │
@@ -540,7 +696,12 @@ Note: Quality gates are immutable. QAS and SecEng cannot be collapsed.
                                               └─────────────────┘
 ```
 
-### Role Ownership Matrix
+</details>
+
+<details>
+<summary><strong>Part 2: Role Definitions</strong> - Contract specifications for each role</summary>
+
+### 2.1 Role Ownership Matrix
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────────────────┐
@@ -571,6 +732,174 @@ Legend:
   Review = Read-only review authority
   Metadata = PR title, labels, body only (not code)
   Assembly = Collects from all agents
+```
+
+### 2.2 Implementation Agents Contract (BE/FE/DE)
+
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                    IMPLEMENTATION AGENT CONTRACT                            │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                             │
+│  PRECONDITION (Mandatory Gate):                                             │
+│  ┌─────────────────────────────────────────────────────────────────────┐   │
+│  │  Verify AC/DoD exists → If missing, STOP and route to BSA/POPM      │   │
+│  └─────────────────────────────────────────────────────────────────────┘   │
+│                                                                             │
+│  OWNS:                                     MUST NOT:                        │
+│  ├─ Code changes                           ├─ Create PRs                    │
+│  ├─ Atomic SAFe commits                    ├─ Merge to dev/master           │
+│  └─ Local validation                       └─ Invent AC/DoD                 │
+│                                                                             │
+│  MUST DO:                                                                   │
+│  ├─ Run validation loop until ALL pass                                      │
+│  ├─ Confirm ALL AC/DoD satisfied                                            │
+│  ├─ Commit own work (SAFe format)                                           │
+│  └─ Provide handoff statement                                               │
+│                                                                             │
+│  EXIT STATE: "Ready for QAS"                                                │
+│                                                                             │
+│  HANDOFF TEMPLATE:                                                          │
+│  ┌─────────────────────────────────────────────────────────────────────┐   │
+│  │  "[BE/FE/DE] implementation complete for WOR-XXX.                   │   │
+│  │   All validation passing. AC/DoD confirmed.                         │   │
+│  │   Ready for QAS review."                                            │   │
+│  └─────────────────────────────────────────────────────────────────────┘   │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+```
+
+### 2.3 QAS Gate Owner Contract
+
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                         QAS GATE OWNER CONTRACT                             │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                             │
+│  ROLE: GATE (not just validator)                                            │
+│  ───────────────────────────────                                            │
+│  Work does NOT proceed without QAS approval.                                │
+│                                                                             │
+│  OWNS:                                     MUST NOT:                        │
+│  ├─ Independent verification               ├─ Modify product code           │
+│  ├─ Iteration authority                    ├─ Skip AC/DoD verification      │
+│  ├─ QA artifacts                           └─ Approve incomplete work       │
+│  └─ Final evidence to Linear                                                │
+│                                                                             │
+│  LINEAR MCP TOOLS:                                                          │
+│  ┌─────────────────────────────────────────────────────────────────────┐   │
+│  │  • mcp__linear-mcp__create_comment  (post evidence)                 │   │
+│  │  • mcp__linear-mcp__update_issue    (update status)                 │   │
+│  │  • mcp__linear-mcp__list_comments   (read context)                  │   │
+│  └─────────────────────────────────────────────────────────────────────┘   │
+│                                                                             │
+│  ROUTING AUTHORITY:                                                         │
+│  ┌────────────────┬──────────────────┬───────────────────────────────┐     │
+│  │ Issue Type     │ Route To         │ Action                        │     │
+│  ├────────────────┼──────────────────┼───────────────────────────────┤     │
+│  │ Code bugs      │ @be/fe-developer │ Return with specific issues   │     │
+│  │ Validation fail│ Implementer      │ Return with failure output    │     │
+│  │ Doc mismatch   │ @tech-writer     │ Route for documentation fix   │     │
+│  │ Pattern issue  │ @system-architect│ Escalate for pattern review   │     │
+│  │ AC/DoD missing │ @bsa             │ Cannot approve without AC     │     │
+│  └────────────────┴──────────────────┴───────────────────────────────┘     │
+│                                                                             │
+│  EXIT STATE: "Approved for RTE"                                             │
+│                                                                             │
+│  HANDOFF TEMPLATE:                                                          │
+│  ┌─────────────────────────────────────────────────────────────────────┐   │
+│  │  "QAS validation complete for WOR-XXX.                              │   │
+│  │   All criteria PASSED. Evidence posted to Linear.                   │   │
+│  │   Approved for RTE."                                                │   │
+│  └─────────────────────────────────────────────────────────────────────┘   │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+```
+
+### 2.4 RTE PR Shepherd Contract
+
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                         RTE PR SHEPHERD CONTRACT                            │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                             │
+│  PREREQUISITE (QAS Gate):                                                   │
+│  ┌─────────────────────────────────────────────────────────────────────┐   │
+│  │  Work MUST have QAS approval ("Approved for RTE" status)            │   │
+│  │  Evidence MUST be posted to Linear                                  │   │
+│  │  If QAS not approved → STOP and wait                                │   │
+│  └─────────────────────────────────────────────────────────────────────┘   │
+│                                                                             │
+│  OWNS:                                     MUST NOT (NEVER):                │
+│  ├─ PR creation (from spec)                ├─ Merge PRs (HITL only)         │
+│  ├─ CI/CD monitoring                       ├─ Write product code            │
+│  ├─ Evidence assembly                      ├─ Approve own work              │
+│  ├─ PR metadata (title, labels, body)      └─ Have merge cmd examples       │
+│  └─ Coordination between agents                                             │
+│                                                                             │
+│  IF CI FAILS:                                                               │
+│  ┌────────────────────────────┬─────────────────────────────────────┐      │
+│  │ Failure Type               │ Route To                            │      │
+│  ├────────────────────────────┼─────────────────────────────────────┤      │
+│  │ Structural/pattern issues  │ System Architect                    │      │
+│  │ Implementation bugs        │ Original implementer (BE/FE/DE)     │      │
+│  │ NEVER fix code yourself    │ ---                                 │      │
+│  └────────────────────────────┴─────────────────────────────────────┘      │
+│                                                                             │
+│  EXIT STATE: "Ready for HITL Review"                                        │
+│                                                                             │
+│  HANDOFF TEMPLATE:                                                          │
+│  ┌─────────────────────────────────────────────────────────────────────┐   │
+│  │  "PR #XXX for WOR-YYY is Ready for HITL Review.                     │   │
+│  │   All CI green, reviews complete, evidence attached.                │   │
+│  │   Awaiting final merge approval from Scott."                        │   │
+│  └─────────────────────────────────────────────────────────────────────┘   │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+```
+
+### 2.5 System Architect Stage 1 Contract
+
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                    SYSTEM ARCHITECT STAGE 1 CONTRACT                        │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                             │
+│  ROLE: Stage 1 of 3-Stage PR Review Process                                 │
+│  ───────────────────────────────────────────                                │
+│                                                                             │
+│  ┌─────────────────────────────────────────────────────────────────────┐   │
+│  │  Stage 1: System Architect (you) - Technical/pattern validation     │   │
+│  │  Stage 2: ARCHitect-in-CLI - Comprehensive review                   │   │
+│  │  Stage 3: HITL (Scott) - Final merge authority                      │   │
+│  └─────────────────────────────────────────────────────────────────────┘   │
+│                                                                             │
+│  OWNS:                                     MUST NOT:                        │
+│  ├─ Pattern compliance review              ├─ Merge PRs                     │
+│  ├─ RLS enforcement verification           ├─ Skip to Stage 3               │
+│  ├─ Architecture validation                └─ Approve security bypasses     │
+│  └─ Stage 1 gate authority                                                  │
+│                                                                             │
+│  VALIDATION CHECKLIST:                                                      │
+│  ┌─────────────────────────────────────────────────────────────────────┐   │
+│  │  [ ] RLS context enforced (no direct Prisma calls)                  │   │
+│  │  [ ] withUserContext/withAdminContext/withSystemContext used        │   │
+│  │  [ ] Authentication checks present                                  │   │
+│  │  [ ] Pattern library followed                                       │   │
+│  │  [ ] TypeScript types valid                                         │   │
+│  │  [ ] Error handling comprehensive                                   │   │
+│  └─────────────────────────────────────────────────────────────────────┘   │
+│                                                                             │
+│  EXIT STATE: "Stage 1 Approved - Ready for ARCHitect"                       │
+│                                                                             │
+│  HANDOFF TEMPLATE:                                                          │
+│  ┌─────────────────────────────────────────────────────────────────────┐   │
+│  │  "Stage 1 review complete for PR #XXX (WOR-YYY).                    │   │
+│  │   Pattern compliance verified, RLS enforced.                        │   │
+│  │   Approved for ARCHitect-in-CLI review (Stage 2)."                  │   │
+│  └─────────────────────────────────────────────────────────────────────┘   │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
 ```
 
 ### Routing Quick Reference
@@ -662,6 +991,64 @@ accountable team members with clear boundaries, not autonomous actors.
 ### Source Document
 
 Full knowledge transfer document: [WOR-497-vnext-workflow-contract-kt.md](https://github.com/ByBren-LLC/WTFB-app/blob/main/docs/agent-outputs/technical-docs/WOR-497-vnext-workflow-contract-kt.md)
+
+</details>
+
+<details>
+<summary><strong>Appendix A: Quick Reference Cards</strong> - Printable cheat sheets</summary>
+
+### A.1 Exit State Quick Reference
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                    EXIT STATE CHEAT SHEET                   │
+├─────────────────┬───────────────────────────────────────────┤
+│ Role            │ Exit State                                │
+├─────────────────┼───────────────────────────────────────────┤
+│ BE-Developer    │ "Ready for QAS"                           │
+│ FE-Developer    │ "Ready for QAS"                           │
+│ Data-Engineer   │ "Ready for QAS"                           │
+│ QAS             │ "Approved for RTE"                        │
+│ RTE             │ "Ready for HITL Review"                   │
+│ System Architect│ "Stage 1 Approved - Ready for ARCHitect"  │
+│ ARCHitect-CLI   │ "Stage 2 Approved - Ready for HITL"       │
+│ HITL            │ MERGED                                    │
+└─────────────────┴───────────────────────────────────────────┘
+```
+
+### A.2 Gate Quick Reference
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                      GATE CHEAT SHEET                       │
+├─────────────────┬─────────────────┬─────────────────────────┤
+│ Gate            │ Owner           │ Blocking?               │
+├─────────────────┼─────────────────┼─────────────────────────┤
+│ Stop-the-Line   │ Implementer     │ YES - no AC = no work   │
+│ QAS Gate        │ QAS             │ YES - no approval = stop│
+│ Stage 1 Review  │ System Architect│ YES - pattern check     │
+│ Stage 2 Review  │ ARCHitect-CLI   │ YES - architecture check│
+│ HITL Merge      │ Scott           │ YES - final authority   │
+└─────────────────┴─────────────────┴─────────────────────────┘
+```
+
+### A.3 Routing Quick Reference
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                    ROUTING CHEAT SHEET                      │
+├─────────────────┬───────────────────────────────────────────┤
+│ Issue           │ Route To                                  │
+├─────────────────┼───────────────────────────────────────────┤
+│ Code bugs       │ @be-developer / @fe-developer             │
+│ Validation fail │ Original implementer                      │
+│ Doc mismatch    │ @tech-writer                              │
+│ Pattern issue   │ @system-architect                         │
+│ AC/DoD missing  │ @bsa                                      │
+│ CI failure      │ Implementer (code) or Architect (infra)   │
+│ Blocked > 4hrs  │ @tdm                                      │
+└─────────────────┴───────────────────────────────────────────┘
+```
 
 </details>
 
