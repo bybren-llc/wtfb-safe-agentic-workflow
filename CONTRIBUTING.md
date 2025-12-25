@@ -308,7 +308,7 @@ Each agent role has explicit exit states that define handoff points in the workf
 │ QAS Gate        │ QAS             │ YES - no approval = stop│
 │ Stage 1 Review  │ System Architect│ YES - pattern check     │
 │ Stage 2 Review  │ ARCHitect-CLI   │ YES - architecture check│
-│ HITL Merge      │ POPM/Scott      │ YES - final authority   │
+│ HITL Merge      │ Scott           │ YES - final authority   │
 └─────────────────┴─────────────────┴─────────────────────────┘
 ```
 
@@ -598,7 +598,7 @@ git commit -m "fix: resolve CI validation issues [{{TICKET_PREFIX}}-XXX]"
 
 ### Getting Help
 
-- **Documentation**: [GitHub CI/CD Pipeline Guide](https://{{ARCHITECT_GITHUB_HANDLE}}.atlassian.net/wiki/spaces/WA/pages/322502657/GitHub+CI+CD+Pipeline+for+Multi-Team+Collaboration)
+- **Documentation**: [CI/CD Pipeline Guide](docs/ci-cd/CI-CD-Pipeline-Guide.md)
 - **Implementation Guide**: `docs/CI-CD-Pipeline-Guide.md`
 - **Team Workflow**: `docs/{{PROJECT_NAME}}-Multi-Team-Git-Workflow-Guide.md`
 - **Quick Setup**: `docs/ci-cd-implementation-checklist.md`
@@ -622,7 +622,7 @@ git commit -m "fix: resolve CI validation issues [{{TICKET_PREFIX}}-XXX]"
 
 ### Confluence Documentation
 
-- [GitHub CI/CD Pipeline for Multi-Team Collaboration](https://{{ARCHITECT_GITHUB_HANDLE}}.atlassian.net/wiki/spaces/WA/pages/322502657/GitHub+CI+CD+Pipeline+for+Multi-Team+Collaboration)
+- [CI/CD Pipeline Guide](docs/ci-cd/CI-CD-Pipeline-Guide.md)
 
 ---
 

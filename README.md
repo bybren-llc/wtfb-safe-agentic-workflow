@@ -397,6 +397,274 @@ Implementer → QAS → [Implementer handles PR] → HITL
 Note: Quality gates are immutable. QAS and SecEng cannot be collapsed.
 ```
 
+<details>
+<summary><strong>Detailed Workflow Diagrams</strong> - Click to expand</summary>
+
+### Exit State Progression
+
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                         EXIT STATE PROGRESSION                              │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+  IMPLEMENTATION                QAS                   RTE                 HITL
+  ─────────────                ─────                 ─────               ──────
+
+  ┌─────────────┐         ┌─────────────┐       ┌─────────────┐     ┌─────────────┐
+  │   Coding    │         │  Validating │       │  Shepherding│     │  Reviewing  │
+  │   Testing   │         │  Iterating  │       │  CI/CD      │     │  Merging    │
+  │   Commits   │         │  Evidence   │       │  Assembling │     │             │
+  └──────┬──────┘         └──────┬──────┘       └──────┬──────┘     └──────┬──────┘
+         │                       │                     │                   │
+         ▼                       ▼                     ▼                   ▼
+  ╔═════════════╗         ╔═════════════╗       ╔═════════════╗     ╔═════════════╗
+  ║  "Ready     ║  ────▶  ║ "Approved   ║ ────▶ ║ "Ready for  ║ ──▶ ║   MERGED    ║
+  ║  for QAS"   ║         ║  for RTE"   ║       ║ HITL Review"║     ║             ║
+  ╚═════════════╝         ╚═════════════╝       ╚═════════════╝     ╚═════════════╝
+```
+
+### Stop-the-Line Gate Detail
+
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                      STOP-THE-LINE GATE (MANDATORY)                         │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+                              ┌─────────────────┐
+                              │  TICKET ARRIVES │
+                              │  (Linear WOR-X) │
+                              └────────┬────────┘
+                                       │
+                                       ▼
+                         ┌─────────────────────────┐
+                         │   CHECK: AC/DoD EXISTS? │
+                         └────────────┬────────────┘
+                                      │
+                    ┌─────────────────┴─────────────────┐
+                    │                                   │
+                    ▼                                   ▼
+          ┌─────────────────┐                 ┌─────────────────┐
+          │       YES       │                 │        NO       │
+          │                 │                 │                 │
+          │  AC/DoD is      │                 │  AC/DoD missing │
+          │  defined and    │                 │  or unclear     │
+          │  clear          │                 │                 │
+          └────────┬────────┘                 └────────┬────────┘
+                   │                                   │
+                   ▼                                   ▼
+          ┌─────────────────┐                 ╔═════════════════╗
+          │    PROCEED      │                 ║   FULL STOP     ║
+          │                 │                 ║                 ║
+          │  Begin          │                 ║  • Do NOT       ║
+          │  implementation │                 ║    proceed      ║
+          │                 │                 ║                 ║
+          │                 │                 ║  • Route back   ║
+          │                 │                 ║    to BSA/POPM  ║
+          └─────────────────┘                 ╚═════════════════╝
+
+  ┌───────────────────────────────────────────────────────────────────────────┐
+  │  POLICY: Implementation agents (BE/FE/DE) must verify AC/DoD exists      │
+  │          before starting ANY work. This is a hard gate, not optional.    │
+  └───────────────────────────────────────────────────────────────────────────┘
+```
+
+### QAS Iteration Authority
+
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                         QAS ITERATION AUTHORITY                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+                              ┌─────────────────┐
+                              │  WORK ARRIVES   │
+                              │  "Ready for QAS"│
+                              └────────┬────────┘
+                                       │
+                                       ▼
+                         ┌─────────────────────────┐
+                         │   QAS VALIDATES WORK    │
+                         │                         │
+                         │  • Run test suites      │
+                         │  • Check AC/DoD         │
+                         │  • Verify evidence      │
+                         │  • Review documentation │
+                         └────────────┬────────────┘
+                                      │
+                    ┌─────────────────┴─────────────────┐
+                    │                                   │
+                    ▼                                   ▼
+          ┌─────────────────┐                 ┌─────────────────┐
+          │   ALL PASS ✓    │                 │   ISSUES FOUND  │
+          │                 │                 │                 │
+          │  • Tests pass   │                 │  • Tests fail   │
+          │  • AC/DoD met   │                 │  • AC incomplete│
+          │  • Evidence OK  │                 │  • Docs missing │
+          │  • Docs match   │                 │  • Pattern issue│
+          └────────┬────────┘                 └────────┬────────┘
+                   │                                   │
+                   ▼                                   ▼
+          ╔═════════════════╗                 ┌─────────────────┐
+          ║    APPROVED     ║                 │     BLOCKED     │
+          ║                 ║                 │                 │
+          ║  Post evidence  ║                 │  Route to:      │
+          ║  to Linear      ║                 │                 │
+          ║                 ║                 │  ┌───────────┐  │
+          ║  Exit: "Approved║                 │  │Code bugs  │──┼──▶ @be-developer
+          ║  for RTE"       ║                 │  └───────────┘  │     @fe-developer
+          ╚═════════════════╝                 │  ┌───────────┐  │
+                                              │  │Validation │──┼──▶ Implementer
+                                              │  │fails      │  │
+                                              │  └───────────┘  │
+                                              │  ┌───────────┐  │
+                                              │  │Doc gaps   │──┼──▶ @tech-writer
+                                              │  └───────────┘  │
+                                              │  ┌───────────┐  │
+                                              │  │Pattern    │──┼──▶ @system-architect
+                                              │  │violation  │  │
+                                              │  └───────────┘  │
+                                              │  ┌───────────┐  │
+                                              │  │AC/DoD     │──┼──▶ @bsa
+                                              │  │missing    │  │
+                                              │  └───────────┘  │
+                                              └────────┬────────┘
+                                                       │
+                                                       │ (Fix and return)
+                                                       ▼
+                                              ┌─────────────────┐
+                                              │  REPEAT UNTIL   │
+                                              │  ALL PASS       │
+                                              │                 │
+                                              │  QAS has full   │
+                                              │  iteration      │
+                                              │  authority      │
+                                              └─────────────────┘
+```
+
+### Role Ownership Matrix
+
+```
+┌─────────────────────────────────────────────────────────────────────────────────────────┐
+│                              ROLE OWNERSHIP MATRIX                                      │
+├─────────────────┬───────────────────────────────────────────────────────────────────────┤
+│                 │                           RESPONSIBILITIES                            │
+│      ROLE       ├───────────┬───────────┬───────────┬───────────┬───────────┬──────────┤
+│                 │   CODE    │  COMMITS  │    PR     │   MERGE   │  EVIDENCE │   GATE   │
+├─────────────────┼───────────┼───────────┼───────────┼───────────┼───────────┼──────────┤
+│ BE-Developer    │    ✓      │    ✓      │    ✗      │    ✗      │  Partial  │    ✗     │
+│ FE-Developer    │    ✓      │    ✓      │    ✗      │    ✗      │  Partial  │    ✗     │
+│ Data-Engineer   │    ✓      │    ✓      │    ✗      │    ✗      │  Partial  │    ✗     │
+├─────────────────┼───────────┼───────────┼───────────┼───────────┼───────────┼──────────┤
+│ QAS             │    ✗      │    ✗      │    ✗      │    ✗      │    ✓      │    ✓     │
+├─────────────────┼───────────┼───────────┼───────────┼───────────┼───────────┼──────────┤
+│ RTE             │    ✗      │  Metadata │    ✓      │    ✗      │  Assembly │    ✗     │
+├─────────────────┼───────────┼───────────┼───────────┼───────────┼───────────┼──────────┤
+│ System Architect│  Review   │    ✗      │  Stage 1  │    ✗      │  Review   │  Stage 1 │
+│ ARCHitect-CLI   │  Review   │    ✗      │  Stage 2  │    ✗      │  Review   │  Stage 2 │
+├─────────────────┼───────────┼───────────┼───────────┼───────────┼───────────┼──────────┤
+│ HITL (Scott)    │  Review   │    ✗      │  Stage 3  │    ✓      │  Final    │  Stage 3 │
+└─────────────────┴───────────┴───────────┴───────────┴───────────┴───────────┴──────────┘
+
+Legend:
+  ✓ = Owns/Authorized
+  ✗ = Not Authorized
+  Partial = Captures during work, QAS collects
+  Review = Read-only review authority
+  Metadata = PR title, labels, body only (not code)
+  Assembly = Collects from all agents
+```
+
+### Routing Quick Reference
+
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                          ROUTING CHEAT SHEET                                │
+├─────────────────┬───────────────────────────────────────────────────────────┤
+│ Issue           │ Route To                                                  │
+├─────────────────┼───────────────────────────────────────────────────────────┤
+│ Code bugs       │ @be-developer / @fe-developer                             │
+│ Validation fail │ Original implementer                                      │
+│ Doc mismatch    │ @tech-writer                                              │
+│ Pattern issue   │ @system-architect                                         │
+│ AC/DoD missing  │ @bsa                                                      │
+│ CI failure      │ Implementer (code) or Architect (infra)                   │
+│ Blocked > 4hrs  │ @tdm                                                      │
+└─────────────────┴───────────────────────────────────────────────────────────┘
+```
+
+</details>
+
+<details>
+<summary><strong>What Changed and Why</strong> - vNext Contract Changelog</summary>
+
+### Why This Upgrade Matters
+
+This contract establishes **proper SAFe governance for an AI agent team** - treating agents as
+accountable team members with clear boundaries, not autonomous actors.
+
+### Key Changes Summary
+
+| Category        | Before                 | After                                        | Why                                           |
+| --------------- | ---------------------- | -------------------------------------------- | --------------------------------------------- |
+| AC/DoD Check    | Optional/informal      | **Stop-the-Line Gate** (mandatory)           | Agents shouldn't invent requirements          |
+| QAS Role        | Report producer        | **Gate Owner** with iteration authority      | Quality is enforced, not just documented      |
+| RTE Role        | Could touch code/merge | **PR shepherd only** (no code, no merge)     | Clear separation of concerns                  |
+| Exit States     | Informal "done"        | Explicit states per role                     | Clear chain of custody                        |
+| Evidence        | Scattered              | **Linear as system of record**               | Auditable, traceable delivery                 |
+| PR Review       | Undefined stages       | **3-stage process**                          | Layered review with clear ownership           |
+| Role Collapsing | Not defined            | **WOR-499**: RTE collapsible, QAS/SecEng not | Flexibility with safety                       |
+
+### Detailed File Changes
+
+**Harness Files Updated (10)**:
+
+| File | Change | Rationale |
+|------|--------|-----------|
+| `.claude/README.md` | Added Role Execution Modes | Clarify solo vs multi-agent operation |
+| `.claude/commands/start-work.md` | Added Stop-the-Line gate | Agents must verify AC/DoD exists |
+| `.claude/agents/be-developer.md` | Added Precondition, Ownership, Exit | Clear boundaries for implementers |
+| `.claude/agents/fe-developer.md` | Added Precondition, Ownership, Exit | Clear boundaries for implementers |
+| `.claude/agents/data-engineer.md` | Added Precondition, Ownership, Exit | Clear boundaries for implementers |
+| `.claude/agents/qas.md` | Upgraded to Gate Owner + Linear MCP | QAS is a gate, not just validator |
+| `.claude/agents/rte.md` | Added QAS prerequisite, removed merge | RTE shepherds, doesn't merge |
+| `.claude/agents/system-architect.md` | Added Stage 1 review role | First stage of 3-stage review |
+| `.claude/commands/search-pattern.md` | Added Grep tool parameters | Better pattern search UX |
+| `.claude/skills/orchestration-patterns/SKILL.md` | Fixed command references | Documentation accuracy |
+
+**New Documentation Added (4)**:
+
+| File | Purpose |
+|------|---------|
+| `docs/sop/AGENT_CONFIGURATION_SOP.md` | Tool restrictions, model selection per role |
+| `docs/guides/AGENT_TEAM_GUIDE.md` | Comprehensive agent team reference |
+| `docs/workflow/WORKFLOW_COMPARISON.md` | TDM role clarification (coordinator, not orchestrator) |
+| `docs/workflow/WORKFLOW_MIGRATION_GUIDE.md` | Guide for transitioning to vNext |
+
+**Project Docs Updated (6)**:
+
+| File | Change |
+|------|--------|
+| `AGENTS.md` | Exit States table, role updates |
+| `README.md` | vNext workflow diagrams, Author's Note |
+| `CONTRIBUTING.md` | Exit States, Gate Reference, Role Collapsing |
+| `docs/sop/AGENT_WORKFLOW_SOP.md` | v1.4 with vNext sections |
+| `docs/workflow/TDM_AGENT_ASSIGNMENT_MATRIX.md` | v1.4 updates |
+| `docs/workflow/ARCHITECT_IN_CLI_ROLE.md` | Role Collapsing Authority |
+
+### Version History
+
+| Version | Date | Author | Changes |
+|---------|------|--------|---------|
+| 1.0 | 2025-12-23 | Claude Code (Opus 4.5) | Initial vNext contract (Phases 1-2) |
+| 1.1 | 2025-12-23 | Claude Code (Opus 4.5) | Phase 3 docs + errata |
+| 1.2 | 2025-12-23 | Claude Code (Opus 4.5) | Alignment fixes (TDM role, QAS write policy) |
+| 1.3 | 2025-12-23 | Claude Code (Opus 4.5) | WOR-499: Role collapsing policy |
+
+### Source Document
+
+Full knowledge transfer document: [WOR-497-vnext-workflow-contract-kt.md](https://github.com/ByBren-LLC/WTFB-app/blob/main/docs/agent-outputs/technical-docs/WOR-497-vnext-workflow-contract-kt.md)
+
+</details>
+
 See [Agent Workflow SOP v1.4](docs/sop/AGENT_WORKFLOW_SOP.md) for complete details.
 
 ---
