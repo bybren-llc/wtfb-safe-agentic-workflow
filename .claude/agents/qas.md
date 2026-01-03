@@ -10,7 +10,7 @@ tools:
     mcp__linear-mcp__update_issue,
     mcp__linear-mcp__list_comments,
   ]
-model: sonnet
+model: opus
 ---
 
 # Quality Assurance Specialist (QAS)

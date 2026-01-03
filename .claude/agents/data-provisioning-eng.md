@@ -2,7 +2,7 @@
 name: data-provisioning-eng
 description: Data Provisioning Engineer - Data pipelines and ETL processes
 tools: [Read, Write, Edit, Bash, Grep, Glob]
-model: sonnet
+model: opus
 ---
 
 # Data Provisioning Engineer (DPE)

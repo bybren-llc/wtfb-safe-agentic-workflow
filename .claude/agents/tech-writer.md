@@ -2,7 +2,7 @@
 name: tech-writer
 description: Technical Writer - Documentation creation using documentation patterns
 tools: [Read, Write, Edit, Grep, Glob, Bash]
-model: sonnet
+model: opus
 ---
 
 # Technical Writer (TW)

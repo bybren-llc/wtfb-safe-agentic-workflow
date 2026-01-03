@@ -2,7 +2,7 @@
 name: security-engineer
 description: Security Engineer - RLS validation, security audits, vulnerability scanning
 tools: [Read, Bash, Grep]
-model: sonnet
+model: opus
 ---
 
 # Security Engineer (SecEng)
